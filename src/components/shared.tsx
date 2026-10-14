@@ -29,7 +29,50 @@ export function PageIntro({ copy }: { copy: PageCopy }) {
     </section>
   );
 }
-export function FocusAreas({ site }: { site: SiteSettings }) {
+export function FocusAreas({
+  site,
+  variant = "cards",
+}: {
+  site: SiteSettings;
+  variant?: "cards" | "values" | "pillars";
+}) {
+  if (variant === "pillars") {
+    const symbols = ["♟", "♞", "♛"];
+    return (
+      <div className={styles.pillarGrid} id="mission">
+        {site.focusAreas.map((area, i) => (
+          <article key={area.label} className={styles.pillarCard}>
+            <div className={styles.pillarCardTop}>
+              <span className={styles.pillarBadge}>{area.label}</span>
+              <span className={styles.pillarIcon} aria-hidden="true">
+                {symbols[i] ?? "♞"}
+              </span>
+            </div>
+            <h3>{area.title}</h3>
+            <p>{area.description}</p>
+            <div className={styles.pillarFooter}>
+              <span className={styles.pillarIndex}>{`PILLAR 0${i + 1}`}</span>
+              <span className={styles.pillarPillMarker} aria-hidden="true" />
+            </div>
+          </article>
+        ))}
+      </div>
+    );
+  }
+  if (variant === "values") {
+    return (
+      <div className={styles.valuesGrid} id="mission">
+        {site.focusAreas.map((area, i) => (
+          <article key={area.label}>
+            <span className={styles.valueNum}>{`0${i + 1}`}</span>
+            <h3>{area.title}</h3>
+            <p>{area.description}</p>
+            <span className={styles.tag}>{area.label}</span>
+          </article>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className={styles.focusGrid}>
       {site.focusAreas.map((area, i) => (
