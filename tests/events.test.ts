@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { eventAction, eventStatus, safeLink } from "../src/lib/events.ts";
+import { eventAction, eventStatus, orderEvents, safeLink } from "../src/lib/events.ts";
 import type { Event } from "../src/lib/types.ts";
 const event: Event = {
   slug: "test",
@@ -17,6 +17,14 @@ const event: Event = {
   description: "Test event",
   image: { src: "/images/chess-hero.webp", alt: "Chess" },
 };
+test("the two international editions lead the archive without mutating or dropping other events", () => {
+  const items = [event, { ...event, slug: "namma-bengaluru-open-2025" }, { ...event, slug: "blitz" }, { ...event, slug: "namma-bengaluru-open-2024" }];
+  const original = items.map((item) => item.slug);
+  assert.deepEqual(orderEvents(items).map((item) => item.slug), ["namma-bengaluru-open-2024", "namma-bengaluru-open-2025", "test", "blitz"]);
+  assert.deepEqual(items.map((item) => item.slug), original);
+  assert.deepEqual(orderEvents([event]), [event]);
+  assert.deepEqual(orderEvents([]), []);
+});
 test("registration requires an upcoming, open, unexpired event and safe link", () => {
   assert.equal(
     eventAction(event, new Date("2026-10-13")).label,

@@ -29,7 +29,7 @@ export function Header() {
     drawer.showModal();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const desktop = window.matchMedia("(min-width: 761px)");
+    const desktop = window.matchMedia("(min-width: 1001px)");
     const onResize = () => {
       if (desktop.matches) setOpen(false);
     };
@@ -41,6 +41,7 @@ export function Header() {
   }, [open]);
   const items = (
     <>
+      <a href="/#top" aria-current={pathname === "/" ? "page" : undefined}>Home</a>
       {links.map(([href, label]) => (
         <Link
           key={href}
@@ -56,7 +57,7 @@ export function Header() {
     </>
   );
   return (
-    <header className={`${styles.header} ${pathname === "/" ? styles.headerDark : ""}`}>
+    <header className={styles.header}>
       <a
         href="/#top"
         className={styles.brand}
@@ -114,7 +115,6 @@ export function Header() {
             if ((e.target as HTMLElement).closest("a")) setOpen(false);
           }}
         >
-          <a href="/#top" aria-current={pathname === "/" ? "page" : undefined}>Home</a>
           {items}
         </nav>
       </dialog>

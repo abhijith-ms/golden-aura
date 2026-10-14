@@ -13,7 +13,12 @@
 html {
   scrollbar-gutter: stable;
 }
+main [id], #main {
+  scroll-margin-top: 100px;
+}
 body {
+  /* Keep the floating header's margin from shifting the Home anchor. */
+  display: flow-root;
   margin: 0;
   background: var(--paper);
   color: var(--ink);

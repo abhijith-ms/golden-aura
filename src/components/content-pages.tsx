@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { defaultContent } from "@/lib/default-content";
-import { safeLink } from "@/lib/events";
-import { Arrow, ContactBand, EventCard, FocusAreas, OfficialPartners, PageIntro, Portrait } from "./shared";
+import { orderEvents, safeLink } from "@/lib/events";
+import { Arrow, ContactBand, EventCard, OfficialPartners, PageIntro, PartnerLogos, Portrait } from "./shared";
 import { Gallery } from "./gallery";
 import { EnquiryForm } from "./enquiry-form";
 import styles from "./site.module.css";
@@ -47,9 +47,7 @@ export async function AboutPage() {
         <div>
           <span className={styles.eyebrow}>THE PURPOSE BEHIND THE PLAY</span>
           <h2>
-            Opportunity,
-            <br />
-            <span>one move at a time.</span>
+            Chess across Karnataka and India.
           </h2>
           {page.body?.split("\n").map((p) => (
             <p key={p}>{p}</p>
@@ -58,29 +56,19 @@ export async function AboutPage() {
       </section>
       <section className={`${styles.section} ${styles.softSection}`}>
         <div className={styles.sectionLabel}>OUR VISION IN ACTION</div>
-        <h2>
-          Three areas of focus.
-          <br />
-          <span>One shared purpose.</span>
-        </h2>
-        <FocusAreas site={site} />
+        <h2>Mission of The Golden Aura Trust.</h2>
+        <div className={styles.missionGrid}>
+          {page.sections?.map((section) => <article key={section.title}><h3>{section.title}</h3><p>{section.description}</p></article>)}
+        </div>
       </section>
       <section className={styles.section}>
         <div className={styles.introGrid}>
           <div>
-            <span className={styles.eyebrow}>THE PEOPLE BEHIND THE MOVES</span>
-            <h2>
-              A shared passion.
-              <br />
-              <span>A collective effort.</span>
-            </h2>
+            <span className={styles.eyebrow}>BE A PART OF THE MOVEMENT</span>
+            <h2>Join the chess community.</h2>
           </div>
           <div>
-            <p>
-              Organisers, chess players, arbiters and advisers helped bring the
-              2025 international tournament to life. Meet the people who handled
-              planning, competition and the player experience.
-            </p>
+            {page.closing?.split("\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             <Link className={styles.textLink} href="/committee">Meet the organising committee <Arrow /></Link>
           </div>
         </div>
@@ -100,6 +88,8 @@ export async function AboutPage() {
             </span>
             <p>Karnataka State Chess Association</p>
             <p>Bengaluru Urban District Chess Association</p>
+            <p>International Chess Federation (FIDE)</p>
+            <p>All India Chess Federation (AICF)</p>
           </div>
         </div>
       </section>
@@ -111,6 +101,7 @@ export async function AboutPage() {
 export async function CommitteePage() {
   const content = await getContent();
   const { committee } = content;
+  const message = copy(content, "support-message");
   return (
     <>
       <PageIntro copy={copy(content, "committee")} />
@@ -148,6 +139,15 @@ export async function CommitteePage() {
       ) : (
         <section className={styles.sectionCompact}><p>Committee profiles will be published here. Contact the Trust for organising information.</p></section>
       )}
+      <section id="message-of-support" className={`${styles.sectionCompact} ${styles.supportMessage}`}>
+        <Image src="/images/committee-d-k-shivakumar.webp" alt="D K Shivakumar, who shared a message for the 2025 tournament" width={130} height={160} sizes="130px" />
+        <div>
+          <span className={styles.eyebrow}>{message.eyebrow}</span>
+          <h2>{message.title}</h2>
+          <p>{message.intro}</p>
+          <blockquote>{message.body?.split("\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</blockquote>
+        </div>
+      </section>
       <ContactBand />
     </>
   );
@@ -156,37 +156,18 @@ export async function CommitteePage() {
 export async function EventsPage() {
   const content = await getContent();
   const upcoming = content.events.filter((e) => e.status === "upcoming");
-  const past = content.events.filter((e) => e.status !== "upcoming");
+  const past = orderEvents(content.events.filter((e) => e.status !== "upcoming"));
   return (
     <>
       <PageIntro copy={copy(content, "events")} />
-      <section className={styles.sectionCompact}>
+      {upcoming.length > 0 && <section className={styles.sectionCompact}>
         <div className={styles.sectionLabel}>THE NEXT MOVE</div>
-        {upcoming.length ? (
           <div className={styles.eventGrid}>
             {upcoming.map((e) => (
               <EventCard key={e.slug} event={e} />
             ))}
           </div>
-        ) : (
-          <div className={styles.announcement}>
-            <div className={styles.announcementIcon} aria-hidden="true">
-              ♞
-            </div>
-            <div>
-              <span className={styles.eyebrow}>UPCOMING EVENTS</span>
-              <h2>Our next chapter is taking shape.</h2>
-              <p>
-                Next tournament dates will be announced. Talk to the Trust about
-                upcoming events and opportunities to play.
-              </p>
-            </div>
-            <Link className={styles.buttonDark} href="/contact">
-              Get in touch <Arrow />
-            </Link>
-          </div>
-        )}
-      </section>
+      </section>}
       <section className={`${styles.section} ${styles.softSection}`}>
         <div className={styles.sectionLabel}>
           <span>THE EVENT ARCHIVE</span>
@@ -219,7 +200,7 @@ export async function GalleryPage() {
 export async function PartnersPage() {
   const content = await getContent();
   const officialPartners = content.partners.filter((partner) => partner.category === "official");
-  const communityPartners = content.partners.filter((partner) => partner.category !== "official");
+  const communityPartners = content.partners.filter((partner) => !partner.category || partner.category === "community");
   return (
     <>
       <PageIntro copy={copy(content, "partners")} />
@@ -231,6 +212,19 @@ export async function PartnersPage() {
           <OfficialPartners partners={officialPartners} />
         </section>
       )}
+      {([
+        ["institutional", "Corporate & institutional partners."],
+        ["government", "Government & civic supporters."],
+        ["support", "Tournament supporters."],
+      ] as const).map(([category, title]) => {
+        const partners = content.partners.filter((partner) => partner.category === category);
+        return partners.length ? <section className={styles.sectionCompact} key={category}>
+          <span className={styles.eyebrow}>THE 2025 INTERNATIONAL OPEN</span>
+          <h2>{title}</h2>
+          <p>{category === "support" ? "Support acknowledged in the original tournament archive." : "Organisations acknowledged in the tournament impact report."}</p>
+          <PartnerLogos partners={partners} />
+        </section> : null;
+      })}
       <section className={`${styles.section} ${styles.softSection}`}>
         <div className={styles.introGrid}>
           <div>
@@ -287,25 +281,7 @@ export async function PartnersPage() {
       </section>
       <section className={styles.section}>
         <div className={styles.sectionLabel}>OUR CHESS COMMUNITY</div>
-        <div className={styles.partnerGrid}>
-          {communityPartners.map((partner) => (
-            <article key={partner.name}>
-              {partner.image && (
-                <div className={styles.partnerLogo}>
-                  <Image
-                    src={partner.image}
-                    alt={`${partner.name} logo`}
-                    fill
-                    sizes="180px"
-                  />
-                </div>
-              )}
-              <span className={styles.tag}>{partner.event}</span>
-              <h3>{partner.name}</h3>
-              <p>{partner.description}</p>
-            </article>
-          ))}
-        </div>
+        <PartnerLogos partners={communityPartners} />
       </section>
       <section className={`${styles.section} ${styles.softSection}`}>
         <div className={styles.contactGrid}>

@@ -54,6 +54,18 @@ export function OfficialPartners({ partners }: { partners: Partner[] }) {
     </div>
   );
 }
+export function PartnerLogos({ partners }: { partners: Partner[] }) {
+  return (
+    <ul className={styles.partnerLogos} tabIndex={0} aria-label="Partner and supporter logos">
+      {partners.map((partner) => (
+        <li key={partner.name}>
+          {partner.image && <div><Image src={partner.image} alt={`${partner.name} logo`} fill sizes="(max-width: 760px) 120px, 180px" /></div>}
+          <span>{partner.name}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
 export function PlayerGallery({ players }: { players: EventAttendee[] }) {
   const titles = { GM: "Grandmaster", IM: "International Master", WGM: "Woman Grandmaster", WIM: "Woman International Master", WFM: "Woman FIDE Master" };
   return (
@@ -144,11 +156,7 @@ export function EventCard({
           src={event.image.src}
           alt={event.image.alt}
           fill
-          sizes={
-            featured
-              ? "(max-width: 760px) 100vw, 55vw"
-              : "(max-width: 760px) 100vw, 50vw"
-          }
+          sizes="(max-width: 760px) 100vw, 15vw"
         />
         <span className={styles.imageYear}>{event.year}</span>
       </Link>
@@ -162,9 +170,9 @@ export function EventCard({
           · {event.format}
         </span>
         <Heading className={styles.eventTitle}>
-          <Link href={`/events/${event.slug}`}>{event.shortTitle}</Link>
+          <Link href={`/events/${event.slug}`}>{event.title}</Link>
         </Heading>
-        <p>{event.description}</p>
+        {!featured && <p>{event.description}</p>}
         <dl className={styles.eventFacts}>
           <div>
             <dt>WHEN</dt>
@@ -190,21 +198,23 @@ export function EventCard({
 }
 export function ContactBand() {
   return (
-    <section className={styles.contactBand}>
-      <div>
-        <span className={styles.eyebrow}>
-          THERE’S A PLACE FOR YOU AT THE BOARD
-        </span>
-        <h2>
-          Your next move
-          <br />
-          <span>starts here.</span>
-        </h2>
-      </div>
-      <Link className={styles.buttonDark} href="/contact">
-        Let’s talk chess <Arrow />
-      </Link>
-    </section>
+    <div className={styles.contactBandWrap}>
+      <section className={styles.contactBand}>
+        <div>
+          <span className={styles.eyebrow}>
+            THERE’S A PLACE FOR YOU AT THE BOARD
+          </span>
+          <h2>
+            Your next move
+            <br />
+            <span>starts here.</span>
+          </h2>
+        </div>
+        <Link className={styles.buttonDark} href="/contact">
+          Let’s talk chess <Arrow />
+        </Link>
+      </section>
+    </div>
   );
 }
 export function Footer({ site }: { site: SiteSettings }) {

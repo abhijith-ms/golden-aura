@@ -1,5 +1,13 @@
 import type { Event } from "./types";
 
+export function orderEvents(events: Event[]): Event[] {
+  const editions = ["namma-bengaluru-open-2024", "namma-bengaluru-open-2025"];
+  return [
+    ...editions.flatMap((slug) => events.filter((event) => event.slug === slug)),
+    ...events.filter((event) => !editions.includes(event.slug)),
+  ];
+}
+
 export function safeLink(value?: string): string | undefined {
   if (!value) return undefined;
   if (value.startsWith("/") && !value.startsWith("//") && !value.includes("\\"))

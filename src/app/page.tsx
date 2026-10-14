@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getContent } from "@/lib/content";
-import { Arrow, ContactBand, EventCard, FocusAreas, Lines, OfficialPartners, PlayerGallery } from "@/components/shared";
+import { Arrow, ContactBand, EventCard, FocusAreas, Lines, PartnerLogos, PlayerGallery } from "@/components/shared";
+import { PhotoCarousel } from "@/components/photo-carousel";
+import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
 export default async function Home() {
   const { site, events, albums, partners } = await getContent();
   const officialPartners = partners.filter((partner) => partner.category === "official");
-  const communityPartners = partners.filter((partner) => partner.category !== "official");
+  const connectedPartners = partners.filter((partner) => !partner.category || partner.category === "community" || partner.category === "support");
   const firstEdition = events.find((event) => event.slug === "namma-bengaluru-open-2024");
   const firstEditionPlayers = firstEdition?.attendees || [];
-  const featured = [...events.filter((e) => e.status === "upcoming"), ...events.filter((e) => e.status !== "upcoming")].slice(0, 2);
+  const featured = orderEvents(events).slice(0, 2);
   const community = albums.find((a) => a.slug === "community");
   const photos = [albums[0]?.photos[1], community?.photos[3], community?.photos[0]].filter((p) => p !== undefined);
   return (
@@ -79,9 +81,7 @@ export default async function Home() {
         <div className={styles.sectionHeading}>
           <div>
             <h2>
-              Find your
-              <br />
-              <span>next move.</span>
+              Find your <span>next move.</span>
             </h2>
           </div>
           <Link className={styles.textLink} href="/events">
@@ -126,7 +126,7 @@ export default async function Home() {
           <PlayerGallery players={firstEditionPlayers.slice(0, 4)} />
         </section>
       )}
-      <section className={styles.section}>
+      <section id="moments" className={styles.section}>
         <div className={styles.sectionLabel}>
           <span>03 / THE PEOPLE MAKE THE GAME</span>
           <span>COMMUNITY MOMENTS</span>
@@ -134,16 +134,14 @@ export default async function Home() {
         <div className={styles.sectionHeading}>
           <div>
             <h2>
-              Life around
-              <br />
-              <span>the board.</span>
+              Life around <span>the board.</span>
             </h2>
           </div>
           <Link href="/gallery" className={styles.textLink}>
             All moments <Arrow />
           </Link>
         </div>
-        <div className={styles.homePhotos}>{photos.map((photo, i) => <figure key={photo.src}><div><Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 60vw" /></div><figcaption>{["A world of competition", "Room to grow", "A shared love of the game"][i]}</figcaption></figure>)}</div>
+        <PhotoCarousel photos={photos} />
       </section>
       {officialPartners.length > 0 && (
         <section id="partners" className={styles.sectionCompact}>
@@ -152,12 +150,14 @@ export default async function Home() {
             <h2>Official partners.</h2>
             <Link className={styles.textLink} href="/partners">Partnerships & community <Arrow /></Link>
           </div>
-          <OfficialPartners partners={officialPartners} />
+          <PartnerLogos partners={officialPartners} />
         </section>
       )}
-      <section className={`${styles.sectionCompact} ${styles.affiliations}`}>
+      <section className={`${styles.sectionCompact} ${styles.homeSupporters}`}>
         <span className={styles.eyebrow}>CONNECTED THROUGH CHESS</span>
-        <div>{communityPartners.map((partner) => <Link key={partner.name} href="/partners">{partner.image && <Image src={partner.image} alt="" width={90} height={70} sizes="90px" />}<span>{partner.name}</span><Arrow /></Link>)}</div>
+        <p>Chess bodies and tournament supporters · 2025</p>
+        <PartnerLogos partners={connectedPartners} />
+        <Link className={styles.textLink} href="/partners">All partners & supporters <Arrow /></Link>
       </section>
       <ContactBand />
     </>
