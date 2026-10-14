@@ -51,6 +51,8 @@ The sources include the 2024/2025 international editions, Karnataka amateur cham
 
 Committee profiles come from the [original 2025 organising committee](https://nammabigchess.com/organizing-comittee/). Imported originals stay in the ignored `refernce and guide/website-import/` directory, with source URLs recorded in `scripts/assets.json`. Portraits are limited to 600 pixels and have EXIF metadata removed. M Raju has initials because the original page supplies a generic placeholder, as agreed with the client.
 
+The [original tournament homepage](https://nammabigchess.com/) lists WestBridge Capital, Akshayakalpa Organic and Mysore Sandal Soap as official partners of the 2025 edition. These are labelled separately from KSCA/BUDCA community affiliations. Set the partner category in Sanity and retain the edition year in the relationship label.
+
 ## Vercel review deployment
 
 Source repository: [abhijith-ms/golden-aura](https://github.com/abhijith-ms/golden-aura) (private). The `main` branch is connected to the `golden-aura` project in `abhijith-mss-projects`. Pushes to `main` deploy to [golden-aura-pi.vercel.app](https://golden-aura-pi.vercel.app); other branches receive preview deployments. Node.js 24 is configured in Vercel. Local credentials, original downloads, and generated builds are excluded from Git.

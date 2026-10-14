@@ -197,6 +197,12 @@
 .partnerGrid h3 { font-size: 27px; line-height: 1.2; letter-spacing: -.035em; margin: 22px 0 14px; }
 .partnerLogo { height: 110px; width: 180px; position: relative; margin-bottom: 28px; }
 .partnerLogo img { object-fit: contain; object-position: left center; }
+.officialPartners { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.officialPartners article { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: white; }
+.officialPartnerLogo { position: relative; height: 110px; margin-bottom: 24px; }
+.officialPartnerLogo img { object-fit: contain; }
+.officialPartners h3 { font-size: 24px; letter-spacing: -.03em; line-height: 1.2; margin: 0 0 14px; }
+.officialPartners p { font-size: 14px; }
 .contactGrid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; }
 .contactGrid > div { min-width: 0; }
 .contactGrid > div > p { max-width: 400px; }
@@ -257,6 +263,7 @@
   .pullQuote { font-size: 18px; }
 }
 @media (max-width: 760px) {
+  .officialPartners { grid-template-columns: 1fr; gap: 16px; }
   .peopleGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
   .personCard h3 { font-size: 18px; }
   .personCard p { font-size: 13px; }

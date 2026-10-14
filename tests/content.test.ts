@@ -31,3 +31,9 @@ test("the 2025 committee has unique profiles, source groups and an honest missin
   }
   assert.equal(defaultContent.committee.find((member) => member.name === "M Raju")?.photo, undefined);
 });
+test("official 2025 partners are distinct from chess-community affiliations", () => {
+  const official = defaultContent.partners.filter((partner) => partner.category === "official");
+  assert.deepEqual(official.map((partner) => partner.name), ["WestBridge Capital", "Akshayakalpa Organic", "Mysore Sandal Soap"]);
+  assert(official.every((partner) => partner.image && partner.event.includes("2025")));
+  assert.equal(defaultContent.partners.filter((partner) => partner.category === "community").length, 2);
+});

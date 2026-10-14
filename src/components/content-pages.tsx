@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { defaultContent } from "@/lib/default-content";
 import { safeLink } from "@/lib/events";
-import { Arrow, ContactBand, EventCard, FocusAreas, PageIntro, Portrait } from "./shared";
+import { Arrow, ContactBand, EventCard, FocusAreas, OfficialPartners, PageIntro, Portrait } from "./shared";
 import { Gallery } from "./gallery";
 import { EnquiryForm } from "./enquiry-form";
 import styles from "./site.module.css";
@@ -218,9 +218,19 @@ export async function GalleryPage() {
 
 export async function PartnersPage() {
   const content = await getContent();
+  const officialPartners = content.partners.filter((partner) => partner.category === "official");
+  const communityPartners = content.partners.filter((partner) => partner.category !== "official");
   return (
     <>
       <PageIntro copy={copy(content, "partners")} />
+      {officialPartners.length > 0 && (
+        <section className={styles.sectionCompact}>
+          <span className={styles.eyebrow}>THE 2025 INTERNATIONAL OPEN</span>
+          <h2>Official partners.</h2>
+          <p>Recognising the organisations listed as official partners of the second Namma Bengaluru International Grandmasters Open.</p>
+          <OfficialPartners partners={officialPartners} />
+        </section>
+      )}
       <section className={`${styles.section} ${styles.softSection}`}>
         <div className={styles.introGrid}>
           <div>
@@ -278,7 +288,7 @@ export async function PartnersPage() {
       <section className={styles.section}>
         <div className={styles.sectionLabel}>OUR CHESS COMMUNITY</div>
         <div className={styles.partnerGrid}>
-          {content.partners.map((partner) => (
+          {communityPartners.map((partner) => (
             <article key={partner.name}>
               {partner.image && (
                 <div className={styles.partnerLogo}>

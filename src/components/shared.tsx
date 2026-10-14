@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Event, PageCopy, Photo, SiteSettings } from "@/lib/types";
+import type { Event, PageCopy, Partner, Photo, SiteSettings } from "@/lib/types";
 import styles from "./site.module.css";
 
 export function Arrow() {
@@ -37,6 +37,20 @@ export function Portrait({ name, photo }: { name: string; photo?: Photo }) {
       ) : (
         <span aria-hidden="true">{name.split(" ").map((part) => part[0]).slice(0, 2).join("")}</span>
       )}
+    </div>
+  );
+}
+export function OfficialPartners({ partners }: { partners: Partner[] }) {
+  return (
+    <div className={styles.officialPartners}>
+      {partners.map((partner) => (
+        <article key={partner.name}>
+          {partner.image && <div className={styles.officialPartnerLogo}><Image src={partner.image} alt={`${partner.name} logo`} fill sizes="(max-width: 760px) 80vw, 28vw" /></div>}
+          <h3>{partner.name}</h3>
+          <p>{partner.description}</p>
+          <span className={styles.tag}>{partner.event}</span>
+        </article>
+      ))}
     </div>
   );
 }

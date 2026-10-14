@@ -36,6 +36,7 @@ export type Album = {
   photos: Photo[];
 };
 export type Partner = {
+  category?: "official" | "community";
   name: string;
   description: string;
   event: string;

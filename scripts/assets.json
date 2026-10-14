@@ -317,5 +317,26 @@
     "file": "committee-latha-anand.webp",
     "alt": "Portrait of Latha Anand",
     "album": "committee"
+  },
+  {
+    "source": "refernce and guide/website-import/westbridge-capital.jpeg",
+    "sourceUrl": "https://nammabigchess.com/wp-content/uploads/2025/03/Westbridge_Logo_Final.jpeg",
+    "file": "westbridge-capital.webp",
+    "alt": "Westbridge Capital logo",
+    "album": "brand"
+  },
+  {
+    "source": "refernce and guide/website-import/akshayakalpa-organic.jpg",
+    "sourceUrl": "https://nammabigchess.com/wp-content/uploads/2025/03/65d119224c64b06b5ec025fb_Akalpa201-octomized-p-500.jpg",
+    "file": "akshayakalpa-organic.webp",
+    "alt": "Akshayakalpa Organic logo",
+    "album": "brand"
+  },
+  {
+    "source": "refernce and guide/website-import/mysore-sandal-soap.jpg",
+    "sourceUrl": "https://nammabigchess.com/wp-content/uploads/2025/03/imgonline-com-ua-twotoone-J7CM738UErKL2n-scaled.jpg",
+    "file": "mysore-sandal-soap.webp",
+    "alt": "Mysore Sandal Soap logo",
+    "album": "brand"
   }
 ]

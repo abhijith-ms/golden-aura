@@ -249,15 +249,38 @@ export const defaultContent: Content = {
   partners: [
     {
       name: "Karnataka State Chess Association",
+      category: "community",
       description: "Connected to Karnataka’s chess community.",
       event: "Chess community",
       image: "/images/ksca.webp",
     },
     {
       name: "Bengaluru Urban District Chess Association",
+      category: "community",
       description: "Connected to grassroots chess in Bengaluru.",
       event: "Chess community",
       image: "/images/budca.webp",
+    },
+    {
+      name: "WestBridge Capital",
+      category: "official",
+      description: "Official partner of the second Namma Bengaluru International Grandmasters Open.",
+      event: "Official partner · 2025",
+      image: "/images/westbridge-capital.webp",
+    },
+    {
+      name: "Akshayakalpa Organic",
+      category: "official",
+      description: "Part of the official partner line-up for the 2025 international tournament.",
+      event: "Official partner · 2025",
+      image: "/images/akshayakalpa-organic.webp",
+    },
+    {
+      name: "Mysore Sandal Soap",
+      category: "official",
+      description: "An official partner supporting the 2025 Namma Bengaluru Open.",
+      event: "Official partner · 2025",
+      image: "/images/mysore-sandal-soap.webp",
     },
   ],
 };

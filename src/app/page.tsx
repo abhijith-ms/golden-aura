@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getContent } from "@/lib/content";
-import { Arrow, ContactBand, EventCard, FocusAreas, Lines } from "@/components/shared";
+import { Arrow, ContactBand, EventCard, FocusAreas, Lines, OfficialPartners } from "@/components/shared";
 import styles from "@/components/site.module.css";
 
 export default async function Home() {
   const { site, events, albums, partners } = await getContent();
+  const officialPartners = partners.filter((partner) => partner.category === "official");
+  const communityPartners = partners.filter((partner) => partner.category !== "official");
   const featured = [...events.filter((e) => e.status === "upcoming"), ...events.filter((e) => e.status !== "upcoming")].slice(0, 2);
   const community = albums.find((a) => a.slug === "community");
   const photos = [albums[0]?.photos[1], community?.photos[3], community?.photos[0]].filter((p) => p !== undefined);
@@ -130,9 +132,19 @@ export default async function Home() {
         </div>
         <div className={styles.homePhotos}>{photos.map((photo, i) => <figure key={photo.src}><div><Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 60vw" /></div><figcaption>{["A world of competition", "Room to grow", "A shared love of the game"][i]}</figcaption></figure>)}</div>
       </section>
+      {officialPartners.length > 0 && (
+        <section id="partners" className={styles.sectionCompact}>
+          <span className={styles.eyebrow}>SUPPORT BEHIND THE TOURNAMENT</span>
+          <div className={styles.sectionHeading}>
+            <h2>Official partners.</h2>
+            <Link className={styles.textLink} href="/partners">Partnerships & community <Arrow /></Link>
+          </div>
+          <OfficialPartners partners={officialPartners} />
+        </section>
+      )}
       <section className={`${styles.sectionCompact} ${styles.affiliations}`}>
         <span className={styles.eyebrow}>CONNECTED THROUGH CHESS</span>
-        <div>{partners.map((partner) => <Link key={partner.name} href="/partners">{partner.image && <Image src={partner.image} alt="" width={90} height={70} sizes="90px" />}<span>{partner.name}</span><Arrow /></Link>)}</div>
+        <div>{communityPartners.map((partner) => <Link key={partner.name} href="/partners">{partner.image && <Image src={partner.image} alt="" width={90} height={70} sizes="90px" />}<span>{partner.name}</span><Arrow /></Link>)}</div>
       </section>
       <ContactBand />
     </>

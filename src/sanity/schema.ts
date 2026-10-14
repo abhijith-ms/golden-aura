@@ -236,6 +236,7 @@ export const schemaTypes = [
       text("name", "Organisation name"),
       paragraph("description", "Approved relationship description"),
       text("event", "Event / relationship label"),
+      defineField({ name: "category", title: "Partner category", type: "string", initialValue: "community", options: { list: [{ title: "Official tournament partner", value: "official" }, { title: "Chess community affiliation", value: "community" }] } }),
       image("logo", "Organisation logo"),
     ],
   }),
