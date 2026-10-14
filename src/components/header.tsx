@@ -64,8 +64,8 @@ export function Header() {
         <Image
           src="/images/golden-aura-logo.webp"
           alt=""
-          width={66}
-          height={52}
+          width={92}
+          height={72}
           priority
         />
       </a>
@@ -103,7 +103,7 @@ export function Header() {
         }}
       >
         <div className={styles.drawerHeader}>
-          <Image src="/images/golden-aura-logo.webp" alt="Golden Aura Trust" width={66} height={52} />
+          <Image src="/images/golden-aura-logo.webp" alt="Golden Aura Trust" width={80} height={62} />
           <button className={styles.drawerClose} type="button" aria-label="Close menu" autoFocus onClick={() => setOpen(false)}>×</button>
         </div>
         <h2 id="mobile-navigation-title" className={styles.drawerTitle}>Explore.</h2>

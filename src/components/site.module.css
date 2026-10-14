@@ -1,8 +1,9 @@
 /* Public surfaces share one type, spacing and control system. */
-.header { height: 84px; padding: 0 5%; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: var(--paper); color: var(--ink); position: relative; z-index: 20; border-bottom: 1px solid var(--line); }
+.header { height: 92px; padding: 0 5%; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: var(--paper); color: var(--ink); position: relative; z-index: 20; border-bottom: 1px solid var(--line); }
 .headerDark { background: var(--night); color: var(--paper); border-color: #ffffff16; }
 .brand { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 700; letter-spacing: 1.2px; line-height: 1.2; }
-.brand img { object-fit: contain; background: var(--paper); padding: 4px; border-radius: 8px; }
+.brand img { object-fit: contain; width: auto; height: 72px; }
+.headerDark .brand img { background: var(--paper); padding: 5px 8px; border-radius: 10px; height: 66px; }
 .brand small { display: block; font-size: 9px; letter-spacing: 1.5px; margin-top: 6px; }
 .desktopNav { display: flex; align-items: center; gap: 28px; font-size: 14px; }
 .desktopNav a:not(.navCta) { padding: 14px 0; }
@@ -211,9 +212,10 @@
   .hero h1 { font-size: clamp(44px, 6.2vw, 68px); letter-spacing: -.05em; }
 }
 @media (max-width: 760px) {
-  .header { height: 78px; padding: 0 6%; }
+  .header { height: 84px; padding: 0 5%; }
   .brand { font-size: 13px; gap: 8px; }
-  .brand img { width: 50px; height: 44px; }
+  .brand img { width: auto; height: 58px; }
+  .headerDark .brand img { height: 54px; padding: 4px 6px; }
   .brand small { font-size: 8px; }
   .desktopNav { display: none; }
   .mobileMenu { display: block; }
