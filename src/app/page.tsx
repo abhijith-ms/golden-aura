@@ -12,6 +12,25 @@ export default async function Home() {
   return (
     <>
       <section className={styles.hero}>
+        <div className={styles.heroBackdrop} aria-hidden="true">
+          <Image
+            src="/images/hero-bg.webp"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1040px) 1px, 100vw"
+            className={`${styles.heroImage} ${styles.heroImageDesktop}`}
+          />
+          <Image
+            src="/images/hero-bg-mobile.webp"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1040px) 100vw, 1px"
+            className={`${styles.heroImage} ${styles.heroImageMobile}`}
+          />
+          <div className={styles.heroOverlay} />
+        </div>
         <div className={styles.heroCopy}>
           <span className={styles.heroKicker}>GOLDEN AURA TRUST <span aria-hidden="true">/</span> BENGALURU</span>
           <h1><Lines text={site.heroTitle} /></h1>
@@ -21,7 +40,6 @@ export default async function Home() {
             <Link className={styles.heroLink} href="/about">Meet the Trust <Arrow /></Link>
           </div>
         </div>
-        <div className={styles.boardStage} aria-hidden="true"><div className={styles.boardPlane} /></div>
         <div className={styles.heroBottom}>
           <span>ONE BOARD. EVERY POSSIBILITY.</span>
           <a href="#tournaments">Discover the game <span aria-hidden="true">↓</span></a>

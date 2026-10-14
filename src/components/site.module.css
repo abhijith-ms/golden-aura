@@ -27,24 +27,27 @@
 .mobileDrawer nav > a:not(.navCta) { display: flex; align-items: center; min-height: 54px; padding: 10px 0; font-size: 22px; font-weight: 500; }
 .mobileDrawer nav > a[aria-current="page"] { text-decoration: underline; text-underline-offset: 7px; }
 .mobileDrawer .navCta { background: var(--night); color: var(--paper); justify-content: space-between; margin-top: 24px; }
-.hero { position: relative; min-height: 720px; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
-.heroCopy { position: relative; z-index: 2; max-width: 1050px; margin: auto; padding: 76px 24px 290px; text-align: center; animation: arrive 550ms ease-out both; }
-.heroKicker { display: inline-flex; align-items: center; gap: 18px; color: #d8d4c8; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin-bottom: 24px; }
+.hero { position: relative; min-height: clamp(700px, 86vh, 920px); display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
+.heroBackdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.heroImage { object-fit: cover; }
+.heroImageDesktop { display: block; object-position: center 35%; }
+.heroImageMobile { display: none; object-position: center 12%; }
+.heroOverlay { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 65% at 50% 48%, rgba(17, 19, 18, 0.45) 0%, rgba(17, 19, 18, 0.1) 65%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.7) 0%, rgba(17, 19, 18, 0.08) 20%, rgba(17, 19, 18, 0.2) 70%, var(--night) 100%); }
+.heroCopy { position: relative; z-index: 2; max-width: 1050px; margin: auto; padding: 100px 24px 110px; text-align: center; animation: arrive 550ms ease-out both; }
+.heroKicker { display: inline-flex; align-items: center; gap: 18px; color: #d8d4c8; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin-bottom: 24px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7); }
 .heroKicker > span { color: var(--gold); }
-.hero h1 { font-size: clamp(70px, 8.2vw, 118px); line-height: .97; letter-spacing: -.055em; text-transform: uppercase; font-weight: 900; margin: 0 0 24px; }
-.hero .softLine { color: var(--gold); }
-.heroCopy p { max-width: 565px; margin: 0 auto 26px; color: #d8d4c8; font-size: 16px; line-height: 1.7; }
+.hero h1 { font-size: clamp(68px, 7.8vw, 114px); line-height: .97; letter-spacing: -.055em; text-transform: uppercase; font-weight: 900; margin: 0 0 24px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75); }
+.hero .softLine { color: var(--gold); text-shadow: 0 4px 32px rgba(196, 175, 120, 0.3), 0 2px 16px rgba(0, 0, 0, 0.8); }
+.heroCopy p { max-width: 565px; margin: 0 auto 28px; color: #e2ded4; font-size: 16px; line-height: 1.7; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8); }
 .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; align-items: center; }
-.buttonGold, .buttonDark, .heroLink { display: inline-flex; align-items: center; justify-content: center; gap: 22px; padding: 15px 24px; min-height: 52px; border: 1px solid transparent; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; transition: background 180ms, transform 180ms; }
-.buttonGold { background: var(--gold); color: #111312; }
-.buttonGold:hover { background: #e1cd9c; transform: translateY(-2px); }
+.buttonGold, .buttonDark, .heroLink { display: inline-flex; align-items: center; justify-content: center; gap: 22px; padding: 15px 24px; min-height: 52px; border: 1px solid transparent; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; transition: background 180ms, transform 180ms, box-shadow 180ms; }
+.buttonGold { background: var(--gold); color: #111312; box-shadow: 0 4px 20px rgba(196, 175, 120, 0.25); }
+.buttonGold:hover { background: #e1cd9c; transform: translateY(-2px); box-shadow: 0 6px 26px rgba(196, 175, 120, 0.35); }
 .buttonDark { background: var(--night); color: var(--paper); }
 .buttonDark:hover { background: #34382e; transform: translateY(-2px); }
-.heroLink { border-color: #ffffff45; color: var(--paper); }
-.heroLink:hover { background: #ffffff12; }
-.boardStage { position: absolute; z-index: 0; pointer-events: none; left: 0; right: 0; bottom: 0; height: 270px; overflow: hidden; mask-image: linear-gradient(transparent, black 30%, black 82%, transparent); }
-.boardPlane { position: absolute; top: 40px; left: 50%; width: 1000px; height: 1000px; background: conic-gradient(#b9a46d 25%, #2b3029 0 50%, #b9a46d 0 75%, #2b3029 0) 0 0 / 25% 25%; border: 8px solid #b9a46d; transform-origin: top center; transform: translateX(-50%) perspective(800px) rotateX(60deg) rotateZ(-12deg); opacity: .68; }
-.heroBottom { position: absolute; z-index: 2; left: 5%; right: 5%; bottom: 24px; display: flex; justify-content: space-between; gap: 16px; font-size: 10px; letter-spacing: 1.1px; color: #e1ddcf; }
+.heroLink { border-color: rgba(255, 255, 255, 0.38); color: var(--paper); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(17, 19, 18, 0.35); }
+.heroLink:hover { background: rgba(255, 255, 255, 0.16); transform: translateY(-2px); }
+.heroBottom { position: absolute; z-index: 2; left: 5%; right: 5%; bottom: 24px; display: flex; justify-content: space-between; gap: 16px; font-size: 10px; letter-spacing: 1.1px; color: #e1ddcf; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); }
 .heroBottom a { min-height: 44px; display: inline-flex; align-items: center; gap: 18px; font-size: 12px; letter-spacing: 0; }
 .heroBottom > span { display: flex; align-items: center; }
 @keyframes arrive { from { opacity: .3; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -199,6 +202,14 @@
   .eventCopy { padding: 22px; }
   .eventCopy .eventTitle { font-size: 27px; }
 }
+@media (max-width: 1040px), (orientation: portrait) {
+  .heroImageDesktop { display: none; }
+  .heroImageMobile { display: block; object-position: center 10%; }
+  .hero { min-height: clamp(660px, 75vh, 940px); }
+  .heroOverlay { background: radial-gradient(ellipse 75% 60% at 50% 46%, rgba(17, 19, 18, 0.72) 0%, rgba(17, 19, 18, 0.35) 60%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.78) 0%, rgba(17, 19, 18, 0.1) 20%, rgba(17, 19, 18, 0.35) 70%, var(--night) 100%); }
+  .heroCopy { padding: 90px 6% 80px; }
+  .hero h1 { font-size: clamp(44px, 6.2vw, 68px); letter-spacing: -.05em; }
+}
 @media (max-width: 760px) {
   .header { height: 78px; padding: 0 6%; }
   .brand { font-size: 13px; gap: 8px; }
@@ -206,16 +217,15 @@
   .brand small { font-size: 8px; }
   .desktopNav { display: none; }
   .mobileMenu { display: block; }
-  .hero { min-height: 660px; }
-  .heroCopy { padding: 58px 6% 270px; }
-  .heroKicker { gap: 10px; font-size: 9px; letter-spacing: 1.4px; margin-bottom: 28px; }
-  .hero h1 { font-size: clamp(40px, 13.3vw, 76px); letter-spacing: -.055em; }
-  .heroCopy p { font-size: 15px; max-width: 430px; margin-bottom: 24px; }
+  .heroImageMobile { object-position: center 32%; }
+  .heroOverlay { background: radial-gradient(ellipse 72% 55% at 50% 46%, rgba(17, 19, 18, 0.88) 0%, rgba(17, 19, 18, 0.6) 60%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.85) 0%, rgba(17, 19, 18, 0.2) 20%, rgba(17, 19, 18, 0.5) 70%, var(--night) 100%); }
+  .heroCopy { padding: 84px 6% 76px; }
+  .heroKicker { gap: 10px; font-size: 9px; letter-spacing: 1.4px; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(38px, 11.2vw, 56px); letter-spacing: -.05em; }
+  .heroCopy p { font-size: 15px; max-width: 410px; margin-bottom: 24px; }
   .buttonGold, .buttonDark, .heroLink { padding: 14px 20px; min-height: 49px; gap: 14px; font-size: 13px; }
   .actions { gap: 12px; }
-  .boardStage { height: 240px; }
-  .boardPlane { width: 750px; height: 750px; top: 42px; }
-  .heroBottom { bottom: 14px; font-size: 8px; letter-spacing: .6px; }
+  .heroBottom { bottom: 16px; font-size: 8px; letter-spacing: .6px; }
   .heroBottom a { font-size: 11px; gap: 10px; }
   .section, .sectionCompact { padding: 52px 6%; }
   .sectionCompact { padding-top: 12px; }
@@ -282,7 +292,7 @@
   .heroKicker { font-size: 8px; letter-spacing: 1px; gap: 8px; }
   .hero .actions { flex-direction: column; }
   .hero .actions > a { width: 230px; }
-  .heroCopy { padding-bottom: 265px; }
+  .heroCopy { padding: 72px 5% 68px; }
   .heroBottom > span { max-width: 120px; }
   .eventFacts { grid-template-columns: 1fr; }
   .galleryGrid, .homePhotos { grid-template-columns: 1fr; }
