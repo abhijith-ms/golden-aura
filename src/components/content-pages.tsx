@@ -3,11 +3,12 @@ import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { defaultContent } from "@/lib/default-content";
 import { safeLink } from "@/lib/events";
-import { Arrow, ContactBand, EventCard, FocusAreas, PageIntro } from "./shared";
+import { Arrow, ContactBand, EventCard, FocusAreas, PageIntro, Portrait } from "./shared";
 import { Gallery } from "./gallery";
 import { EnquiryForm } from "./enquiry-form";
 import styles from "./site.module.css";
 import type { Content } from "@/lib/types";
+import { committeeGroups } from "@/lib/types";
 
 function copy(content: Content, slug: string) {
   return (
@@ -76,17 +77,11 @@ export async function AboutPage() {
           </div>
           <div>
             <p>
-              Experience in chess, tournament organisation, and community
-              building connects the people behind the Trust.
+              Organisers, chess players, arbiters and advisers helped bring the
+              2025 international tournament to life. Meet the people who handled
+              planning, competition and the player experience.
             </p>
-            <ul className={styles.team}>
-              {site.team.map((person) => (
-                <li key={person.name}>
-                  <span>{person.name}</span>
-                  <small>{person.role}</small>
-                </li>
-              ))}
-            </ul>
+            <Link className={styles.textLink} href="/committee">Meet the organising committee <Arrow /></Link>
           </div>
         </div>
         <div className={styles.governance}>
@@ -108,6 +103,51 @@ export async function AboutPage() {
           </div>
         </div>
       </section>
+      <ContactBand />
+    </>
+  );
+}
+
+export async function CommitteePage() {
+  const content = await getContent();
+  const { committee } = content;
+  return (
+    <>
+      <PageIntro copy={copy(content, "committee")} />
+      {committee.length ? (
+        <>
+          <nav className={`${styles.sectionCompact} ${styles.committeeNav}`} aria-label="Committee groups">
+            {committeeGroups.filter((group) => committee.some((member) => member.group === group)).map((group) => (
+              <a key={group} href={`#${group.toLowerCase().replaceAll(" ", "-")}`}>{group}</a>
+            ))}
+          </nav>
+          {committeeGroups.map((group, i) => {
+            const members = committee.filter((member) => member.group === group);
+            if (!members.length) return null;
+            return (
+              <section id={group.toLowerCase().replaceAll(" ", "-")} key={group} className={`${styles.section} ${i % 2 ? styles.softSection : ""}`}>
+                <span className={styles.eyebrow}>NAMMA BENGALURU OPEN · 2025</span>
+                <h2>{group}</h2>
+                <div className={styles.peopleGrid}>
+                  {members.map((member) => (
+                    <article className={styles.personCard} key={member.slug}>
+                      <Portrait name={member.name} photo={member.photo} />
+                      <h3>{member.name}</h3>
+                      <p>{member.role}</p>
+                      {member.affiliation && <p className={styles.personAffiliation}>{member.affiliation}</p>}
+                    </article>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+          <div className={styles.sectionCompact}>
+            <a className={styles.textLink} href="https://nammabigchess.com/organizing-comittee/" target="_blank" rel="noopener noreferrer">View the 2025 committee archive <Arrow /></a>
+          </div>
+        </>
+      ) : (
+        <section className={styles.sectionCompact}><p>Committee profiles will be published here. Contact the Trust for organising information.</p></section>
+      )}
       <ContactBand />
     </>
   );

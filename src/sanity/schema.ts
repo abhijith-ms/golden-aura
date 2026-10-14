@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { committeeGroups } from "@/lib/types";
 const text = (name: string, title: string, required = true) =>
   defineField({
     name,
@@ -127,7 +128,7 @@ export const schemaTypes = [
         title: "Page",
         type: "string",
         options: {
-          list: ["about", "events", "gallery", "partners", "contact"],
+          list: ["about", "committee", "events", "gallery", "partners", "contact"],
         },
         validation: (rule) => rule.required(),
       }),
@@ -211,6 +212,21 @@ export const schemaTypes = [
         validation: (rule) => rule.required().min(1),
       }),
     ],
+  }),
+  defineType({
+    name: "committeeMember",
+    title: "2025 organising committee",
+    type: "document",
+    fields: [
+      slug,
+      text("name", "Name"),
+      text("role", "2025 tournament role"),
+      text("affiliation", "Association / position in 2025", false),
+      defineField({ name: "group", title: "Committee group", type: "string", options: { list: [...committeeGroups] }, validation: (rule) => rule.required() }),
+      image("portrait", "Member portrait (leave empty to show initials)"),
+      defineField({ name: "order", title: "Display order", type: "number", validation: (rule) => rule.required().integer().min(0) }),
+    ],
+    preview: { select: { title: "name", subtitle: "role", media: "portrait" } },
   }),
   defineType({
     name: "partner",

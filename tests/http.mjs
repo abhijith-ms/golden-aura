@@ -9,6 +9,7 @@ assert(
 for (const path of [
   "/",
   "/about",
+  "/committee",
   "/events",
   "/gallery",
   "/partners",

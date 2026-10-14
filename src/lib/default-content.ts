@@ -1,10 +1,12 @@
 import type { Content, Photo } from "./types";
+import { committee } from "./committee.ts";
 
 const photo = (file: string, alt: string): Photo => ({
   src: `/images/${file}.webp`,
   alt,
 });
 export const defaultContent: Content = {
+  committee,
   site: {
     impactStats: [
       { value: "02", label: "International editions\nin Bengaluru" },
@@ -50,6 +52,12 @@ export const defaultContent: Content = {
     ],
   },
   pages: [
+    {
+      slug: "committee",
+      eyebrow: "THE 2025 ORGANISING COMMITTEE",
+      title: "People behind\nthe tournament.",
+      intro: "Chess organisers, players, arbiters and advisers came together to deliver the second Namma Bengaluru International Grandmasters Open. These are the people and roles from the 2025 edition.",
+    },
     {
       slug: "about",
       eyebrow: "THE TRUST",

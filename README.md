@@ -30,7 +30,7 @@ npm start
 5. Create a Sanity webhook for create/update/delete of published `siteSettings`, `page`, `event`, `album`, and `partner` documents. Use `!(_id in path("drafts.**")) && _type in ["siteSettings", "page", "event", "album", "partner"]` as the filter and `{ "_type": _type }` as the projection. Target `https://TRUST-DOMAIN/api/revalidate` and use the same secret as `SANITY_WEBHOOK_SECRET`.
 6. Publish a change and confirm it appears publicly. Content is also refreshed every five minutes. Cached published data can continue serving when a refresh fails; an unavailable first fetch displays the error page.
 
-The editor controls the homepage introduction, focus areas, organisation details, team, page introductions, events, gallery albums, and affiliations. Event URLs should stay stable after publication. Mark past/cancelled events correctly and enable registration only with a confirmed HTTPS link.
+The editor controls the homepage introduction, focus areas, organisation details, team, page introductions, events, gallery albums, and affiliations. The `2025 organising committee` documents also control the archived committee names, roles, groups, order and portraits. Leave a portrait empty to show initials. Include `committeeMember` in the webhook document-type filter when connecting Sanity. Event URLs should stay stable after publication. Mark past/cancelled events correctly and enable registration only with a confirmed HTTPS link.
 
 ## Enquiry delivery
 
@@ -48,6 +48,8 @@ python3 scripts/prepare-assets.py
 ```
 
 The sources include the 2024/2025 international editions, Karnataka amateur championship, Chess & Coffee, and the 2025 press launch. Only JPEG/PNG originals selected for this release are converted; HEIC files and videos remain archived. Logo permissions and photo publication permission were confirmed by the client.
+
+Committee profiles come from the [original 2025 organising committee](https://nammabigchess.com/organizing-comittee/). Imported originals stay in the ignored `refernce and guide/website-import/` directory, with source URLs recorded in `scripts/assets.json`. Portraits are limited to 600 pixels and have EXIF metadata removed. M Raju has initials because the original page supplies a generic placeholder, as agreed with the client.
 
 ## Vercel review deployment
 

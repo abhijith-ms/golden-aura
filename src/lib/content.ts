@@ -23,7 +23,8 @@ export async function getContent(): Promise<Content> {
     "pages": *[_type == "page"]{slug,eyebrow,title,intro,body},
     "events": *[_type == "event"] | order(year desc, _createdAt desc){slug,title,shortTitle,year,dateLabel,startDate,endDate,venue,format,status,registrationOpen,registrationUrl,prizeFund,description,"image":{"src":coalesce(cover.asset->url, image.src),"alt":coalesce(cover.alt,image.alt)},rules,brochureUrl,resultsUrl,archiveUrl},
     "albums": *[_type == "album"] | order(_createdAt asc){slug,title,description,"photos":photos[]{"src":coalesce(asset->url,src),alt}},
-    "partners": *[_type == "partner"] | order(_createdAt asc){name,description,event,"image":logo.asset->url}
+    "partners": *[_type == "partner"] | order(_createdAt asc){name,description,event,"image":logo.asset->url},
+    "committee": *[_type == "committeeMember"] | order(order asc){slug,name,role,affiliation,group,"photo":{"src":portrait.asset->url,"alt":portrait.alt}}
   }`,
     {},
     { next: { revalidate: 300, tags: ["content"] } },
@@ -31,7 +32,8 @@ export async function getContent(): Promise<Content> {
   if (
     !content.site ||
     !Array.isArray(content.events) ||
-    !Array.isArray(content.albums)
+    !Array.isArray(content.albums) ||
+    !Array.isArray(content.committee)
   ) {
     throw new Error(
       "CMS content is incomplete. Run the documented import before connecting production.",
@@ -39,6 +41,10 @@ export async function getContent(): Promise<Content> {
   }
   return {
     ...content,
+    committee: content.committee.map((member) => ({
+      ...member,
+      photo: member.photo?.src ? member.photo : undefined,
+    })),
     events: content.events.map((event) => ({
       ...event,
       status: eventStatus(event),

@@ -77,6 +77,16 @@ for (const album of defaultContent.albums) {
     photos,
   });
 }
+for (const [i, member] of defaultContent.committee.entries()) {
+  const { photo, ...data } = member;
+  await client.createIfNotExists({
+    _id: `committee-${member.slug}`,
+    _type: "committeeMember",
+    ...data,
+    order: i,
+    ...(photo ? { portrait: await upload(photo) } : {}),
+  });
+}
 for (const [i, partner] of defaultContent.partners.entries()) {
   const { image, ...data } = partner;
   await client.createIfNotExists({

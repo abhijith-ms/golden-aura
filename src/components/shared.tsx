@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Event, PageCopy, SiteSettings } from "@/lib/types";
+import type { Event, PageCopy, Photo, SiteSettings } from "@/lib/types";
 import styles from "./site.module.css";
 
 export function Arrow() {
@@ -27,6 +27,17 @@ export function PageIntro({ copy }: { copy: PageCopy }) {
       </h1>
       <p>{copy.intro}</p>
     </section>
+  );
+}
+export function Portrait({ name, photo }: { name: string; photo?: Photo }) {
+  return (
+    <div className={styles.portrait}>
+      {photo ? (
+        <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 22vw" />
+      ) : (
+        <span aria-hidden="true">{name.split(" ").map((part) => part[0]).slice(0, 2).join("")}</span>
+      )}
+    </div>
   );
 }
 export function FocusAreas({

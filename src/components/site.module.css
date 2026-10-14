@@ -153,6 +153,17 @@
 .team { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid var(--line); }
 .team li { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); font-weight: 500; }
 .team small { font-size: 12px; color: var(--muted); }
+.committeeNav { display: flex; flex-wrap: wrap; gap: 12px; padding-bottom: 24px; }
+.committeeNav a { min-height: 44px; padding: 12px 18px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; }
+.committeeNav a:hover { background: var(--soft); }
+.peopleGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 24px; }
+.personCard { min-width: 0; }
+.portrait { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 16px; background: var(--soft); display: grid; place-items: center; }
+.portrait img { object-fit: cover; object-position: center 20%; }
+.portrait > span { font-size: 48px; font-weight: 700; color: #795e29; }
+.personCard h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.03em; margin: 18px 0 8px; overflow-wrap: anywhere; }
+.personCard p { font-size: 14px; margin: 0 0 8px; }
+.personCard .personAffiliation { font-size: 12px; margin-bottom: 0; }
 .governance { margin-top: 64px; padding: 32px; border: 1px solid var(--line); border-radius: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; background: #fffdf8; }
 .governance h3 { font-size: 24px; }
 .announcement { display: grid; grid-template-columns: 70px 1fr auto; gap: 24px; align-items: center; border: 1px solid var(--line); border-radius: 16px; padding: 28px; background: var(--soft); }
@@ -221,6 +232,7 @@
 .prose { max-width: 900px; }
 .prose h2 { font-size: 28px; margin-top: 32px; }
 @media (max-width: 1100px) {
+  .peopleGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 20px; }
   .desktopNav { gap: 18px; }
   .introGrid, .contactGrid, .eventDetailGrid, .aboutStory { gap: 32px; }
   .focusGrid article { padding: 22px; }
@@ -245,6 +257,10 @@
   .pullQuote { font-size: 18px; }
 }
 @media (max-width: 760px) {
+  .peopleGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+  .personCard h3 { font-size: 18px; }
+  .personCard p { font-size: 13px; }
+  .committeeNav { gap: 8px; }
   .header { height: 84px; padding: 0 5%; }
   .brand { font-size: 13px; gap: 8px; }
   .brand img { width: auto; height: 58px; }

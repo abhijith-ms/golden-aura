@@ -7,6 +7,7 @@ import styles from "./site.module.css";
 
 const links = [
   ["/about", "The Trust"],
+  ["/committee", "Committee"],
   ["/events", "Events"],
   ["/gallery", "Gallery"],
   ["/partners", "Partners"],
