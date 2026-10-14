@@ -51,6 +51,8 @@ The sources include the 2024/2025 international editions, Karnataka amateur cham
 
 ## Vercel review deployment
 
+Source repository: [abhijith-ms/golden-aura](https://github.com/abhijith-ms/golden-aura) (private). The `main` branch is connected to the `golden-aura` project in `abhijith-mss-projects`. Pushes to `main` deploy to [golden-aura-pi.vercel.app](https://golden-aura-pi.vercel.app); other branches receive preview deployments. Node.js 24 is configured in Vercel. Local credentials, original downloads, and generated builds are excluded from Git.
+
 Current public review: [Golden Aura redesign](https://golden-aura-ajprmvlnh-abhijith-mss-projects.vercel.app). The [previous review](https://golden-aura-av2rqj62a-abhijith-mss-projects.vercel.app) remains available for comparison. No Vercel login is required. The project is `golden-aura` under `abhijith-mss-projects`; redesign checks are recorded in `docs/verification/redesign/report.json` and `docs/verification/redesign/vercel-review.json`. The latest Home, mobile drawer, and logo-only navbar checks are in `docs/verification/navigation-fixes/report.json`.
 
 Run `npx vercel deploy --yes --target=preview` from this directory with the intended Vercel account signed in. The deployment URL is used automatically when `SITE_URL` is unset. Review builds remain noindex until an explicit production domain is configured. `.vercelignore` excludes the original asset archives, reference documents, local credentials and test fixtures. The bundled content is available without CMS credentials; enquiry delivery requires a configured mailbox.
