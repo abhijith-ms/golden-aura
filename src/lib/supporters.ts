@@ -142,10 +142,16 @@ export const supporters: Partner[] = [
     "image": "/images/sports-authority-india.webp"
   },
   {
-    "name": "Karnataka Olympic Association",
+    "name": "Department of Youth Empowerment & Sports, Karnataka",
     "category": "support",
     "description": "Support acknowledged in the original 2025 tournament archive.",
     "event": "Tournament supporter · 2025",
-    "image": "/images/karnataka-olympic-association.webp"
-  }
+    "image": "/images/youth-sports-karnataka.webp"
+  },
+  {
+    name: "Karnataka Olympic Association",
+    category: "support",
+    description: "Acknowledged as a supporter in the original 2025 tournament overview.",
+    event: "Tournament supporter · 2025",
+  },
 ];

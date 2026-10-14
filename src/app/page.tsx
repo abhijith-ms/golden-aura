@@ -9,7 +9,7 @@ import styles from "@/components/site.module.css";
 export default async function Home() {
   const { site, events, albums, partners } = await getContent();
   const officialPartners = partners.filter((partner) => partner.category === "official");
-  const connectedPartners = partners.filter((partner) => !partner.category || partner.category === "community" || partner.category === "support");
+  const connectedPartners = partners.filter((partner) => partner.image && (!partner.category || partner.category === "community" || partner.category === "support"));
   const firstEdition = events.find((event) => event.slug === "namma-bengaluru-open-2024");
   const firstEditionPlayers = firstEdition?.attendees || [];
   const featured = orderEvents(events).slice(0, 2);

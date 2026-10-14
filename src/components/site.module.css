@@ -326,6 +326,7 @@
 .partnerLogos img { object-fit: contain; }
 .partnerLogos:focus-visible { outline: 3px solid #96732b; outline-offset: 5px; }
 .partnerLogos li > span { display: block; font-size: 12px; line-height: 1.5; }
+.partnerLogos .partnerName { display: grid; place-items: center; }
 .homeSupporters { padding-top: 0; }
 .homeSupporters .partnerLogos { display: flex; overflow-x: auto; scrollbar-width: none; padding-bottom: 12px; }
 .homeSupporters .partnerLogos::-webkit-scrollbar { display: none; }

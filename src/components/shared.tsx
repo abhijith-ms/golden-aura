@@ -58,7 +58,7 @@ export function PartnerLogos({ partners }: { partners: Partner[] }) {
   return (
     <ul className={styles.partnerLogos} tabIndex={0} aria-label="Partner and supporter logos">
       {partners.map((partner) => (
-        <li key={partner.name}>
+        <li key={partner.name} className={!partner.image ? styles.partnerName : undefined}>
           {partner.image && <div><Image src={partner.image} alt={`${partner.name} logo`} fill sizes="(max-width: 760px) 120px, 180px" /></div>}
           <span>{partner.name}</span>
         </li>

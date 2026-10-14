@@ -41,8 +41,9 @@ test("official 2025 partners are distinct from chess-community affiliations", ()
   assert.equal(defaultContent.partners.filter((partner) => partner.category === "institutional").length, 9);
   assert.equal(defaultContent.partners.filter((partner) => partner.category === "government").length, 7);
   assert.equal(new Set(defaultContent.partners.map((partner) => partner.name)).size, defaultContent.partners.length);
-  for (const name of ["Birla A1 Cement", "ACT Fibernet", "Fortis", "MSIL", "Nandini", "United World Academy", "Crestwood High", "Hatti Kaapi", "St Francis College", "Government of Karnataka", "Sports Authority of India", "Karnataka Olympic Association"])
+  for (const name of ["Birla A1 Cement", "ACT Fibernet", "Fortis", "MSIL", "Nandini", "United World Academy", "Crestwood High", "Hatti Kaapi", "St Francis College", "Government of Karnataka", "Sports Authority of India", "Department of Youth Empowerment & Sports, Karnataka"])
     assert(defaultContent.partners.some((partner) => partner.name === name && partner.image), name);
+  assert.equal(defaultContent.partners.find((partner) => partner.name === "Karnataka Olympic Association")?.image, undefined);
 });
 test("the original Trust mission and message of support remain separate from committee membership", () => {
   const about = defaultContent.pages.find((page) => page.slug === "about")!;
