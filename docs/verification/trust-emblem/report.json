@@ -1,0 +1,138 @@
+{
+  "contract": "Add the supplied official Trust emblem to the Trust introduction only. See contract.md.",
+  "targetViewports": [
+    "1440x900",
+    "768x1024",
+    "390x844",
+    "320x812"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "DOM exposes the meaningful emblem alternative text after the introduction; image is not in the tab order. Keyboard Tab focuses Home and Menu with a visible 3px outline. No new interactive controls or motion added."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Reviewed all four saved screenshots. Heading, introduction, full transparent logo and story fit without overlap; logo sits right on desktop/tablet and below text on mobile. No document horizontal overflow; one main heading; image loaded in every viewport."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "not-applicable",
+      "reason": "No new application loading state or async content source: the existing bundled image uses intrinsic width/height to reserve space."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "The required brand image is a bundled asset, with no optional collection or empty variant."
+    },
+    "error": {
+      "status": "not-applicable",
+      "reason": "No new data source or error handler; this change is limited to rendering a supplied static image. Image loading was verified, but simulated network failure was not exercised."
+    },
+    "partial": {
+      "status": "not-applicable",
+      "reason": "No new partial-data branch; existing CMS introduction and Trust content rendering are unchanged."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Official Trust emblem loaded and remained legible in the first viewport on desktop, tablet and mobile."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "This is an existing public brand asset already authorised by the client; no access controls or new permission boundary."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "about-1440.png",
+      "observation": "Official mark sits to the right of the original heading and introduction on the ivory surface."
+    },
+    {
+      "viewport": "768x1024",
+      "artifact": "about-768.png",
+      "observation": "Tablet mark and introduction fit in two columns; story retains its existing grid."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "about-390.png",
+      "observation": "Logo follows the introduction above the story photo, with readable wordmark and clear spacing."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "about-320.png",
+      "observation": "Narrow heading and emblem fit without horizontal scrolling."
+    }
+  ],
+  "checks": {
+    "productionBuild": "pass",
+    "browser": [
+      {
+        "h1": 1,
+        "intro": {
+          "bottom": 365.59375,
+          "right": 1011.5
+        },
+        "loaded": true,
+        "logo": {
+          "height": 217.28125,
+          "width": 280,
+          "x": 1059.5,
+          "y": 156
+        },
+        "overflow": false,
+        "viewport": "1440x900"
+      },
+      {
+        "h1": 1,
+        "intro": {
+          "bottom": 350.078125,
+          "right": 479.828125
+        },
+        "loaded": true,
+        "logo": {
+          "height": 139.6875,
+          "width": 180,
+          "x": 527.828125,
+          "y": 183.1875
+        },
+        "overflow": false,
+        "viewport": "768x1024"
+      },
+      {
+        "h1": 1,
+        "intro": {
+          "bottom": 301.75,
+          "right": 352.5
+        },
+        "loaded": true,
+        "logo": {
+          "height": 139.6875,
+          "width": 180,
+          "x": 22.5,
+          "y": 329.75
+        },
+        "overflow": false,
+        "viewport": "390x844"
+      },
+      {
+        "h1": 1,
+        "intro": {
+          "bottom": 327.25,
+          "right": 286.703125
+        },
+        "loaded": true,
+        "logo": {
+          "height": 139.6875,
+          "width": 180,
+          "x": 18.296875,
+          "y": 355.25
+        },
+        "overflow": false,
+        "viewport": "320x812"
+      }
+    ]
+  },
+  "limits": [
+    "Safari and physical-device checks were not repeated for this static addition.",
+    "No image-network failure simulation or new unit tests; meaningful layout and asset checks performed."
+  ]
+}

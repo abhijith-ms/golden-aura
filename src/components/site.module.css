@@ -114,6 +114,9 @@
 .pageIntro { max-width: 1440px; padding: 72px 6% 56px; margin: auto; }
 .pageIntro h1 { max-width: 1100px; font-size: clamp(46px, 6vw, 82px); font-weight: 900; line-height: 1.02; letter-spacing: -.055em; text-transform: uppercase; margin: 0 0 24px; overflow-wrap: anywhere; }
 .pageIntro p { max-width: 660px; color: var(--muted); font-size: 17px; line-height: 1.7; margin: 0; }
+.trustIntro { display: grid; grid-template-columns: minmax(0, 1fr) clamp(180px, 22vw, 280px); gap: 48px; align-items: center; max-width: 1440px; padding: 72px 6% 56px; margin: auto; }
+.trustIntro .pageIntro { padding: 0; margin: 0; min-width: 0; }
+.trustLogo { width: 100%; height: auto; }
 .aboutStory { padding-top: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 .storyPhoto { position: relative; aspect-ratio: 5/6; border-radius: 16px; overflow: hidden; }
 .storyPhoto img { object-fit: cover; }
@@ -246,6 +249,8 @@
   .pageIntro { padding: 48px 6% 36px; }
   .pageIntro h1 { font-size: clamp(38px, 9.6vw, 64px); letter-spacing: -.05em; }
   .pageIntro p { font-size: 15px; }
+  .trustIntro { grid-template-columns: 1fr; gap: 28px; padding: 48px 6% 36px; }
+  .trustLogo { width: 180px; }
   .aboutStory { padding-top: 0; }
   .storyPhoto { aspect-ratio: 4/3; }
   .governance { padding: 24px; gap: 24px; margin-top: 36px; }

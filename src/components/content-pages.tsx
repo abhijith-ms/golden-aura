@@ -22,7 +22,18 @@ export async function AboutPage() {
   const { site } = content;
   return (
     <>
-      <PageIntro copy={page} />
+      <div className={styles.trustIntro}>
+        <PageIntro copy={page} />
+        <Image
+          className={styles.trustLogo}
+          src="/images/golden-aura-logo.webp"
+          alt="The Golden Aura Trust official emblem"
+          width={480}
+          height={373}
+          sizes="(max-width: 760px) 180px, (max-width: 1100px) 22vw, 280px"
+          priority
+        />
+      </div>
       <section className={`${styles.section} ${styles.aboutStory}`}>
         <div className={styles.storyPhoto}>
           <Image
