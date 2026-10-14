@@ -43,7 +43,7 @@ export type Album = {
   photos: Photo[];
 };
 export type Partner = {
-  category?: "official" | "community";
+  category?: "official" | "community" | "institutional" | "government" | "support";
   name: string;
   description: string;
   event: string;
@@ -55,6 +55,8 @@ export type PageCopy = {
   title: string;
   intro: string;
   body?: string;
+  sections?: { title: string; description: string }[];
+  closing?: string;
 };
 export type SiteSettings = {
   impactStats: { value: string; label: string }[];

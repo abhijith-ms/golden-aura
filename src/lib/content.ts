@@ -20,7 +20,7 @@ export async function getContent(): Promise<Content> {
   const content = await client.fetch<Content>(
     `{
     "site": *[_type == "siteSettings"][0]{name,legalName,email,phones,address,instagram,heroTitle,heroIntro,aboutIntro,registrationDetails,team,focusAreas,impactStats},
-    "pages": *[_type == "page"]{slug,eyebrow,title,intro,body},
+    "pages": *[_type == "page"]{slug,eyebrow,title,intro,body,sections,closing},
     "events": *[_type == "event"] | order(year desc, _createdAt desc){slug,title,shortTitle,year,dateLabel,startDate,endDate,venue,format,status,registrationOpen,registrationUrl,prizeFund,description,"image":{"src":coalesce(cover.asset->url, image.src),"alt":coalesce(cover.alt,image.alt)},rules,brochureUrl,resultsUrl,archiveUrl,"attendees":attendees[]{name,title,country,"photo":{"src":portrait.asset->url,"alt":portrait.alt}}},
     "albums": *[_type == "album"] | order(_createdAt asc){slug,title,description,"photos":photos[]{"src":coalesce(asset->url,src),alt}},
     "partners": *[_type == "partner"] | order(_createdAt asc){name,description,event,category,"image":logo.asset->url},

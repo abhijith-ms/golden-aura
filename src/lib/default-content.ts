@@ -1,6 +1,7 @@
 import type { Content, Photo } from "./types";
 import { committee } from "./committee.ts";
 import { firstEditionAttendees } from "./first-edition-attendees.ts";
+import { supporters } from "./supporters.ts";
 
 const photo = (file: string, alt: string): Photo => ({
   src: `/images/${file}.webp`,
@@ -64,8 +65,22 @@ export const defaultContent: Content = {
       eyebrow: "THE TRUST",
       title: "The Trust.",
       intro:
-        "Rooted in Bengaluru. Connected by chess. We bring people together through a shared belief in the possibilities of the game.",
-      body: "Golden Aura Trust works to make chess more accessible and inclusive. Our work centres on socio-chess activities, Bengaluru as a global chess hub, and women in chess.\nWe collaborate with the Karnataka State Chess Association and Bengaluru Urban District Chess Association, and bring together experience in tournament organisation, chess, and community building.",
+        "A Trust dedicated to the promotion and development of chess across Karnataka and India.",
+      body: "The Golden Aura Trust is a dedicated force in the promotion and development of chess across Karnataka and India. Committed to fostering a culture of excellence in the sport, the Trust works to provide the necessary support, infrastructure, and opportunities for players of all backgrounds to thrive.\nAffiliated with the Karnataka State Chess Association (KSCA) and the Bengaluru Urban District Chess Association (BUDCA), the Trust operates under the guidance of International Chess Federation (FIDE) and the All India Chess Federation (AICF).\nBeyond competitive play, The Golden Aura Trust envisions chess as a tool for intellectual growth and social empowerment.",
+      sections: [
+        { title: "Inclusivity & Engagement", description: "We are committed to expanding the chess landscape by making the game more accessible to all. Through tournaments, coaching camps, and interactive learning formats, we aim to engage both aspiring and seasoned players." },
+        { title: "Strengthening the Chess Ecosystem", description: "To elevate the sport, we collaborate with sports organizations and institutions to enhance infrastructure, support talent, and raise competitive standards. Our initiatives create more opportunities for players at every level." },
+        { title: "Chess Beyond the Board", description: "Chess is more than just a game—it is a powerful tool for intellectual and social enrichment. We work to bridge chess with education, commerce, and technology, unlocking new avenues." },
+        { title: "Fostering a Lasting Impact", description: "Through strategic collaborations and public engagement, our vision is to integrate chess into everyday life, making it a sport that unites, challenges, and empowers individuals across all walks of life." },
+      ],
+      closing: "We welcome everyone passionate about chess and its transformative potential. Whether you are a player looking for opportunities, a coach or academy eager to contribute, or an educational institution seeking to integrate chess into learning, we are here to collaborate and grow together.\nAt the same time, we invite organizations, companies, and philanthropists who believe in the power of chess to drive change. By joining hands, we can build a lasting impact and drive a transformative movement that benefits all.",
+    },
+    {
+      slug: "support-message",
+      eyebrow: "A MESSAGE FOR THE 2025 TOURNAMENT",
+      title: "Message of support.",
+      intro: "D K Shivakumar · Deputy Chief Minister of Karnataka (2025)",
+      body: "Dear Friends of Chess,\nChess has the unique ability to nurture intellect and foster holistic development, qualities that are essential for our youth in today’s dynamic world. I have always believed in the power of chess as a tool for education and cultural enrichment, and I am delighted to be a part of an event that reflects this vision. The 2nd Namma Bengaluru International Grandmasters Tournament is a testament to our commitment to shaping a vibrant chess ecosystem, positioning Bengaluru as a global hub for the sport. I am confident that this tournament will inspire and empower our young talents, paving the way for a future where chess plays a central role in our educational and cultural landscape.",
     },
     {
       slug: "events",
@@ -99,8 +114,8 @@ export const defaultContent: Content = {
   events: [
     {
       slug: "namma-bengaluru-open-2025",
-      title: "2nd Namma Bengaluru International Grandmasters Open",
-      shortTitle: "Namma Bengaluru Open",
+      title: "Namma Bengaluru International Grandmasters Open Chess Tournament 2025",
+      shortTitle: "Namma Bengaluru International Grandmasters Open Chess Tournament 2025",
       year: "2025",
       dateLabel: "10–18 April 2025",
       startDate: "2025-04-10",
@@ -144,8 +159,8 @@ export const defaultContent: Content = {
     {
       slug: "namma-bengaluru-open-2024",
       attendees: firstEditionAttendees,
-      title: "1st Bengaluru International Grandmasters Open",
-      shortTitle: "The first international edition",
+      title: "Namma Bengaluru International Grandmasters Open Chess Tournament 2024",
+      shortTitle: "Namma Bengaluru International Grandmasters Open Chess Tournament 2024",
       year: "2024",
       dateLabel: "2024 edition",
       venue: "Bengaluru",
@@ -284,5 +299,6 @@ export const defaultContent: Content = {
       event: "Official partner · 2025",
       image: "/images/mysore-sandal-soap.webp",
     },
+    ...supporters,
   ],
 };

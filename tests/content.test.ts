@@ -24,8 +24,9 @@ test("the bundled content references existing web assets and unique event routes
   assert.equal(defaultContent.site.impactStats.length, 3);
 });
 test("the 2025 committee has unique profiles, source groups and an honest missing-portrait fallback", () => {
-  assert.equal(defaultContent.committee.length, 26);
-  assert.equal(new Set(defaultContent.committee.map((member) => member.slug)).size, 26);
+  assert.equal(defaultContent.committee.length, 25);
+  assert.equal(new Set(defaultContent.committee.map((member) => member.slug)).size, 25);
+  assert(!defaultContent.committee.some((member) => member.name === "D K Shivakumar"));
   for (const member of defaultContent.committee) {
     assert(committeeGroups.includes(member.group));
     assert(member.name && member.role);
@@ -36,7 +37,22 @@ test("official 2025 partners are distinct from chess-community affiliations", ()
   const official = defaultContent.partners.filter((partner) => partner.category === "official");
   assert.deepEqual(official.map((partner) => partner.name), ["WestBridge Capital", "Akshayakalpa Organic", "Mysore Sandal Soap"]);
   assert(official.every((partner) => partner.image && partner.event.includes("2025")));
-  assert.equal(defaultContent.partners.filter((partner) => partner.category === "community").length, 2);
+  assert.equal(defaultContent.partners.filter((partner) => partner.category === "community").length, 4);
+  assert.equal(defaultContent.partners.filter((partner) => partner.category === "institutional").length, 9);
+  assert.equal(defaultContent.partners.filter((partner) => partner.category === "government").length, 7);
+  assert.equal(new Set(defaultContent.partners.map((partner) => partner.name)).size, defaultContent.partners.length);
+  for (const name of ["Birla A1 Cement", "ACT Fibernet", "Fortis", "MSIL", "Nandini", "United World Academy", "Crestwood High", "Hatti Kaapi", "St Francis College", "Government of Karnataka", "Sports Authority of India", "Karnataka Olympic Association"])
+    assert(defaultContent.partners.some((partner) => partner.name === name && partner.image), name);
+});
+test("the original Trust mission and message of support remain separate from committee membership", () => {
+  const about = defaultContent.pages.find((page) => page.slug === "about")!;
+  assert.deepEqual(about.sections?.map((section) => section.title), ["Inclusivity & Engagement", "Strengthening the Chess Ecosystem", "Chess Beyond the Board", "Fostering a Lasting Impact"]);
+  assert(about.body?.includes("Karnataka State Chess Association") && about.closing?.includes("educational institution"));
+  const message = defaultContent.pages.find((page) => page.slug === "support-message")!;
+  assert(message.intro.includes("D K Shivakumar") && message.intro.includes("2025"));
+  assert(message.body?.includes("Dear Friends of Chess"));
+  for (const year of ["2024", "2025"])
+    assert.equal(defaultContent.events.find((event) => event.slug === `namma-bengaluru-open-${year}`)?.title, `Namma Bengaluru International Grandmasters Open Chess Tournament ${year}`);
 });
 test("the first-edition archive preserves featured names, federations and distinct FIDE titles", () => {
   const event = defaultContent.events.find((event) => event.slug === "namma-bengaluru-open-2024")!;

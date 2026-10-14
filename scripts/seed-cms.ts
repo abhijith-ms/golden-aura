@@ -56,6 +56,7 @@ for (const page of defaultContent.pages)
     _id: `page-${page.slug}`,
     _type: "page",
     ...page,
+    ...(page.sections ? { sections: page.sections.map((section, i) => ({ ...section, _key: String(i) })) } : {}),
   });
 for (const event of defaultContent.events) {
   const { image, attendees, ...data } = event;

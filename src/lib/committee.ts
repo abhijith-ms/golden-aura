@@ -2,17 +2,6 @@ import type { CommitteeMember } from "./types";
 
 export const committee: CommitteeMember[] = [
   {
-    "slug": "d-k-shivakumar",
-    "name": "D K Shivakumar",
-    "role": "Honorary president",
-    "group": "Leadership",
-    "affiliation": "Deputy Chief Minister of Karnataka (2025)",
-    "photo": {
-      "src": "/images/committee-d-k-shivakumar.webp",
-      "alt": "Portrait of D K Shivakumar"
-    }
-  },
-  {
     "slug": "sowmya-m-u",
     "name": "Sowmya M U",
     "role": "Organising secretary",
