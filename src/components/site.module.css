@@ -28,19 +28,17 @@
 .mobileDrawer nav > a:not(.navCta) { display: flex; align-items: center; min-height: 54px; padding: 10px 0; font-size: 22px; font-weight: 500; }
 .mobileDrawer nav > a[aria-current="page"] { text-decoration: underline; text-underline-offset: 7px; }
 .mobileDrawer .navCta { background: var(--night); color: var(--paper); justify-content: space-between; margin-top: 24px; }
-.hero { position: relative; min-height: clamp(700px, 86vh, 920px); display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
+.hero { position: relative; min-height: clamp(700px, 86vh, 920px); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
 .heroBackdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.heroImage { object-fit: cover; }
-.heroImageDesktop { display: block; object-position: center 35%; }
-.heroImageMobile { display: none; object-position: center 12%; }
-.heroOverlay { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 65% at 50% 48%, rgba(17, 19, 18, 0.45) 0%, rgba(17, 19, 18, 0.1) 65%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.7) 0%, rgba(17, 19, 18, 0.08) 20%, rgba(17, 19, 18, 0.2) 70%, var(--night) 100%); }
-.heroCopy { position: relative; z-index: 2; max-width: 1050px; margin: auto; padding: 100px 24px 110px; text-align: center; animation: arrive 550ms ease-out both; }
+.heroImage { object-fit: cover; object-position: 80% 30%; }
+.heroOverlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(17, 19, 18, 0.9) 0%, rgba(17, 19, 18, 0.65) 45%, rgba(17, 19, 18, 0.15) 72%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.72) 0%, transparent 22%, rgba(17, 19, 18, 0.35) 75%, var(--night) 100%); }
+.heroCopy { position: relative; z-index: 2; max-width: min(720px, 58vw); margin: auto 0 auto 6%; padding: 100px 0 110px; text-align: left; animation: arrive 550ms ease-out both; }
 .heroKicker { display: inline-flex; align-items: center; gap: 18px; color: #d8d4c8; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin-bottom: 24px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7); }
 .heroKicker > span { color: var(--gold); }
-.hero h1 { font-size: clamp(68px, 7.8vw, 114px); line-height: .97; letter-spacing: -.055em; text-transform: uppercase; font-weight: 900; margin: 0 0 24px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75); }
+.hero h1 { font-size: clamp(68px, 7.8vw, 114px); line-height: 1.16; letter-spacing: -.055em; text-transform: uppercase; font-weight: 900; margin: 0 0 24px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75); }
 .hero .softLine { color: var(--gold); text-shadow: 0 4px 32px rgba(196, 175, 120, 0.3), 0 2px 16px rgba(0, 0, 0, 0.8); }
-.heroCopy p { max-width: 565px; margin: 0 auto 28px; color: #e2ded4; font-size: 16px; line-height: 1.7; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8); }
-.actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; align-items: center; }
+.heroCopy p { max-width: 565px; margin: 0 0 28px; color: #e2ded4; font-size: 16px; line-height: 1.7; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8); }
+.actions { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 14px; align-items: center; }
 .buttonGold, .buttonDark, .heroLink { display: inline-flex; align-items: center; justify-content: center; gap: 22px; padding: 15px 24px; min-height: 52px; border: 1px solid transparent; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; transition: background 180ms, transform 180ms, box-shadow 180ms; }
 .buttonGold { background: var(--gold); color: #111312; box-shadow: 0 4px 20px rgba(196, 175, 120, 0.25); }
 .buttonGold:hover { background: #e1cd9c; transform: translateY(-2px); box-shadow: 0 6px 26px rgba(196, 175, 120, 0.35); }
@@ -203,12 +201,11 @@
   .eventCopy { padding: 22px; }
   .eventCopy .eventTitle { font-size: 27px; }
 }
-@media (max-width: 1040px), (orientation: portrait) {
-  .heroImageDesktop { display: none; }
-  .heroImageMobile { display: block; object-position: center 10%; }
+@media (max-width: 1040px) {
+  .heroImage { object-position: 84% 34%; }
   .hero { min-height: clamp(660px, 75vh, 940px); }
-  .heroOverlay { background: radial-gradient(ellipse 75% 60% at 50% 46%, rgba(17, 19, 18, 0.72) 0%, rgba(17, 19, 18, 0.35) 60%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.78) 0%, rgba(17, 19, 18, 0.1) 20%, rgba(17, 19, 18, 0.35) 70%, var(--night) 100%); }
-  .heroCopy { padding: 90px 6% 80px; }
+  .heroOverlay { background: linear-gradient(to right, rgba(17, 19, 18, 0.92) 0%, rgba(17, 19, 18, 0.72) 48%, rgba(17, 19, 18, 0.2) 75%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.75) 0%, transparent 20%, rgba(17, 19, 18, 0.4) 75%, var(--night) 100%); }
+  .heroCopy { max-width: min(600px, 68vw); margin: auto 0 auto 6%; padding: 90px 0 80px; }
   .hero h1 { font-size: clamp(44px, 6.2vw, 68px); letter-spacing: -.05em; }
 }
 @media (max-width: 760px) {
@@ -219,9 +216,9 @@
   .brand small { font-size: 8px; }
   .desktopNav { display: none; }
   .mobileMenu { display: block; }
-  .heroImageMobile { object-position: center 32%; }
-  .heroOverlay { background: radial-gradient(ellipse 72% 55% at 50% 46%, rgba(17, 19, 18, 0.88) 0%, rgba(17, 19, 18, 0.6) 60%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.85) 0%, rgba(17, 19, 18, 0.2) 20%, rgba(17, 19, 18, 0.5) 70%, var(--night) 100%); }
-  .heroCopy { padding: 84px 6% 76px; }
+  .heroImage { object-position: 85% 24%; }
+  .heroOverlay { background: linear-gradient(to right, rgba(17, 19, 18, 0.94) 0%, rgba(17, 19, 18, 0.78) 55%, rgba(17, 19, 18, 0.35) 85%, rgba(17, 19, 18, 0.2) 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.78) 0%, transparent 22%, rgba(17, 19, 18, 0.45) 75%, var(--night) 100%); }
+  .heroCopy { max-width: 100%; margin: auto 0; padding: 84px 6% 76px; }
   .heroKicker { gap: 10px; font-size: 9px; letter-spacing: 1.4px; margin-bottom: 20px; }
   .hero h1 { font-size: clamp(38px, 11.2vw, 56px); letter-spacing: -.05em; }
   .heroCopy p { font-size: 15px; max-width: 410px; margin-bottom: 24px; }
@@ -292,7 +289,7 @@
 }
 @media (max-width: 360px) {
   .heroKicker { font-size: 8px; letter-spacing: 1px; gap: 8px; }
-  .hero .actions { flex-direction: column; }
+  .hero .actions { flex-direction: column; align-items: flex-start; }
   .hero .actions > a { width: 230px; }
   .heroCopy { padding: 72px 5% 68px; }
   .heroBottom > span { max-width: 120px; }

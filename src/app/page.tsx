@@ -14,20 +14,12 @@ export default async function Home() {
       <section className={styles.hero}>
         <div className={styles.heroBackdrop} aria-hidden="true">
           <Image
-            src="/images/hero-bg.webp"
+            src="/images/hero-knight-bg.webp"
             alt=""
             fill
             priority
-            sizes="(max-width: 1040px) 1px, 100vw"
-            className={`${styles.heroImage} ${styles.heroImageDesktop}`}
-          />
-          <Image
-            src="/images/hero-bg-mobile.webp"
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 1040px) 100vw, 1px"
-            className={`${styles.heroImage} ${styles.heroImageMobile}`}
+            sizes="100vw"
+            className={styles.heroImage}
           />
           <div className={styles.heroOverlay} />
         </div>
