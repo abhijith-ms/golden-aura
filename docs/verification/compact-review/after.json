@@ -1,0 +1,66 @@
+[
+  {
+    "cards": [
+      360,
+      360
+    ],
+    "contactWidth": 1254,
+    "headerBottom": 84,
+    "headerTop": 12,
+    "height": 4245,
+    "heroTop": 0,
+    "kickerTop": 109.640625,
+    "overflow": false,
+    "scrollY": 0,
+    "sponsorScrollbar": "none",
+    "width": 1440
+  },
+  {
+    "cards": [
+      460,
+      460
+    ],
+    "contactWidth": 663,
+    "headerBottom": 84,
+    "headerTop": 12,
+    "height": 4803,
+    "heroTop": 0,
+    "kickerTop": 109,
+    "overflow": false,
+    "scrollY": 0,
+    "sponsorScrollbar": "none",
+    "width": 768
+  },
+  {
+    "cards": [
+      364,
+      438
+    ],
+    "contactWidth": 330,
+    "headerBottom": 74,
+    "headerTop": 10,
+    "height": 5874,
+    "heroTop": 0,
+    "kickerTop": 107,
+    "overflow": false,
+    "scrollY": 0,
+    "sponsorScrollbar": "none",
+    "width": 390
+  },
+  {
+    "cards": [
+      381,
+      476
+    ],
+    "contactWidth": 268,
+    "headerBottom": 74,
+    "headerTop": 10,
+    "height": 6258,
+    "heroTop": 0,
+    "kickerTop": 108,
+    "overflow": false,
+    "scrollY": 0,
+    "sponsorScrollbar": "none",
+    "width": 320
+  }
+]

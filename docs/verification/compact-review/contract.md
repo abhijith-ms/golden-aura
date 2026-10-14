@@ -1,0 +1,9 @@
+Make the existing ivory/gold site easier to scan with less vertical scrolling. Reduce shared headings, section padding and card padding without reducing body readability or 44px controls. Home must feature the 2024 Open then the 2025 Open under their full tournament names, in shorter cards. Replace the tall Home photo collage with a manually controlled, swipeable carousel. Keep the full gallery route.
+
+Use an inset light floating navbar with logo, explicit Home link and existing destinations. Keep mobile side-drawer motion, focus restoration and scroll locking. Sticky navigation must not hide anchor headings; Home must return to scrollY 0.
+
+Use the original Trust introduction, four mission pillars and invitation. D K Shivakumar must be removed from committee membership and shown only in a separate dated Message of support section. Tournaments starts with the archive when no upcoming event exists, ordered 2024 Open, 2025 Open, then remaining events. Keep the bottom contact band as confirmed by the client.
+
+Add all 19 partner/supporter organisations from page 25 of the supplied report, with verified original logos, plus the original hero's supporting organisations. Preserve the distinction between chess affiliations, official partners, institutional partners, and government/civic supporters. A compact Home logo strip links to the full Partners page; historical labels must not imply current government endorsement.
+
+Verify desktop 1440x900, tablet 768x1024, phone 390x844 and narrow phone 320x812. Check full-name wrapping, image loading, carousel buttons/keyboard/swipe, floating navbar and mobile Home navigation. Record page heights and event card heights before/after at the same widths. Relevant content states: populated content; missing portrait initials; no/single-image carousel; late-loading images retain frames. Existing CMS publishing/SMTP remains unconfigured and outside these layout checks.

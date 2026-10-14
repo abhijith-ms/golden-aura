@@ -1,0 +1,136 @@
+{
+  "contract": "contract.md",
+  "targetViewports": [
+    "1440x900",
+    "768x1024",
+    "390x844",
+    "320x812"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Explicit Home links in desktop/mobile navigation; mobile drawer fits at 320x812, opens with body scroll locked, closes on navigation, and returns Home to scrollY 0. Carousel has named 44px Previous/Next controls, keyboard Enter activation, focusable native scroll track and a disabled Next button at the end (scrollLeft 448 + width 268 = total 716). Partner logo strips are keyboard focusable. Headings and images retain accessible names."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "No horizontal page overflow or clipped heading bounds at four target widths. Mobile event cards use shallow images and readable full-width copy. The Tournaments heading fits on one line at 320px. Navbar overlays the black hero, whose top is 0, with its copy below the navbar. At 1905px the sponsor row and contact card both start at x338.39 and have width1213.22; all seven logos fit and scrollbars are hidden."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "On the first visit to the message section, its image was not yet complete; a later read confirmed it loaded. Image dimensions are reserved at 130x160. Carousel frames stay fixed at 240px desktop/190px mobile while photos load."
+    },
+    "empty": {
+      "status": "pass",
+      "evidence": "An isolated preview-only fixture rendered PhotoCarousel with no photos: More photographs will be shared soon, with no controls. A single-photo fixture rendered one image and no navigation buttons. Fixtures exist only in /tmp and are absent from the production source/build."
+    },
+    "error": {
+      "status": "not-applicable",
+      "reason": "The new carousel accepts a server-provided array and introduces no request, form or error/retry flow. Existing CMS/provider failure boundaries were not changed; live Sanity access is separately listed as untested."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "M Raju remains a committee member with no photo; the existing initials fallback and unit assertion are retained. D K Shivakumar is absent from the 25 member articles and appears only in the separate dated message. Karnataka Olympic Association is acknowledged by name only; the supplied yellow emblem is assigned to the Department of Youth Empowerment & Sports, Karnataka."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Home and archive list the 2024 Open before the 2025 Open with full tournament names. Partners has 26 logos and one additional name-only acknowledgement: all19 from report page25 plus the additional original-hero/chess bodies. Trust has the original overview, four mission pillars and invitation. The empty upcoming card is absent; the bottom contact band remains."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "No new user roles, access controls or permission UI were added. Public archive/photo use and public Vercel review were previously authorised by the client."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "home-1440.png",
+      "observation": "Compiled homepage: light floating navbar overlays the black hero; copy remains below it; desktop/narrow framing remains readable."
+    },
+    {
+      "viewport": "768x1024",
+      "artifact": "home-768.png",
+      "observation": "Compiled homepage: light floating navbar overlays the black hero; copy remains below it; desktop/narrow framing remains readable."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "home-390.png",
+      "observation": "Compiled homepage: light floating navbar overlays the black hero; copy remains below it; desktop/narrow framing remains readable."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "home-320.png",
+      "observation": "Compiled homepage: light floating navbar overlays the black hero; copy remains below it; desktop/narrow framing remains readable."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "events-home-1440.png",
+      "observation": "Shorter event cards display the full2024 and2025 Open names in the requested order."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "events-320.png",
+      "observation": "Narrow archive uses shallow images and readable full-width names; Tournaments punctuation stays on the same line."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "about-1440.png",
+      "observation": "Trust overview uses the original copy and official emblem."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "partner-logos-1440.png",
+      "observation": "Additional corporate/institutional logos are grouped and consistently sized."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "support-message-1440.png",
+      "observation": "D K Shivakumar appears in a separate Message of support, dated to2025, with his portrait loaded."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "carousel-1440.png",
+      "observation": "Photo carousel replaces the tall collage; no visible scrollbar; labelled manual controls."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "menu-320.png",
+      "observation": "Mobile drawer includes Home and all existing destinations and fits without vertical overflow."
+    },
+    {
+      "viewport": "1905x900",
+      "artifact": "supporters-contact-1905.png",
+      "observation": "Seven logos fit across the row; scrollbar hidden; contact card matches content width, as requested in the screenshot review."
+    }
+  ],
+  "measurements": [
+    {
+      "width": 1440,
+      "before": 6278,
+      "after": 4245,
+      "reductionPercent": 32.4
+    },
+    {
+      "width": 390,
+      "before": 8333,
+      "after": 5892,
+      "reductionPercent": 29.3
+    }
+  ],
+  "verification": {
+    "unitTests": "15 passed",
+    "typecheck": "Passed",
+    "productionBuild": "Passed including Next.js TypeScript validation; normal child-process access was required after the sandboxed CLI returned empty compiler output.",
+    "http": "Existing compiled-site fixture passed: routes, one h1, metadata, 404s, closed archive registration, security headers, enquiry origin/validation and unconfigured webhook boundary. Fixture SITE_URL was explicitly set to http://127.0.0.1:3002 with VERCEL_ENV=preview.",
+    "assets": "21 new WebP logos, about391KiB combined, at most480px; extracted PDF masks preserved; no EXIF data. No new dependencies.",
+    "sources": [
+      "https://nammabigchess.com/",
+      "https://nammabigchess.com/golden-aura/",
+      "https://nammabigchess.com/organizing-comittee/",
+      "refernce and guide/Golden_Aura_Trust_Impact_Assesment_Report (14).pdf \u00b7 page25"
+    ]
+  },
+  "limitations": [
+    "Live Sanity seeding/publishing and SMTP delivery remain untested; setup/migration instructions are in README.",
+    "Responsive checks use Chromium viewport emulation; physical touch devices, Safari and a system reduced-motion preference were not separately exercised. The carousel uses native scrolling and the code honours prefers-reduced-motion."
+  ]
+}
