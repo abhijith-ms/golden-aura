@@ -1,0 +1,65 @@
+[
+  {
+    "path": "/",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/about",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/events",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/gallery",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/partners",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/contact",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/privacy",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/events/namma-bengaluru-open-2024",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1425,
+    "width": 1440
+  },
+  {
+    "path": "/missing-page",
+    "h1": 1,
+    "headingFits": true,
+    "scrollWidth": 1440,
+    "width": 1440
+  }
+]

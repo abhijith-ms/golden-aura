@@ -1,0 +1,58 @@
+[
+  {
+    "route": "/about",
+    "brokenImages": [],
+    "h1": "More than a game.A way forward.",
+    "scrollWidth": 1425,
+    "title": "The Trust | Golden Aura Trust",
+    "width": 1440
+  },
+  {
+    "route": "/events",
+    "brokenImages": [],
+    "h1": "Big games.Bigger possibilities.",
+    "scrollWidth": 1425,
+    "title": "Events | Golden Aura Trust",
+    "width": 1440
+  },
+  {
+    "route": "/gallery",
+    "brokenImages": [],
+    "h1": "The people.The play. The possibility.",
+    "scrollWidth": 1425,
+    "title": "Gallery | Golden Aura Trust",
+    "width": 1440
+  },
+  {
+    "route": "/partners",
+    "brokenImages": [],
+    "h1": "Make a movethat matters.",
+    "scrollWidth": 1425,
+    "title": "Partners | Golden Aura Trust",
+    "width": 1440
+  },
+  {
+    "route": "/contact",
+    "brokenImages": [],
+    "h1": "Great things startwith one move.",
+    "scrollWidth": 1425,
+    "title": "Contact | Golden Aura Trust",
+    "width": 1440
+  },
+  {
+    "route": "/events/namma-bengaluru-open-2024",
+    "brokenImages": [],
+    "h1": "1st Bengaluru International Grandmasters Open",
+    "scrollWidth": 1425,
+    "title": "The first international edition | Golden Aura Trust",
+    "width": 1440
+  },
+  {
+    "route": "/studio",
+    "brokenImages": [],
+    "h1": "The editing workspaceis ready to connect.",
+    "scrollWidth": 1440,
+    "title": "Trust content studio | Golden Aura Trust",
+    "width": 1440
+  }
+]

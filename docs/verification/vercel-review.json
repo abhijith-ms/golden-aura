@@ -1,0 +1,77 @@
+{
+  "verifiedAt": "2026-10-13T19:57:38.984549+00:00",
+  "url": "https://golden-aura-av2rqj62a-abhijith-mss-projects.vercel.app",
+  "project": "golden-aura",
+  "deploymentId": "dpl_2pEFvmqhge2dDSYGPCxsEhFFscFJ",
+  "access": "public, no Vercel login required",
+  "build": "READY",
+  "unitTests": 10,
+  "typecheck": "pass",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/events",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/gallery",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/partners",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/events/namma-bengaluru-open-2025",
+      "status": 200,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    },
+    {
+      "path": "/missing-review-page",
+      "status": 404,
+      "h1": 1,
+      "robots": "noindex, nofollow"
+    }
+  ],
+  "checks": {
+    "robotsDisallow": "pass",
+    "sitemapDeploymentOrigin": "pass",
+    "images": 3,
+    "enquiryValidation": "400 as expected"
+  },
+  "limits": [
+    "CMS and SMTP unconfigured; real enquiry delivery not tested.",
+    "Live 3D, registration and payments deferred.",
+    "Full dependency tree includes CMS build-tool advisories; these were previously documented."
+  ]
+}

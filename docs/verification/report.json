@@ -1,0 +1,103 @@
+{
+  "contract": "Golden Aura Trust: six core organisation/event pages and detail routes; ivory/charcoal/gold with the official logo and genuine event photographs; primary action Explore events, clear completed/upcoming states, contact recovery, accessible keyboard/forms/gallery, responsive 1440x900 and 390x844 layouts. Native registration, payments and live 3D are deferred.",
+  "targetViewports": [
+    "1440x900",
+    "390x844"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "One h1 per route; labelled required inputs and consent; keyboard skip link has visible solid focus; mobile summary opens with Enter and closes with Escape; native dialog traps focus, closes with Escape and returns focus to its photo button; sending button disabled; response receives focus via status/alert. Large soft headings and body colours reviewed. Reduced-motion overrides are present in served CSS; preference emulation was unavailable."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "All six core pages, an event detail, privacy and 404 were inspected at a CSS viewport of 390x844. Desktop layouts inspected at 1440x900. Document width stayed within the viewport. Screenshots exclude browser chrome/scrollbar. Gallery scrolling loaded all 21 images with no decode failures."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "Local SMTP acceptance fixture delays delivery; browser displayed Sending\u2026 disabled and Sending your enquiry\u2026 status. No external email was sent."
+    },
+    "empty": {
+      "status": "pass",
+      "evidence": "Events page has no upcoming editions and presents an announcement plus a working contact action."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Actual unconfigured SMTP endpoint returned 503; browser displayed a delivery error, focused it and preserved entered name/email/message. Invalid form submission was blocked and focused the required name input."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "2024 event has no confirmed prize fund, brochure or results links. Available date/venue/archive/contact information renders with no invented values or dead downloads."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "With a local mocked SMTP transport returning acceptance, the real enquiry endpoint and browser form completed, displayed a confirmation and cleared inputs. Real mailbox delivery remains untested."
+    },
+    "permission": {
+      "status": "pass",
+      "evidence": "HTTP fixture rejected unsigned CMS webhook with 401, accepted a valid signed webhook with 200, and rejected foreign-origin enquiry with 403. Live Sanity staff accounts/publishing are not yet connected."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "home-desktop.png",
+      "observation": "Readable hero and navigation; official logo; primary event and secondary Trust actions."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "home-mobile.png",
+      "observation": "Hero copy and both actions fit; mobile menu; no horizontal overflow."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "gallery-desktop.png",
+      "observation": "All gallery images loaded after normal scrolling; albums, captions, and enlargement controls fit."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "gallery-dialog-mobile.png",
+      "observation": "Native image viewer has a visible close control and contained photograph."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "contact-error-mobile.png",
+      "observation": "Delivery failure is visible, announced and focused; form values retained."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "contact-loading-fixture.png",
+      "observation": "Local fixture: sending button disabled while SMTP acceptance is pending."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "contact-success-fixture.png",
+      "observation": "Local fixture: acceptance confirmation visible and form reset."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "keyboard-desktop.png",
+      "observation": "Keyboard skip link visible and focused."
+    }
+  ],
+  "checks": {
+    "unitTests": 9,
+    "typecheck": "pass",
+    "productionBuild": "pass",
+    "localHttp": "pass",
+    "productionDependencyAdvisories": 0
+  },
+  "limits": [
+    "Public domain, Hostinger deployment access, Sanity project/staff publishing, and actual SMTP delivery are not configured or verified.",
+    "Government checklist, contact details and team roles need final Trust sign-off.",
+    "Lighthouse unavailable: ECC browser service could not launch a headful browser without an X server. No performance score or production Core Web Vitals claim.",
+    "Full dependency tree has CMS build-tool advisories; deployed server dependency audit is clean.",
+    "Live 3D, registration and payments are deferred."
+  ],
+  "contractDetails": {
+    "purpose": "Golden Aura Trust organisation and event website for reviewers, players, parents and partners",
+    "primaryAction": "Explore events; enquire when no upcoming edition is confirmed",
+    "direction": "Ivory, charcoal and restrained gold; official logo, real event photography and static chess hero",
+    "scope": "Six core pages, event detail routes, privacy notice, gallery viewer, Sanity content model and server enquiry delivery"
+  }
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "route": "/about",
+    "brokenImages": [],
+    "h1": "More than a game.A way forward.",
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "route": "/events",
+    "brokenImages": [],
+    "h1": "Big games.Bigger possibilities.",
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "route": "/gallery",
+    "brokenImages": [],
+    "h1": "The people.The play. The possibility.",
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "route": "/partners",
+    "brokenImages": [],
+    "h1": "Make a movethat matters.",
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "route": "/contact",
+    "brokenImages": [],
+    "h1": "Great things startwith one move.",
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "route": "/events/namma-bengaluru-open-2024",
+    "brokenImages": [],
+    "h1": "1st Bengaluru International Grandmasters Open",
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "route": "/privacy",
+    "brokenImages": [],
+    "h1": "Privacy notice",
+    "scrollWidth": 375,
+    "width": 390
+  },
+  {
+    "route": "/not-a-real-page",
+    "brokenImages": [],
+    "h1": "Let’s findyour next move.",
+    "scrollWidth": 375,
+    "width": 390
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "url": "https://golden-aura-c2am943tx-abhijith-mss-projects.vercel.app",
+  "deploymentId": "dpl_DwAFgi2y3kPTpgYkUcwjM1q6HVdp",
+  "public": true,
+  "build": "READY",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "path": "/events",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "path": "/gallery",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "path": "/partners",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "path": "/events/namma-bengaluru-open-2024",
+      "status": 200,
+      "noindex": true
+    }
+  ],
+  "socialPreview": "PNG",
+  "robotsAndSitemap": "pass",
+  "404": "pass",
+  "comparisonUrl": "https://golden-aura-av2rqj62a-abhijith-mss-projects.vercel.app"
+}

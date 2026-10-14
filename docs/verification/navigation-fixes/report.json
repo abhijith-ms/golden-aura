@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-14",
+  "url": "https://golden-aura-ajprmvlnh-abhijith-mss-projects.vercel.app",
+  "deploymentId": "dpl_DwGo9Y6mDpDTieS7TxYrEwhvLM3F",
+  "build": "READY",
+  "public": true,
+  "noindex": true,
+  "validation": {
+    "unitTests": "10 passed before the final anchor change",
+    "typecheck": "pass",
+    "finalProductionBuild": "pass locally and on Vercel",
+    "browser": "Chromium in Codex in-app browser"
+  },
+  "home": {
+    "cause": "Global smooth scrolling interfered with route scrolling; Next Link also retained position when re-clicking the current Home URL/hash.",
+    "fix": "Remove global smooth scrolling and the unnecessary top offset; use native Home anchors targeting body#top.",
+    "finalLocalChecks": {
+      "crossPageHeader": { "scrollY": 0 },
+      "crossPageFooter": { "scrollY": 0 },
+      "samePageFooterWithExistingHash": { "scrollY": 0 },
+      "repeatedFooter": { "scrollY": 0 },
+      "samePageMobileMenu": { "scrollY": 0 },
+      "crossPageMobileMenu": { "scrollY": 0 },
+      "notFoundPageHome": { "scrollY": 0 }
+    },
+    "publicChecks": {
+      "home": { "scrollY": 0 },
+      "repeatedHome": { "scrollY": 0 }
+    }
+  },
+  "drawer": {
+    "direction": "right",
+    "durationMs": 280,
+    "platform": "native modal dialog",
+    "entryAndExitTransformsObserved": true,
+    "widthsChecked": [320, 390],
+    "noDrawerOverflowAt320": true,
+    "escapeDismissal": "pass locally and on public deployment",
+    "backdropDismissal": "pass locally",
+    "closeButton": "pass locally",
+    "focusReturnsToMenu": "pass locally and on public deployment",
+    "bodyScrollLockAndRestore": "pass locally and on public deployment",
+    "closeOnRouteAndDesktopResize": "pass locally",
+    "reducedMotion": "existing global CSS disables transitions; preference not emulated"
+  },
+  "navbar": { "onlyLogo": true, "accessibleHomeLabel": true },
+  "screenshots": ["drawer-390.png", "drawer-320.png", "header-desktop.png"],
+  "limits": ["Safari and physical mobile devices were not tested", "Three.js and GSAP remain planned, not implemented"]
+}

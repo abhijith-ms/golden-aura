@@ -1,0 +1,206 @@
+[
+  {
+    "viewport": "390x844",
+    "checks": [
+      {
+        "path": "/",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/about",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/events",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/gallery",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/partners",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/contact",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/privacy",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/events/namma-bengaluru-open-2024",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      {
+        "path": "/missing-page",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 375,
+        "width": 390
+      }
+    ]
+  },
+  {
+    "viewport": "320x812",
+    "checks": [
+      {
+        "path": "/",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/about",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/events",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/gallery",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/partners",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/contact",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/privacy",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/events/namma-bengaluru-open-2024",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      },
+      {
+        "path": "/missing-page",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 305,
+        "width": 320
+      }
+    ]
+  },
+  {
+    "viewport": "768x1024",
+    "checks": [
+      {
+        "path": "/",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/about",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/events",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/gallery",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/partners",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/contact",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/privacy",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/events/namma-bengaluru-open-2024",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 753,
+        "width": 768
+      },
+      {
+        "path": "/missing-page",
+        "h1": 1,
+        "headingFits": true,
+        "scrollWidth": 768,
+        "width": 768
+      }
+    ]
+  }
+]

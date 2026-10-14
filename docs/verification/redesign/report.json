@@ -1,0 +1,98 @@
+{
+  "contract": "Complete Golden Aura public website redesign: dark typography/board hero, light content, Archivo/DM Sans, gold accents, tournament-first hierarchy, preserved routes/CMS/API behavior. See contract.md.",
+  "targetViewports": [
+    "1440x900",
+    "768x1024",
+    "390x844",
+    "320x812"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Native mobile menu opened with Enter and closed with Escape with summary focus restored. Gallery Escape returns focus to the source photo button. Required form focuses the name; delivery error focuses alert and retains values; fixture success clears fields and focuses status. CSS reduced-motion overrides retained; preference switching was unavailable, so emulated reduced motion remains untested."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Nine routes checked at all four target widths: one h1, no horizontal document overflow or overflowing heading. Mobile contact labels corrected to 14px and verified after rebuilding. Rendered desktop/mobile/tablet views reviewed."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "Local SMTP fixture: Sending button disabled during a five-second delay; screenshot retained. No external email."
+    },
+    "empty": {
+      "status": "pass",
+      "evidence": "No upcoming events shows an announcement and working contact action."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Unconfigured SMTP returned delivery error; visible alert focused and inputs preserved."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "2024 event displayed available date/venue/archive action without absent prize fund or invented results."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Local SMTP acceptance fixture displayed confirmation, cleared inputs and focused status."
+    },
+    "permission": {
+      "status": "pass",
+      "evidence": "Unconfigured Studio displays a staff setup boundary; real staff login/publishing remains unconnected and untested."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "home-desktop.png",
+      "observation": "New centred type and original chessboard with clear actions; no knight background."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "home-390.png",
+      "observation": "Mobile menu and hero actions fit; keyboard menu verified."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "home-320.png",
+      "observation": "Narrow hero wraps cleanly with stacked actions."
+    },
+    {
+      "viewport": "768x1024",
+      "artifact": "home-768.png",
+      "observation": "Tablet heading, actions and board fit."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "contact-error-390.png",
+      "observation": "Input values retained and delivery error visible."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "contact-loading-fixture.png",
+      "observation": "Sending feedback from local mail fixture."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "contact-success-fixture.png",
+      "observation": "Confirmation and cleared form from local fixture."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "gallery-desktop.png",
+      "observation": "All 21 images loaded with no failures after scrolling."
+    }
+  ],
+  "checks": {
+    "unitTests": 10,
+    "typecheck": "pass",
+    "productionBuild": "pass",
+    "localHttp": "pass",
+    "referencedCssClasses": 79
+  },
+  "limits": [
+    "CMS, actual SMTP delivery and Trust content approval remain pending.",
+    "Reduced-motion preference switching and production Core Web Vitals not measured.",
+    "18 existing CMS build-tool dependency advisories remain; no unrelated upgrades were attempted.",
+    "Three.js, GSAP, registration and payments deferred."
+  ]
+}

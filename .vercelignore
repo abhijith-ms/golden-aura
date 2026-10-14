@@ -1,0 +1,10 @@
+refernce and guide/
+docs/
+scripts/
+tests/
+.cache/
+.env*
+node_modules/
+.next/
+*.tsbuildinfo
+*.log

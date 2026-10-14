@@ -1,0 +1,20 @@
+# Original downloads stay local; commit the optimised assets used by the website.
+/refernce and guide/
+
+# Dependencies and generated output.
+node_modules/
+.next/
+out/
+coverage/
+.cache/
+.vercel/
+*.tsbuildinfo
+*.log
+
+# Credentials and machine-local files.
+.env*
+!.env.example
+.directory
+.DS_Store
+Thumbs.db
+.vercel

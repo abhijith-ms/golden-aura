@@ -1,0 +1,38 @@
+{
+  "name": "golden-aura",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
+    "test": "node --experimental-strip-types --test --test-isolation=none tests/*.test.ts",
+    "seed:cms": "node --env-file=.env.local --experimental-strip-types scripts/seed-cms.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/dm-sans": "^5.2.0",
+    "@sanity/client": "7.27.0",
+    "@sanity/webhook": "^4.0.4",
+    "next": "16.4.0",
+    "nodemailer": "^10.1.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/nodemailer": "^7.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "next-sanity": "13.3.4",
+    "sanity": "6.18.0",
+    "styled-components": "^6.1.19",
+    "typescript": "^5.9.3"
+  }
+}
