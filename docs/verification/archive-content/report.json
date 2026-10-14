@@ -1,0 +1,108 @@
+{
+  "contract": "contract.md",
+  "targetViewports": [
+    "1440x900",
+    "768x1024",
+    "390x844",
+    "320x812"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "One h1 per route; grouped h2 sections and h3 profile names; portraits have labelled alt text; title abbreviations expand; native group links work with keyboard. Tab from Leadership focuses Core committee with a visible 3px gold outline. Mobile Committee navigation closes the drawer and restores body scrolling."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Committee, partners and attendee sections inspected at all four target widths. No horizontal overflow or headings extending outside the viewport. Shortened the committee introduction heading after a word split at 320px. Removed global smooth scroll and 100px scroll padding restored by the merged PR; Committee and Home navigation now start at scrollY 0."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "partners-768-loading.png records a real image-loading frame; the logo frame retains its dimensions. partners-768.png records all three logos loaded."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "The supplied archive is populated. The committee component retains an explicit empty-content message, but an empty live Sanity dataset was not exercised; no new registration flow was added."
+    },
+    "error": {
+      "status": "not-applicable",
+      "reason": "No new client-side data request or form was introduced. Live Sanity failure/revalidation was not exercised because the project is not configured."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "M Raju has no portrait in the curated data and renders MR initials, as approved by the client. The other 25 committee portraits load."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "26 committee members across five groups; three official 2025 partners; 14 first-edition titled attendees with portraits. Home previews link to the full archive; the 2025 event has no first-edition attendees section."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "These are public archive pages with no new permissions or gated controls. The client authorised use of the supplied/public photos and public Vercel review."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "committee-1440.png",
+      "observation": "Committee introduction, group navigation and page framing fit the viewport; single readable page heading."
+    },
+    {
+      "viewport": "768x1024",
+      "artifact": "committee-768.png",
+      "observation": "Committee introduction, group navigation and page framing fit the viewport; single readable page heading."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "committee-390.png",
+      "observation": "Committee introduction, group navigation and page framing fit the viewport; single readable page heading."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "committee-320.png",
+      "observation": "Committee introduction, group navigation and page framing fit the viewport; single readable page heading."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "committee-core-1440.png",
+      "observation": "Core committee uses consistent portrait frames, names, concise roles and dated affiliations."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "partners-1440.png",
+      "observation": "Three official partner logos are presented separately from community affiliations."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "players-390.png",
+      "observation": "Titled-player cards remain readable in a two-column mobile grid."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "menu-320.png",
+      "observation": "Mobile drawer includes Committee and fits the viewport."
+    },
+    {
+      "viewport": "320x812",
+      "artifact": "committee-missing-portrait-320.png",
+      "observation": "M Raju displays MR initials in the same portrait frame as the other profiles."
+    }
+  ],
+  "verification": {
+    "unitTests": "13 passed",
+    "productionBuild": "Passed, including TypeScript",
+    "http": "Home, Trust, Committee, Partners, 2024 and 2025 event routes return 200; sitemap includes Committee.",
+    "assets": "42 unique source imports optimised to WebP, about 1.1 MiB total; portraits capped at 600px, logos at 480px; EXIF removed.",
+    "sources": [
+      "https://nammabigchess.com/organizing-comittee/",
+      "https://nammabigchess.com/",
+      "https://ratings.fide.com/profile/5212499",
+      "https://ratings.fide.com/profile/7104391",
+      "https://ratings.fide.com/profile/9902651",
+      "https://ratings.fide.com/tournament_src_report.phtml?code=409272"
+    ]
+  },
+  "limitations": [
+    "Live Sanity seeding, publishing and webhook revalidation are not tested; existing documents are not overwritten by the seed script.",
+    "Responsive checks use Chromium viewport emulation; physical devices and Safari were not checked."
+  ]
+}

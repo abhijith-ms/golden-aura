@@ -12,8 +12,6 @@
 }
 html {
   scrollbar-gutter: stable;
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
 }
 body {
   margin: 0;

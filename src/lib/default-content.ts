@@ -56,7 +56,7 @@ export const defaultContent: Content = {
     {
       slug: "committee",
       eyebrow: "THE 2025 ORGANISING COMMITTEE",
-      title: "People behind\nthe tournament.",
+      title: "The committee.",
       intro: "Chess organisers, players, arbiters and advisers came together to deliver the second Namma Bengaluru International Grandmasters Open. These are the people and roles from the 2025 edition.",
     },
     {
