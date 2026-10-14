@@ -1,5 +1,6 @@
 import type { Content, Photo } from "./types";
 import { committee } from "./committee.ts";
+import { firstEditionAttendees } from "./first-edition-attendees.ts";
 
 const photo = (file: string, alt: string): Photo => ({
   src: `/images/${file}.webp`,
@@ -142,6 +143,7 @@ export const defaultContent: Content = {
     },
     {
       slug: "namma-bengaluru-open-2024",
+      attendees: firstEditionAttendees,
       title: "1st Bengaluru International Grandmasters Open",
       shortTitle: "The first international edition",
       year: "2024",

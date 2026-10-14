@@ -53,6 +53,8 @@ Committee profiles come from the [original 2025 organising committee](https://na
 
 The [original tournament homepage](https://nammabigchess.com/) lists WestBridge Capital, Akshayakalpa Organic and Mysore Sandal Soap as official partners of the 2025 edition. These are labelled separately from KSCA/BUDCA community affiliations. Set the partner category in Sanity and retain the edition year in the relationship label.
 
+The 2024 event includes the 14 featured attendees from the same archive, with a short homepage preview linking to the complete list. These are attendees featured by the organiser, not a complete entry list or a claim that every guest competed. FIDE title abbreviations retain their distinct meanings. Janelle Mae Frayna's WGM and Diajeng Theresa Singgih's WIM are confirmed by their official FIDE profiles; FIDE records her WIM title in 2024, superseding the source homepage's WFM label. The import preserves existing documents: if the 2024 event was already imported, add its featured attendees in Studio rather than expecting the initial-import script to overwrite it.
+
 ## Vercel review deployment
 
 Source repository: [abhijith-ms/golden-aura](https://github.com/abhijith-ms/golden-aura) (private). The `main` branch is connected to the `golden-aura` project in `abhijith-mss-projects`. Pushes to `main` deploy to [golden-aura-pi.vercel.app](https://golden-aura-pi.vercel.app); other branches receive preview deployments. Node.js 24 is configured in Vercel. Local credentials, original downloads, and generated builds are excluded from Git.

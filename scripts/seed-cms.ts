@@ -58,11 +58,17 @@ for (const page of defaultContent.pages)
     ...page,
   });
 for (const event of defaultContent.events) {
-  const { image, ...data } = event;
+  const { image, attendees, ...data } = event;
+  const people = [];
+  for (const [i, person] of (attendees || []).entries()) {
+    const { photo, ...fields } = person;
+    people.push({ ...fields, _key: String(i), ...(photo ? { portrait: await upload(photo) } : {}) });
+  }
   await client.createIfNotExists({
     _id: `event-${event.slug}`,
     _type: "event",
     ...data,
+    ...(people.length ? { attendees: people } : {}),
     cover: await upload(image),
   });
 }

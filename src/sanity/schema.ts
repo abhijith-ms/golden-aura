@@ -185,6 +185,20 @@ export const schemaTypes = [
       link("brochureUrl", "Brochure link"),
       link("resultsUrl", "Results link"),
       link("archiveUrl", "Official archive link"),
+      defineField({
+        name: "attendees",
+        title: "Featured grandmasters & titled attendees",
+        type: "array",
+        of: [{
+          type: "object",
+          fields: [
+            text("name", "Name"),
+            defineField({ name: "title", title: "FIDE title", type: "string", options: { list: ["GM", "IM", "WGM", "WIM", "WFM"] }, validation: (rule) => rule.required() }),
+            text("country", "Country / federation"),
+            image("portrait", "Player portrait"),
+          ],
+        }],
+      }),
     ],
     preview: {
       select: { title: "shortTitle", subtitle: "status", media: "cover" },

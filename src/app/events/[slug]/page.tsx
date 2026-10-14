@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getContent } from "@/lib/content";
 import { eventAction, safeLink } from "@/lib/events";
-import { Arrow, ContactBand, PageIntro } from "@/components/shared";
+import { Arrow, ContactBand, PageIntro, PlayerGallery } from "@/components/shared";
 import styles from "@/components/site.module.css";
 
 export async function generateMetadata({
@@ -126,6 +126,17 @@ export default async function EventDetail({
           </div>
         </div>
       </section>
+      {event.attendees && event.attendees.length > 0 && (
+        <section id="attendees" className={`${styles.section} ${styles.softSection}`}>
+          <span className={styles.eyebrow}>FEATURED IN THE {event.year} EDITION ARCHIVE</span>
+          <h2>Grandmasters &<br /><span>titled players.</span></h2>
+          <p>This edition welcomed grandmasters and titled players from India and around the world. These are the names featured in the official tournament archive.</p>
+          <PlayerGallery players={event.attendees} />
+          <div className={styles.detailLinks}>
+            {safeLink(event.archiveUrl) && <a className={styles.textLink} href={safeLink(event.archiveUrl)}>View the tournament archive <Arrow /></a>}
+          </div>
+        </section>
+      )}
       <ContactBand />
     </>
   );

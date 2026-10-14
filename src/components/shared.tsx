@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Event, PageCopy, Partner, Photo, SiteSettings } from "@/lib/types";
+import type { Event, EventAttendee, PageCopy, Partner, Photo, SiteSettings } from "@/lib/types";
 import styles from "./site.module.css";
 
 export function Arrow() {
@@ -49,6 +49,20 @@ export function OfficialPartners({ partners }: { partners: Partner[] }) {
           <h3>{partner.name}</h3>
           <p>{partner.description}</p>
           <span className={styles.tag}>{partner.event}</span>
+        </article>
+      ))}
+    </div>
+  );
+}
+export function PlayerGallery({ players }: { players: EventAttendee[] }) {
+  const titles = { GM: "Grandmaster", IM: "International Master", WGM: "Woman Grandmaster", WIM: "Woman International Master", WFM: "Woman FIDE Master" };
+  return (
+    <div className={styles.peopleGrid}>
+      {players.map((player) => (
+        <article key={player.name} className={styles.personCard}>
+          <Portrait name={player.name} photo={player.photo} />
+          <h3>{player.name}</h3>
+          <p><abbr title={titles[player.title]}>{player.title}</abbr> · {player.country}</p>
         </article>
       ))}
     </div>

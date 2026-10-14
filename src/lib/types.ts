@@ -1,4 +1,10 @@
 export type Photo = { src: string; alt: string };
+export type EventAttendee = {
+  name: string;
+  title: "GM" | "IM" | "WGM" | "WIM" | "WFM";
+  country: string;
+  photo?: Photo;
+};
 export const committeeGroups = ["Leadership", "Core committee", "Chief arbiters", "Advisory board", "Tournament team"] as const;
 export type CommitteeMember = {
   slug: string;
@@ -9,6 +15,7 @@ export type CommitteeMember = {
   photo?: Photo;
 };
 export type Event = {
+  attendees?: EventAttendee[];
   slug: string;
   title: string;
   shortTitle: string;

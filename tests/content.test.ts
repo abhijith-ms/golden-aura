@@ -13,6 +13,7 @@ test("the bundled content references existing web assets and unique event routes
       partner.image ? [partner.image] : [],
     ),
     ...defaultContent.committee.flatMap((member) => member.photo ? [member.photo.src] : []),
+    ...defaultContent.events.flatMap((event) => event.attendees?.flatMap((person) => person.photo ? [person.photo.src] : []) || []),
   ];
   for (const image of images)
     assert(existsSync(`public${image}`), `Missing selected asset: ${image}`);
@@ -36,4 +37,15 @@ test("official 2025 partners are distinct from chess-community affiliations", ()
   assert.deepEqual(official.map((partner) => partner.name), ["WestBridge Capital", "Akshayakalpa Organic", "Mysore Sandal Soap"]);
   assert(official.every((partner) => partner.image && partner.event.includes("2025")));
   assert.equal(defaultContent.partners.filter((partner) => partner.category === "community").length, 2);
+});
+test("the first-edition archive preserves featured names, federations and distinct FIDE titles", () => {
+  const event = defaultContent.events.find((event) => event.slug === "namma-bengaluru-open-2024")!;
+  assert.equal(event.status, "completed");
+  assert.equal(event.attendees?.length, 14);
+  assert.equal(new Set(event.attendees?.map((person) => person.name)).size, 14);
+  assert.equal(event.attendees?.filter((person) => person.title === "GM").length, 8);
+  assert.equal(event.attendees?.find((person) => person.name === "Janelle Mae Frayna")?.title, "WGM");
+  assert.equal(event.attendees?.find((person) => person.name === "Diajeng Theresa Singgih")?.title, "WIM");
+  assert(event.attendees?.every((person) => person.country && person.photo));
+  assert(defaultContent.events.filter((other) => other.slug !== event.slug).every((other) => !other.attendees?.length));
 });

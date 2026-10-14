@@ -21,7 +21,7 @@ export async function getContent(): Promise<Content> {
     `{
     "site": *[_type == "siteSettings"][0]{name,legalName,email,phones,address,instagram,heroTitle,heroIntro,aboutIntro,registrationDetails,team,focusAreas,impactStats},
     "pages": *[_type == "page"]{slug,eyebrow,title,intro,body},
-    "events": *[_type == "event"] | order(year desc, _createdAt desc){slug,title,shortTitle,year,dateLabel,startDate,endDate,venue,format,status,registrationOpen,registrationUrl,prizeFund,description,"image":{"src":coalesce(cover.asset->url, image.src),"alt":coalesce(cover.alt,image.alt)},rules,brochureUrl,resultsUrl,archiveUrl},
+    "events": *[_type == "event"] | order(year desc, _createdAt desc){slug,title,shortTitle,year,dateLabel,startDate,endDate,venue,format,status,registrationOpen,registrationUrl,prizeFund,description,"image":{"src":coalesce(cover.asset->url, image.src),"alt":coalesce(cover.alt,image.alt)},rules,brochureUrl,resultsUrl,archiveUrl,"attendees":attendees[]{name,title,country,"photo":{"src":portrait.asset->url,"alt":portrait.alt}}},
     "albums": *[_type == "album"] | order(_createdAt asc){slug,title,description,"photos":photos[]{"src":coalesce(asset->url,src),alt}},
     "partners": *[_type == "partner"] | order(_createdAt asc){name,description,event,category,"image":logo.asset->url},
     "committee": *[_type == "committeeMember"] | order(order asc){slug,name,role,affiliation,group,"photo":{"src":portrait.asset->url,"alt":portrait.alt}}
@@ -48,6 +48,10 @@ export async function getContent(): Promise<Content> {
     events: content.events.map((event) => ({
       ...event,
       status: eventStatus(event),
+      attendees: event.attendees?.map((person) => ({
+        ...person,
+        photo: person.photo?.src ? person.photo : undefined,
+      })),
     })),
   };
 }

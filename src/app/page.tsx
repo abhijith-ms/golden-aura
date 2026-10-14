@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getContent } from "@/lib/content";
-import { Arrow, ContactBand, EventCard, FocusAreas, Lines, OfficialPartners } from "@/components/shared";
+import { Arrow, ContactBand, EventCard, FocusAreas, Lines, OfficialPartners, PlayerGallery } from "@/components/shared";
 import styles from "@/components/site.module.css";
 
 export default async function Home() {
   const { site, events, albums, partners } = await getContent();
   const officialPartners = partners.filter((partner) => partner.category === "official");
   const communityPartners = partners.filter((partner) => partner.category !== "official");
+  const firstEdition = events.find((event) => event.slug === "namma-bengaluru-open-2024");
+  const firstEditionPlayers = firstEdition?.attendees || [];
   const featured = [...events.filter((e) => e.status === "upcoming"), ...events.filter((e) => e.status !== "upcoming")].slice(0, 2);
   const community = albums.find((a) => a.slug === "community");
   const photos = [albums[0]?.photos[1], community?.photos[3], community?.photos[0]].filter((p) => p !== undefined);
@@ -113,6 +115,17 @@ export default async function Home() {
           </Link>
         </div>
       </section>
+      {firstEdition && firstEditionPlayers.length > 0 && (
+        <section id="first-edition" className={styles.section}>
+          <span className={styles.eyebrow}>THE FIRST INTERNATIONAL EDITION · 2024</span>
+          <div className={styles.sectionHeading}>
+            <h2>Grandmasters &<br /><span>titled players.</span></h2>
+            <Link className={styles.textLink} href={`/events/${firstEdition.slug}#attendees`}>Meet the first-edition players <Arrow /></Link>
+          </div>
+          <p>A look at the Indian and international names featured in the first-edition tournament archive.</p>
+          <PlayerGallery players={firstEditionPlayers.slice(0, 4)} />
+        </section>
+      )}
       <section className={styles.section}>
         <div className={styles.sectionLabel}>
           <span>03 / THE PEOPLE MAKE THE GAME</span>
