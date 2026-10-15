@@ -94,17 +94,6 @@ export default async function Home() {
             </Link>
           </div>
         )}
-        <div className={styles.nextEventNote}>
-          <span className={styles.statusDot} aria-hidden="true" />
-          <span>
-            {events.some((e) => e.status === "upcoming")
-              ? "Explore upcoming events and entry details."
-              : "Next tournament dates will be announced."}
-          </span>
-          <Link href="/contact">
-            Ask the organisers <Arrow />
-          </Link>
-        </div>
       </section>
       {firstEdition && firstEditionPlayers.length > 0 && (
         <section id="first-edition" className={styles.section}>

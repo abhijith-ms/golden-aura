@@ -36,7 +36,13 @@ function Portrait({ name, photo }: { name: string; photo?: Photo }) {
   );
 }
 
-export function PlayerGallery({ players }: { players: EventAttendee[] }) {
+export function PlayerGallery({
+  players,
+  actionLink,
+}: {
+  players: EventAttendee[];
+  actionLink?: React.ReactNode;
+}) {
   const [expanded, setExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const canExpand = players.length > 5;
@@ -67,18 +73,21 @@ export function PlayerGallery({ players }: { players: EventAttendee[] }) {
           </article>
         ))}
       </div>
-      {canExpand && (
+      {(canExpand || actionLink) && (
         <div className={styles.galleryActions}>
-          <button
-            type="button"
-            className={styles.seeMoreButton}
-            onClick={handleToggle}
-            aria-expanded={expanded}
-            aria-controls="player-gallery-grid"
-          >
-            <span>{expanded ? "Show less" : "See more"}</span>
-            <span aria-hidden="true">{expanded ? "↑" : "↓"}</span>
-          </button>
+          {canExpand && (
+            <button
+              type="button"
+              className={styles.seeMoreButton}
+              onClick={handleToggle}
+              aria-expanded={expanded}
+              aria-controls="player-gallery-grid"
+            >
+              <span>{expanded ? "Show less" : "See more"}</span>
+              <span aria-hidden="true">{expanded ? "↑" : "↓"}</span>
+            </button>
+          )}
+          {actionLink}
         </div>
       )}
     </div>

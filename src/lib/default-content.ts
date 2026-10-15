@@ -62,8 +62,8 @@ export const defaultContent: Content = {
     },
     {
       slug: "about",
-      eyebrow: "THE TRUST",
-      title: "The Trust.",
+      eyebrow: "",
+      title: "The Golden Aura Trust.",
       intro:
         "A Trust dedicated to the promotion and development of chess across Karnataka and India.",
       body: "The Golden Aura Trust is a dedicated force in the promotion and development of chess across Karnataka and India. Committed to fostering a culture of excellence in the sport, the Trust works to provide the necessary support, infrastructure, and opportunities for players of all backgrounds to thrive.\nAffiliated with the Karnataka State Chess Association (KSCA) and the Bengaluru Urban District Chess Association (BUDCA), the Trust operates under the guidance of International Chess Federation (FIDE) and the All India Chess Federation (AICF).\nBeyond competitive play, The Golden Aura Trust envisions chess as a tool for intellectual growth and social empowerment.",

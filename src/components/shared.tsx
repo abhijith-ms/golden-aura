@@ -21,7 +21,7 @@ export function Lines({ text }: { text: string }) {
 export function PageIntro({ copy }: { copy: PageCopy }) {
   return (
     <section className={styles.pageIntro}>
-      <div className={styles.eyebrow}>{copy.eyebrow}</div>
+      {copy.eyebrow ? <div className={styles.eyebrow}>{copy.eyebrow}</div> : null}
       <h1>
         <Lines text={copy.title} />
       </h1>
