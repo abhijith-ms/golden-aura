@@ -4,6 +4,7 @@ import "@fontsource-variable/dm-sans";
 import "@fontsource-variable/archivo/wght.css";
 import "./globals.css";
 import { Header } from "@/components/header";
+import { ScrollReveals } from "@/components/scroll-reveals";
 import { Footer } from "@/components/shared";
 import { getContent } from "@/lib/content";
 import { siteUrl as origin, preventIndexing } from "@/lib/site-config";
@@ -56,13 +57,14 @@ export default async function RootLayout({
     sameAs: [site.instagram],
   };
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body id="top">
         <a className="skip-link" href="#main">
           Skip to content
         </a>
         <Header />
         <main id="main">{children}</main>
+        <ScrollReveals />
         <Footer site={site} />
         <script
           type="application/ld+json"

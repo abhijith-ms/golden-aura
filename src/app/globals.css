@@ -13,6 +13,9 @@
 html {
   scrollbar-gutter: stable;
 }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 main [id], #main {
   scroll-margin-top: 100px;
 }
