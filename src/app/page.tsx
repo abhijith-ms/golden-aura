@@ -15,7 +15,7 @@ export default async function Home() {
   const firstEditionPlayers = firstEdition?.attendees || [];
   const featured = orderEvents(events).slice(0, 2);
   const community = albums.find((a) => a.slug === "community");
-  const photos = [albums[0]?.photos[1], community?.photos[3], community?.photos[0]].filter((p) => p !== undefined);
+  const photos = [albums[0]?.photos[1], community?.photos[3], community?.photos[0], albums.find((a) => a.slug === "open-2024")?.photos[1], albums.find((a) => a.slug === "amateurs")?.photos[0]].filter((p) => p !== undefined);
   return (
     <>
       <section className={styles.hero}>

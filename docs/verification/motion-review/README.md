@@ -10,3 +10,9 @@
 - CSS and the reveal controller respect reduced motion; system-level reduced-motion emulation and physical Safari devices were not tested.
 
 The original partner categories remain available in Sanity. `partnerGroups` changes presentation on the Partners page without modifying source relationships or CMS records.
+
+## Photo-stack revision
+
+Replaced the horizontal photo rail with a layered five-photo gallery and thumbnail strip. Desktop uses an adjacent caption panel; mobile places captions and arrows below the image. Crossfades, directional movement, caption entrances and thumbnail lift use CSS and respect reduced motion.
+
+Production build, TypeScript and 16 unit tests passed. Chromium checks at 1440 × 900 and 320 × 812 confirmed no horizontal page overflow, one active accessible slide, direct thumbnail selection, Next, Home/End keyboard boundaries and pointer drag from photo 3 to 4. These interactions included assert-based browser checks. Physical touch devices and Safari remain untested.

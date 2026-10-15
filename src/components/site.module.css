@@ -333,26 +333,37 @@
 .marqueeGroup .partnerLogos li { width: 168px; flex-shrink: 0; }
 .marqueeToggle { display: flex; align-items: center; gap: 8px; margin: 4px 0 0 auto; min-height: 44px; padding: 8px 0 8px 12px; border: 0; background: transparent; color: var(--muted); font-size: 12px; }
 @keyframes partnerDrift { to { transform: translateX(-50%); } }
-.carouselTrack { display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 16px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 18px; }
-.carouselTrack::-webkit-scrollbar { display: none; }
-.carouselTrack:has(figure:only-child) { grid-auto-columns: 100%; }
-.carouselTrack:focus-visible { outline: 3px solid #96732b; outline-offset: 5px; }
-.carouselTrack figure { margin: 0; min-width: 0; position: relative; overflow: hidden; border-radius: 18px; scroll-snap-align: start; background: var(--night); }
-.carouselTrack figure:last-child { scroll-snap-align: end; }
-.carouselTrack figure > div { position: relative; height: clamp(260px, 28vw, 360px); overflow: hidden; }
-.carouselTrack img { object-fit: cover; transform: scale(1.035); opacity: .65; transition: transform 700ms cubic-bezier(.22, 1, .36, 1), opacity 500ms ease; }
-.carouselTrack figure[data-active="true"] img { transform: scale(1); opacity: 1; }
-.carouselTrack figcaption { position: absolute; inset: auto 0 0; padding: 48px 24px 22px; background: linear-gradient(transparent, #000c); color: white; font-size: 15px; line-height: 1.5; }
-.carouselTrack figcaption > span { display: block; font-size: 9px; letter-spacing: 1.6px; color: #e8d9b5; margin-bottom: 8px; }
-.carouselControls { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
-.carouselControls > span { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.carouselControls button { width: 44px; height: 44px; border: 1px solid var(--line); background: transparent; border-radius: 50%; color: var(--ink); transition: background 180ms, color 180ms; }
-.carouselControls > button:hover:not(:disabled) { background: var(--night); color: white; }
-.carouselControls button:disabled { cursor: default; opacity: .35; }
-.carouselProgress { display: flex; margin-right: auto; margin-left: 8px; }
-.carouselProgress button { width: 44px; border: 0; border-radius: 0; display: grid; place-items: center; padding: 8px 4px; }
-.carouselProgress button > span { width: 100%; height: 3px; border-radius: 4px; background: var(--line); transition: background 300ms; }
-.carouselProgress button[aria-current="true"] > span { background: #96732b; }
+.photoJournal { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(240px, 1fr); gap: 24px 40px; align-items: center; padding: 24px; border: 1px solid var(--line); border-radius: 24px; background: #eee8dc; }
+.photoStack { position: relative; min-width: 0; margin: 8px; isolation: isolate; }
+.photoStack::before, .photoStack::after { content: ""; position: absolute; inset: 0; border: 1px solid #d8cdb8; border-radius: 14px; background: #fbf8f1; z-index: -1; transform: rotate(-2deg); }
+.photoStack::after { transform: rotate(2deg); background: #dfd3ba; }
+.photoStage { position: relative; height: clamp(260px, 26vw, 350px); border: 6px solid #fffcf5; border-radius: 12px; overflow: hidden; background: var(--night); touch-action: pan-y pinch-zoom; cursor: grab; }
+.photoStage:active { cursor: grabbing; }
+.photoStage:focus-visible { outline: 3px solid #96732b; outline-offset: 5px; }
+.photoStage figure { position: absolute; inset: 0; margin: 0; opacity: 0; visibility: hidden; transform: translateX(calc(var(--photo-direction) * 24px)) scale(1.045); transition: opacity 650ms ease, transform 850ms cubic-bezier(.22, 1, .36, 1), visibility 650ms; }
+.photoStage figure[data-active="true"] { opacity: 1; visibility: visible; transform: translateX(0) scale(1); z-index: 1; }
+.photoStage img { object-fit: cover; user-select: none; }
+.photoStamp { position: absolute; z-index: 2; left: 14px; bottom: 14px; padding: 8px 10px; border: 1px solid #fff5; border-radius: 4px; background: #111312a6; color: #fffaf0; font-size: 8px; letter-spacing: 1.6px; pointer-events: none; }
+.photoStory { min-width: 0; }
+.photoStory > .eyebrow { font-size: 9px; letter-spacing: 1.3px; }
+.photoStory h3 { font-size: clamp(26px, 3vw, 40px); line-height: 1.08; letter-spacing: -.045em; margin: 20px 0 28px; }
+.photoStory h3 > span { color: var(--muted); }
+.photoCaption { min-height: 90px; }
+.photoCaption > span { font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.photoCaption > span > span { color: var(--muted); font-size: 12px; }
+.photoCaption p { font-size: 13px; line-height: 1.6; max-width: 270px; margin: 10px 0 0; animation: photoCaptionIn 500ms ease both; }
+@keyframes photoCaptionIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.photoArrows { display: flex; gap: 8px; align-items: center; margin-top: 20px; }
+.photoArrows button { width: 44px; height: 44px; border: 1px solid #c4b89f; background: transparent; border-radius: 50%; color: var(--ink); transition: background 200ms, color 200ms, transform 200ms; }
+.photoArrows button:hover:not(:disabled) { background: var(--night); color: white; transform: translateY(-2px); }
+.photoArrows button:disabled { opacity: .35; cursor: default; }
+.photoArrows > span { font-size: 11px; color: var(--muted); margin-left: 6px; }
+.photoThumbnails { grid-column: 1 / -1; display: flex; justify-content: center; gap: 12px; padding-top: 4px; }
+.photoThumbnails button { position: relative; flex: 0 1 110px; min-width: 0; height: 68px; border: 3px solid #fffcf5; border-radius: 8px; overflow: hidden; background: var(--night); opacity: .6; box-shadow: 0 3px 8px #29231714; transition: transform 350ms cubic-bezier(.22, 1, .36, 1), opacity 350ms, border-color 350ms; }
+.photoThumbnails button[aria-current="true"] { opacity: 1; border-color: #96732b; transform: translateY(-5px) rotate(-2deg); }
+.photoThumbnails button:hover { opacity: 1; transform: translateY(-5px); }
+.photoThumbnails img { object-fit: cover; }
+.photoThumbnails button > span { position: absolute; bottom: 3px; left: 5px; color: white; font-size: 9px; text-shadow: 0 1px 4px black; }
 @media (prefers-reduced-motion: reduce) {
   .marqueeTrack { width: 100%; }
   .marqueeGroup { width: 100%; padding: 0; }
@@ -360,7 +371,7 @@
   .marqueeGroup .partnerLogos li { width: auto; }
   .marqueeGroup[aria-hidden], .marqueeToggle { display: none; }
   .marqueeViewport { mask-image: none; }
-  .carouselTrack img { transform: none; opacity: 1; }
+  .photoStage figure, .photoThumbnails button[aria-current="true"], .photoThumbnails button:hover { transform: none; }
 }
 .missionGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
 .missionGrid h3 { font-size: 20px; line-height: 1.3; margin-bottom: 12px; }
@@ -380,11 +391,18 @@
   .partnerLogos li { padding: 12px; }
   .partnerLogos li > div { height: 56px; }
   .homeSupporters .partnerLogos li { flex-basis: 140px; }
-  .carouselTrack { grid-auto-columns: 85%; }
-  .carouselTrack figure > div { height: 250px; }
-  .carouselTrack figcaption { padding: 44px 16px 18px; font-size: 13px; }
-  .carouselProgress { margin-left: 0; }
-  .carouselProgress button { width: 32px; }
+  .photoJournal { grid-template-columns: 1fr; gap: 18px; padding: 14px; border-radius: 18px; }
+  .photoStack { margin: 5px; }
+  .photoStage { height: clamp(210px, 58vw, 340px); border-width: 4px; }
+  .photoStory > .eyebrow, .photoStory h3 { display: none; }
+  .photoStory { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+  .photoCaption { min-height: 86px; }
+  .photoCaption p { margin-top: 5px; font-size: 12px; }
+  .photoArrows { margin: 0; gap: 6px; }
+  .photoArrows > span { display: none; }
+  .photoThumbnails { gap: 4px; padding: 0; }
+  .photoThumbnails button { height: clamp(44px, 13vw, 68px); border-width: 2px; }
+  .photoStamp { font-size: 7px; letter-spacing: 1px; left: 8px; bottom: 8px; }
   .missionGrid { grid-template-columns: 1fr; gap: 24px; }
   .supportMessage { grid-template-columns: 1fr; gap: 16px; }
   .drawerHeader { margin-bottom: 24px; }
