@@ -4,6 +4,7 @@ import { getContent } from "@/lib/content";
 import { Arrow, ContactBand, EventCard, FocusAreas, Lines, PartnerLogos, PlayerGallery } from "@/components/shared";
 import { PhotoCarousel } from "@/components/photo-carousel";
 import { PartnerMarquee } from "@/components/partner-marquee";
+import { ParticipantFeedback } from "@/components/participant-feedback";
 import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
@@ -133,6 +134,7 @@ export default async function Home() {
         </div>
         <PhotoCarousel photos={photos} />
       </section>
+      <ParticipantFeedback />
       {featuredPartners.length > 0 && (
         <section id="partners" className={styles.sectionCompact}>
           <span className={styles.eyebrow}>SUPPORT BEHIND THE TOURNAMENT</span>

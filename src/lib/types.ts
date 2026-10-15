@@ -5,7 +5,7 @@ export type EventAttendee = {
   country: string;
   photo?: Photo;
 };
-export const committeeGroups = ["Leadership", "Core committee", "Chief arbiters", "Advisory board", "Tournament team"] as const;
+export const committeeGroups = ["Core committee", "Chief arbiters", "Advisory board", "Tournament team"] as const;
 export type CommitteeMember = {
   slug: string;
   name: string;

@@ -1789,3 +1789,28 @@
   .eventFacts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .eventCopy .tag { font-size: 9px; padding: 5px 8px; }
 }
+
+.countryName { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; vertical-align: middle; }
+.countryName img { flex-shrink: 0; object-fit: contain; border-radius: 2px; }
+.feedbackGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; list-style: none; padding: 0; margin: 0; }
+.feedbackGrid li { min-width: 0; }
+.feedbackGrid:focus-visible { outline: 3px solid #96732b; outline-offset: 5px; }
+.feedbackVideo { position: relative; display: block; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: var(--night); }
+.feedbackVideo img { object-fit: contain; transition: transform 400ms ease; }
+.feedbackVideo:hover img { transform: scale(1.04); }
+.feedbackPlay { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 48px; height: 48px; padding-left: 3px; border-radius: 50%; background: #fffcf1ed; color: var(--ink); font-size: 16px; box-shadow: 0 2px 20px #0003; }
+.feedbackWatch { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; padding: 26px 16px 12px; background: linear-gradient(transparent, #000b); color: white; font-size: 12px; }
+.feedbackGrid h3 { font-size: 17px; margin: 14px 0 4px; letter-spacing: -.02em; }
+.feedbackGrid p { color: var(--muted); font-size: 12px; margin: 0; }
+.feedbackQuotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.participantQuote { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 12px; margin: 22px 0 0; padding: 18px 22px; background: var(--soft); border-left: 2px solid var(--gold); border-radius: 0 12px 12px 0; }
+.participantQuote blockquote { margin: 0; font-size: 16px; line-height: 1.6; }
+.participantQuote figcaption { color: var(--muted); font-size: 12px; line-height: 1.6; }
+@media (max-width: 760px) {
+  .feedbackGrid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 85%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .feedbackGrid::-webkit-scrollbar { display: none; }
+  .feedbackGrid li { scroll-snap-align: start; }
+  .feedbackQuotes { grid-template-columns: 1fr; gap: 0; }
+  .participantQuote { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; }
+  .participantQuote blockquote { font-size: 14px; }
+}
