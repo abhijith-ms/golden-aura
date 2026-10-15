@@ -52,20 +52,7 @@ export function PartnerLogos({ partners }: { partners: Partner[] }) {
     </ul>
   );
 }
-export function PlayerGallery({ players }: { players: EventAttendee[] }) {
-  const titles = { GM: "Grandmaster", IM: "International Master", WGM: "Woman Grandmaster", WIM: "Woman International Master", WFM: "Woman FIDE Master" };
-  return (
-    <div className={styles.peopleGrid}>
-      {players.map((player) => (
-        <article key={player.name} className={styles.personCard}>
-          <Portrait name={player.name} photo={player.photo} />
-          <h3>{player.name}</h3>
-          <p><abbr title={titles[player.title]}>{player.title}</abbr> · {player.country}</p>
-        </article>
-      ))}
-    </div>
-  );
-}
+export { PlayerGallery } from "./player-gallery";
 export function FocusAreas({
   site,
   variant = "cards",

@@ -1,0 +1,86 @@
+"use client";
+
+import { useRef, useState } from "react";
+import Image from "next/image";
+import type { EventAttendee, Photo } from "@/lib/types";
+import styles from "./site.module.css";
+
+const titles: Record<string, string> = {
+  GM: "Grandmaster",
+  IM: "International Master",
+  WGM: "Woman Grandmaster",
+  WIM: "Woman International Master",
+  WFM: "Woman FIDE Master",
+};
+
+function Portrait({ name, photo }: { name: string; photo?: Photo }) {
+  return (
+    <div className={styles.portrait}>
+      {photo ? (
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 22vw"
+        />
+      ) : (
+        <span aria-hidden="true">
+          {name
+            .split(" ")
+            .map((part) => part[0])
+            .slice(0, 2)
+            .join("")}
+        </span>
+      )}
+    </div>
+  );
+}
+
+export function PlayerGallery({ players }: { players: EventAttendee[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canExpand = players.length > 5;
+
+  const handleToggle = () => {
+    if (expanded && containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    setExpanded((prev) => !prev);
+  };
+
+  return (
+    <div ref={containerRef} className={styles.playerGalleryWrapper}>
+      <div
+        id="player-gallery-grid"
+        className={`${styles.peopleGrid} ${!expanded && canExpand ? styles.peopleGridCollapsed : ""}`}
+      >
+        {players.map((player) => (
+          <article key={player.name} className={styles.personCard}>
+            <Portrait name={player.name} photo={player.photo} />
+            <h3>{player.name}</h3>
+            <p>
+              <abbr title={titles[player.title] ?? player.title}>
+                {player.title}
+              </abbr>{" "}
+              · {player.country}
+            </p>
+          </article>
+        ))}
+      </div>
+      {canExpand && (
+        <div className={styles.galleryActions}>
+          <button
+            type="button"
+            className={styles.seeMoreButton}
+            onClick={handleToggle}
+            aria-expanded={expanded}
+            aria-controls="player-gallery-grid"
+          >
+            <span>{expanded ? "Show less" : "See more"}</span>
+            <span aria-hidden="true">{expanded ? "↑" : "↓"}</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}

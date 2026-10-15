@@ -152,6 +152,38 @@
 .personCard h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.03em; margin: 18px 0 8px; overflow-wrap: anywhere; }
 .personCard p { font-size: 14px; margin: 0 0 8px; }
 .personCard .personAffiliation { font-size: 12px; margin-bottom: 0; }
+.playerGalleryWrapper { display: flex; flex-direction: column; }
+.peopleGridCollapsed > :nth-child(n + 6) { display: none; }
+.peopleGrid:not(.peopleGridCollapsed) > :nth-child(n + 6) { animation: arrive 350ms ease-out both; }
+.galleryActions { margin-top: 28px; display: flex; align-items: center; }
+.seeMoreButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+.seeMoreButton:hover {
+  background: var(--night);
+  color: var(--paper);
+  border-color: var(--night);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(17, 19, 18, 0.12);
+}
+.seeMoreButton:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 .governance { margin-top: 64px; padding: 32px; border: 1px solid var(--line); border-radius: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; background: #fffdf8; }
 .governance h3 { font-size: 24px; }
 .emptyState { padding: 32px; background: var(--soft); border-radius: 16px; }
@@ -211,6 +243,8 @@
 .prose h2 { font-size: 28px; margin-top: 32px; }
 @media (max-width: 1100px) {
   .peopleGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 20px; }
+  .peopleGridCollapsed > :nth-child(n + 4) { display: none; }
+  .peopleGrid:not(.peopleGridCollapsed) > :nth-child(n + 4) { animation: arrive 350ms ease-out both; }
   .desktopNav { gap: 18px; }
   .introGrid, .contactGrid, .eventDetailGrid, .aboutStory { gap: 32px; }
   .focusGrid article { padding: 22px; }
@@ -234,6 +268,8 @@
 }
 @media (max-width: 760px) {
   .peopleGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+  .peopleGridCollapsed > :nth-child(n + 3) { display: none; }
+  .peopleGrid:not(.peopleGridCollapsed) > :nth-child(n + 3) { animation: arrive 350ms ease-out both; }
   .personCard h3 { font-size: 18px; }
   .personCard p { font-size: 13px; }
   .committeeNav { gap: 8px; }
