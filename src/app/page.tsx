@@ -1,10 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { Arrow, ContactBand, EventCard, FocusAreas, Lines, PartnerLogos, PlayerGallery } from "@/components/shared";
 import { PhotoCarousel } from "@/components/photo-carousel";
 import { PartnerMarquee } from "@/components/partner-marquee";
 import { ParticipantFeedback } from "@/components/participant-feedback";
-import { HeroCanvas } from "@/components/hero-canvas";
 import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
@@ -20,7 +20,17 @@ export default async function Home() {
   return (
     <>
       <section className={styles.hero}>
-        <HeroCanvas />
+        <div className={styles.heroBackdrop} aria-hidden="true">
+          <Image
+            src="/images/hero-knight-bg.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={styles.heroImage}
+          />
+          <div className={styles.heroOverlay} />
+        </div>
         <div className={styles.heroCopy}>
           <span className={styles.heroKicker}>GOLDEN AURA TRUST <span aria-hidden="true">/</span> BENGALURU</span>
           <h1><Lines text={site.heroTitle} /></h1>
