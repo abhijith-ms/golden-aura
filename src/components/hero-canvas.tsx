@@ -220,9 +220,6 @@ export function HeroCanvas() {
       }
     }
 
-    handleResize();
-    window.addEventListener("resize", handleResize, { passive: true });
-
     // Pointer events
     function onPointerMove(e: MouseEvent | TouchEvent) {
       const rect = canvas?.getBoundingClientRect();
@@ -647,6 +644,8 @@ export function HeroCanvas() {
       }
     }
 
+    handleResize();
+    window.addEventListener("resize", handleResize, { passive: true });
     startLoop();
 
     const onMotionChange = () => {
