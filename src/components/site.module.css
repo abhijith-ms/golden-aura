@@ -723,11 +723,10 @@
 .homeSupporters .textLink { margin-top: 12px; }
 .marqueeViewport { overflow: hidden; padding: 6px 0; mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent); }
 .marqueeTrack { display: flex; width: max-content; animation: partnerDrift 80s linear infinite; }
-.marqueeTrack[data-paused="true"], .marqueeViewport:hover .marqueeTrack, .marqueeViewport:focus-within .marqueeTrack { animation-play-state: paused; }
+.marqueeViewport:hover .marqueeTrack, .marqueeViewport:focus-within .marqueeTrack { animation-play-state: paused; }
 .marqueeGroup { flex-shrink: 0; padding-right: 16px; }
 .marqueeGroup .partnerLogos { display: flex; gap: 16px; margin: 0; }
 .marqueeGroup .partnerLogos li { width: 168px; flex-shrink: 0; }
-.marqueeToggle { display: flex; align-items: center; gap: 8px; margin: 4px 0 0 auto; min-height: 44px; padding: 8px 0 8px 12px; border: 0; background: transparent; color: var(--muted); font-size: 12px; }
 @keyframes partnerDrift { to { transform: translateX(-50%); } }
 .photoJournal { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(240px, 1fr); gap: 24px 40px; align-items: center; padding: 24px; border: 1px solid var(--line); border-radius: 24px; background: #eee8dc; }
 .photoStack { position: relative; min-width: 0; margin: 8px; isolation: isolate; }
@@ -765,7 +764,7 @@
   .marqueeGroup { width: 100%; padding: 0; }
   .marqueeGroup .partnerLogos { display: grid; }
   .marqueeGroup .partnerLogos li { width: auto; }
-  .marqueeGroup[aria-hidden], .marqueeToggle { display: none; }
+  .marqueeGroup[aria-hidden] { display: none; }
   .marqueeViewport { mask-image: none; }
   .photoStage figure, .photoThumbnails button[aria-current="true"], .photoThumbnails button:hover { transform: none; }
 }
