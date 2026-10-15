@@ -14,7 +14,7 @@ const titles: Record<string, string> = {
   WFM: "Woman FIDE Master",
 };
 
-function Portrait({ name, photo }: { name: string; photo?: Photo }) {
+function Portrait({ name, photo, compact }: { name: string; photo?: Photo; compact: boolean }) {
   return (
     <div className={styles.portrait}>
       {photo ? (
@@ -22,7 +22,7 @@ function Portrait({ name, photo }: { name: string; photo?: Photo }) {
           src={photo.src}
           alt={photo.alt}
           fill
-          sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 300px"
+          sizes={compact ? "(max-width: 760px) 42vw, (max-width: 1100px) 21vw, 160px" : "(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 300px"}
           quality={90}
         />
       ) : (
@@ -41,13 +41,15 @@ function Portrait({ name, photo }: { name: string; photo?: Photo }) {
 export function PlayerGallery({
   players,
   actionLink,
+  compact = false,
 }: {
   players: EventAttendee[];
   actionLink?: React.ReactNode;
+  compact?: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const canExpand = players.length > 5;
+  const canExpand = !compact && players.length > 5;
 
   const handleToggle = () => {
     if (expanded && containerRef.current) {
@@ -60,11 +62,13 @@ export function PlayerGallery({
     <div ref={containerRef} className={styles.playerGalleryWrapper}>
       <div
         id="player-gallery-grid"
-        className={`${styles.peopleGrid} ${!expanded && canExpand ? styles.peopleGridCollapsed : ""}`}
+        tabIndex={compact ? 0 : undefined}
+        aria-label={compact ? "First-edition players" : undefined}
+        className={`${styles.peopleGrid} ${compact ? styles.compactPlayers : ""} ${!expanded && canExpand ? styles.peopleGridCollapsed : ""}`}
       >
         {players.map((player) => (
           <article key={player.name} className={styles.personCard}>
-            <Portrait name={player.name} photo={player.photo} />
+            <Portrait name={player.name} photo={player.photo} compact={compact} />
             <h3>{player.name}</h3>
             <p>
               <abbr title={titles[player.title] ?? player.title}>

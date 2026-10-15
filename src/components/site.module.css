@@ -1024,6 +1024,23 @@
 @media (max-width: 760px) {
   .feedbackGrid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 85%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .feedbackGrid::-webkit-scrollbar { display: none; }
+
+.playersSection { --muted: #c7c4b9; background: var(--night); color: var(--paper); }
+.playersSection h2 span { color: var(--gold); }
+.playersSection .textLink:hover { color: var(--gold); }
+.compactPlayers { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 28px 16px; }
+.compactPlayers .portrait { aspect-ratio: 1; border: 1px solid #ffffff18; border-radius: 10px; }
+.compactPlayers .personCard h3 { min-height: 2.8em; font-size: 14px; line-height: 1.4; letter-spacing: 0; margin: 12px 0 6px; }
+.compactPlayers .personCard p { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; font-size: 11px; line-height: 1.6; }
+.playersSection .countryName img { outline: 1px solid #ffffff38; outline-offset: 1px; }
+.compactPlayers:focus-visible, .marqueeViewport:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+@media (max-width: 1100px) {
+  .compactPlayers { grid-template-columns: none; grid-template-rows: repeat(2, auto); grid-auto-flow: column; grid-auto-columns: 168px; overflow-x: auto; gap: 24px 16px; padding-bottom: 16px; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: #c4af7866 transparent; }
+  .compactPlayers .personCard { scroll-snap-align: start; }
+}
+@media (max-width: 760px) {
+  .compactPlayers { grid-auto-columns: 44%; }
+}
   .feedbackGrid li { scroll-snap-align: start; }
   .feedbackQuotes { grid-template-columns: 1fr; gap: 0; }
   .participantQuote { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; }
