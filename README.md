@@ -1,6 +1,8 @@
 # Golden Aura Trust
 
-Six-page Next.js website with Sanity editing, curated event galleries, and a server-side enquiry form. The redesigned release uses an original static perspective chessboard and typography hero, with self-hosted Manrope headings and DM Sans body text. Manrope uses its bundled SIL Open Font License in `src/app/fonts/OFL.txt`. CSS handles the restrained motion; GSAP is reserved for the later 3D phase. Registration, payments, and live 3D are later phases.
+Next.js website with Sanity editing, curated event galleries, and a server-side enquiry form. The current release uses a static knight hero, with self-hosted Manrope headings and DM Sans body text. Manrope uses its bundled SIL Open Font License in `src/app/fonts/OFL.txt`. CSS handles the restrained motion. Registration, payments, and live 3D are later phases.
+
+The [3D hero handoff and selected knight model](docs/plans/chess-3d-hero/README.md) preserve the current decisions and link to [Astra's complete implementation plan](docs/plans/chess-3d-hero/astra-plan.md). Read these before resuming the 3D phase; its initial implementation uses Three.js and React Three Fiber without GSAP.
 
 ## Local development
 
