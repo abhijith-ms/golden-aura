@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import localFont from "next/font/local";
 import "@fontsource-variable/dm-sans";
-import "@fontsource-variable/archivo/wght.css";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { ScrollReveals } from "@/components/scroll-reveals";
 import { Footer } from "@/components/shared";
 import { getContent } from "@/lib/content";
 import { siteUrl as origin, preventIndexing } from "@/lib/site-config";
+
+const headingFont = localFont({
+  src: "./fonts/manrope-latin.woff2",
+  variable: "--font-heading",
+  weight: "400 800",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(origin),
@@ -57,7 +64,7 @@ export default async function RootLayout({
     sameAs: [site.instagram],
   };
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" className={headingFont.variable} data-scroll-behavior="smooth">
       <body id="top">
         <a className="skip-link" href="#main">
           Skip to content
