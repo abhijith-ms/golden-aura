@@ -2,17 +2,6 @@ import type { CommitteeMember } from "./types";
 
 export const committee: CommitteeMember[] = [
   {
-    "slug": "sowmya-m-u",
-    "name": "Sowmya M U",
-    "role": "Organising secretary",
-    "group": "Leadership",
-    "affiliation": "President, BUDCA (2025)",
-    "photo": {
-      "src": "/images/committee-sowmya-m-u.webp",
-      "alt": "Portrait of Sowmya M U"
-    }
-  },
-  {
     "slug": "dr-d-p-anantha",
     "name": "Dr D P Anantha",
     "role": "Core committee member",

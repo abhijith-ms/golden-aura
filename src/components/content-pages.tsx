@@ -241,9 +241,6 @@ export async function CommitteePage() {
               </section>
             );
           })}
-          <div className={styles.sectionCompact}>
-            <a className={styles.textLink} href="https://nammabigchess.com/organizing-comittee/" target="_blank" rel="noopener noreferrer">View the 2025 committee archive <Arrow /></a>
-          </div>
         </>
       ) : (
         <section className={styles.sectionCompact}><p>Committee profiles will be published here. Contact the Trust for organising information.</p></section>
