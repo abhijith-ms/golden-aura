@@ -1021,13 +1021,15 @@
 .feedbackWatch { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; padding: 26px 16px 12px; background: linear-gradient(transparent, #000b); color: white; font-size: 12px; }
 .feedbackGrid h3 { font-size: 17px; margin: 14px 0 4px; letter-spacing: -.02em; }
 .feedbackGrid p { color: var(--muted); font-size: 12px; margin: 0; }
-.participantQuote { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin: 22px 0 0; padding: 18px 22px; background: var(--soft); border-left: 2px solid var(--gold); border-radius: 0 12px 12px 0; }
+.feedbackQuotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.participantQuote { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 12px; margin: 22px 0 0; padding: 18px 22px; background: var(--soft); border-left: 2px solid var(--gold); border-radius: 0 12px 12px 0; }
 .participantQuote blockquote { margin: 0; font-size: 16px; line-height: 1.6; }
 .participantQuote figcaption { color: var(--muted); font-size: 12px; line-height: 1.6; }
 @media (max-width: 760px) {
   .feedbackGrid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 85%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .feedbackGrid::-webkit-scrollbar { display: none; }
   .feedbackGrid li { scroll-snap-align: start; }
+  .feedbackQuotes { grid-template-columns: 1fr; gap: 0; }
   .participantQuote { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; }
   .participantQuote blockquote { font-size: 14px; }
 }

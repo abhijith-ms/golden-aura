@@ -25,9 +25,15 @@ export function ParticipantFeedback() {
         <h3>{video.name}</h3><p>{video.detail}</p>
       </li>)}
     </ul>
+    <div className={styles.feedbackQuotes}>
     <figure className={styles.participantQuote}>
       <blockquote>“I’m happy with my performance in this tough tournament…”</blockquote>
       <figcaption>Diajeng Theresa Singgih <span aria-hidden="true">·</span> <CountryName country="Indonesia" /></figcaption>
     </figure>
+    <figure className={styles.participantQuote}>
+      <blockquote>“They have made all efforts in making this tournament a grand success.”</blockquote>
+      <figcaption>Dr Naga Subramaniyam <span aria-hidden="true">·</span> Fortis Hospital</figcaption>
+    </figure>
+    </div>
   </section>;
 }
