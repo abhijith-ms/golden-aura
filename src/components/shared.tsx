@@ -40,20 +40,6 @@ export function Portrait({ name, photo }: { name: string; photo?: Photo }) {
     </div>
   );
 }
-export function OfficialPartners({ partners }: { partners: Partner[] }) {
-  return (
-    <div className={styles.officialPartners}>
-      {partners.map((partner) => (
-        <article key={partner.name}>
-          {partner.image && <div className={styles.officialPartnerLogo}><Image src={partner.image} alt={`${partner.name} logo`} fill sizes="(max-width: 760px) 80vw, 28vw" /></div>}
-          <h3>{partner.name}</h3>
-          <p>{partner.description}</p>
-          <span className={styles.tag}>{partner.event}</span>
-        </article>
-      ))}
-    </div>
-  );
-}
 export function PartnerLogos({ partners }: { partners: Partner[] }) {
   return (
     <ul className={styles.partnerLogos} tabIndex={0} aria-label="Partner and supporter logos">

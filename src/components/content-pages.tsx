@@ -3,7 +3,8 @@ import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { defaultContent } from "@/lib/default-content";
 import { orderEvents, safeLink } from "@/lib/events";
-import { Arrow, ContactBand, EventCard, OfficialPartners, PageIntro, PartnerLogos, Portrait } from "./shared";
+import { Arrow, ContactBand, EventCard, PageIntro, PartnerLogos, Portrait } from "./shared";
+import { partnerGroups } from "@/lib/partners";
 import { Gallery } from "./gallery";
 import { EnquiryForm } from "./enquiry-form";
 import styles from "./site.module.css";
@@ -199,29 +200,14 @@ export async function GalleryPage() {
 
 export async function PartnersPage() {
   const content = await getContent();
-  const officialPartners = content.partners.filter((partner) => partner.category === "official");
-  const communityPartners = content.partners.filter((partner) => !partner.category || partner.category === "community");
   return (
     <>
       <PageIntro copy={copy(content, "partners")} />
-      {officialPartners.length > 0 && (
-        <section className={styles.sectionCompact}>
-          <span className={styles.eyebrow}>THE 2025 INTERNATIONAL OPEN</span>
-          <h2>Official partners.</h2>
-          <p>Recognising the organisations listed as official partners of the second Namma Bengaluru International Grandmasters Open.</p>
-          <OfficialPartners partners={officialPartners} />
-        </section>
-      )}
-      {([
-        ["institutional", "Corporate & institutional partners."],
-        ["government", "Government & civic supporters."],
-        ["support", "Tournament supporters."],
-      ] as const).map(([category, title]) => {
-        const partners = content.partners.filter((partner) => partner.category === category);
-        return partners.length ? <section className={styles.sectionCompact} key={category}>
+      {partnerGroups(content.partners).map(({ title, description, partners }) => {
+        return partners.length ? <section className={styles.sectionCompact} key={title}>
           <span className={styles.eyebrow}>THE 2025 INTERNATIONAL OPEN</span>
           <h2>{title}</h2>
-          <p>{category === "support" ? "Support acknowledged in the original tournament archive." : "Organisations acknowledged in the tournament impact report."}</p>
+          <p>{description}</p>
           <PartnerLogos partners={partners} />
         </section> : null;
       })}
@@ -278,10 +264,6 @@ export async function PartnersPage() {
             </article>
           ))}
         </div>
-      </section>
-      <section className={styles.section}>
-        <div className={styles.sectionLabel}>OUR CHESS COMMUNITY</div>
-        <PartnerLogos partners={communityPartners} />
       </section>
       <section className={`${styles.section} ${styles.softSection}`}>
         <div className={styles.contactGrid}>
