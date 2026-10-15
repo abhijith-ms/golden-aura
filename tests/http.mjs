@@ -35,6 +35,8 @@ const committee = await (await fetch(base + "/committee")).text();
 assert(committee.includes("MESSAGE OF SUPPORT") && !committee.includes("Hon. President"));
 assert(!committee.includes('id="leadership"') && !committee.includes("View the 2025 committee archive"));
 assert(committee.includes("MESSAGE FROM THE ORGANIZING SECRETARY"));
+const home = await (await fetch(base + "/")).text();
+assert(home.includes('id="participant-feedback"') && home.includes("Video-306.mp4"));
 const archived = await (
   await fetch(base + "/events/namma-bengaluru-open-2025")
 ).text();

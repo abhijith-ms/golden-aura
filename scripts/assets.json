@@ -669,5 +669,26 @@
     "file": "flag-iran.webp",
     "alt": "iran",
     "album": "flags"
+  },
+  {
+    "source": "refernce and guide/website-import/feedback-flags/vishaa.jpg",
+    "sourceUrl": "https://nammabigchess.com/wp-content/uploads/2025/03/vishaa.jpg",
+    "file": "feedback-anand.webp",
+    "alt": "feedback anand",
+    "album": "feedback"
+  },
+  {
+    "source": "refernce and guide/website-import/feedback-flags/SHHSJ.jpg",
+    "sourceUrl": "https://nammabigchess.com/wp-content/uploads/2025/03/SHHSJ.jpg",
+    "file": "feedback-maldives.webp",
+    "alt": "feedback maldives",
+    "album": "feedback"
+  },
+  {
+    "source": "refernce and guide/website-import/feedback-flags/Capture.jpg",
+    "sourceUrl": "https://nammabigchess.com/wp-content/uploads/2025/03/Capture.jpg",
+    "file": "feedback-aradhya-garg.webp",
+    "alt": "feedback aradhya garg",
+    "album": "feedback"
   }
 ]
