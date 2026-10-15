@@ -27,7 +27,10 @@
 .mobileDrawer .navCta { background: var(--night); color: var(--paper); justify-content: space-between; margin-top: 24px; }
 .hero { position: relative; margin-top: -96px; min-height: clamp(480px, 65vh, 640px); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
 .heroBackdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.heroImage { object-fit: cover; object-position: 80% 30%; }
+.heroArtwork { position: absolute; height: calc(100% - 160px); max-height: 450px; aspect-ratio: 1; right: 8%; bottom: 54px; pointer-events: none; }
+.heroSculptureImage { object-fit: contain; opacity: 1; }
+.heroArtwork[data-scene="ready"] .heroSculptureImage { opacity: 0; transition: opacity 450ms cubic-bezier(0.22, 1, 0.36, 1); }
+.heroCanvas { position: absolute; inset: 0; pointer-events: none; }
 .heroOverlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(17, 19, 18, 0.9) 0%, rgba(17, 19, 18, 0.65) 45%, rgba(17, 19, 18, 0.15) 72%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.72) 0%, transparent 22%, rgba(17, 19, 18, 0.35) 75%, var(--night) 100%); }
 .heroCopy { position: relative; z-index: 2; max-width: min(720px, 58vw); margin: auto 0 auto 6%; padding: 104px 0 80px; text-align: left; animation: arrive 550ms ease-out both; }
 .heroKicker { display: inline-flex; align-items: center; gap: 18px; color: #d8d4c8; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin-bottom: 24px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7); }
@@ -1349,7 +1352,7 @@
   .eventCopy .eventTitle { font-size: 21px; }
 }
 @media (max-width: 1040px) {
-  .heroImage { object-position: 84% 34%; }
+  .heroArtwork { right: -1%; }
   .hero { min-height: 480px; }
   .heroOverlay { background: linear-gradient(to right, rgba(17, 19, 18, 0.92) 0%, rgba(17, 19, 18, 0.72) 48%, rgba(17, 19, 18, 0.2) 75%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.75) 0%, transparent 20%, rgba(17, 19, 18, 0.4) 75%, var(--night) 100%); }
   .heroCopy { max-width: min(600px, 68vw); margin: auto 0 auto 6%; padding: 104px 0 76px; }
@@ -1376,7 +1379,7 @@
   .brand { font-size: 13px; gap: 8px; }
   .brand img { width: auto; height: 46px; }
   .brand small { font-size: 8px; }
-  .heroImage { object-position: 85% 24%; }
+  .heroArtwork { right: -25%; bottom: 46px; opacity: .55; }
   .hero { margin-top: -84px; }
   .heroOverlay { background: linear-gradient(to right, rgba(17, 19, 18, 0.94) 0%, rgba(17, 19, 18, 0.78) 55%, rgba(17, 19, 18, 0.35) 85%, rgba(17, 19, 18, 0.2) 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.78) 0%, transparent 22%, rgba(17, 19, 18, 0.45) 75%, var(--night) 100%); }
   .heroCopy { max-width: 100%; margin: auto 0; padding: 100px 6% 72px; }

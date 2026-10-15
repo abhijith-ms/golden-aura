@@ -17,19 +17,22 @@
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource-variable/dm-sans": "^5.2.0",
+    "@react-three/fiber": "9.8.2",
     "@sanity/client": "7.27.0",
     "@sanity/webhook": "^4.0.4",
     "next": "16.4.0",
     "nodemailer": "^10.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "three": "0.186.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "@types/nodemailer": "^7.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@types/three": "0.186.0",
     "next-sanity": "13.3.4",
     "sanity": "6.18.0",
     "styled-components": "^6.1.19",

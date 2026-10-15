@@ -5,6 +5,7 @@ import { Arrow, ContactBand, EventCard, FocusAreas, Lines, PartnerLogos, PlayerG
 import { PhotoCarousel } from "@/components/photo-carousel";
 import { PartnerMarquee } from "@/components/partner-marquee";
 import { ParticipantFeedback } from "@/components/participant-feedback";
+import { HeroArtwork } from "@/components/hero-3d";
 import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
@@ -21,14 +22,14 @@ export default async function Home() {
     <>
       <section className={styles.hero}>
         <div className={styles.heroBackdrop} aria-hidden="true">
-          <Image
-            src="/images/hero-knight-bg.webp"
+          <HeroArtwork><Image
+            src="/images/hero-knight.webp"
             alt=""
             fill
             priority
-            sizes="100vw"
-            className={styles.heroImage}
-          />
+            sizes="450px"
+            className={styles.heroSculptureImage}
+          /></HeroArtwork>
           <div className={styles.heroOverlay} />
         </div>
         <div className={styles.heroCopy}>
