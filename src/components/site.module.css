@@ -25,26 +25,31 @@
 .mobileDrawer nav > a:not(.navCta) { display: flex; align-items: center; min-height: 54px; padding: 10px 0; font-size: 22px; font-weight: 500; }
 .mobileDrawer nav > a[aria-current="page"] { text-decoration: underline; text-underline-offset: 7px; }
 .mobileDrawer .navCta { background: var(--night); color: var(--paper); justify-content: space-between; margin-top: 24px; }
-.hero { position: relative; margin-top: -96px; min-height: clamp(480px, 65vh, 640px); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
-.heroBackdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.heroImage { object-fit: cover; object-position: 80% 30%; }
-.heroOverlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(17, 19, 18, 0.9) 0%, rgba(17, 19, 18, 0.65) 45%, rgba(17, 19, 18, 0.15) 72%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.72) 0%, transparent 22%, rgba(17, 19, 18, 0.35) 75%, var(--night) 100%); }
-.heroCopy { position: relative; z-index: 2; max-width: min(720px, 58vw); margin: auto 0 auto 6%; padding: 104px 0 80px; text-align: left; animation: arrive 550ms ease-out both; }
-.heroKicker { display: inline-flex; align-items: center; gap: 18px; color: #d8d4c8; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin-bottom: 24px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7); }
+.hero { position: relative; margin-top: -96px; min-height: 100vh; min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
+.heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: auto; z-index: 1; }
+.heroCopy { position: relative; z-index: 2; pointer-events: auto; max-width: min(1000px, 92vw); margin: auto; padding: 120px 24px 96px; text-align: center; display: flex; flex-direction: column; align-items: center; animation: arrive 550ms ease-out both; }
+.heroKicker { display: inline-flex; align-items: center; justify-content: center; gap: 18px; color: #ded9cd; font-size: 13px; font-weight: 700; letter-spacing: 2.8px; margin-bottom: 24px; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85); }
 .heroKicker > span { color: var(--gold); }
-.hero h1 { font-size: clamp(52px, 6vw, 86px); line-height: 1.16; letter-spacing: -.055em; text-transform: uppercase; font-weight: 900; margin: 0 0 24px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75); }
-.hero .softLine { color: var(--gold); text-shadow: 0 4px 32px rgba(196, 175, 120, 0.3), 0 2px 16px rgba(0, 0, 0, 0.8); }
-.heroCopy p { max-width: 565px; margin: 0 0 28px; color: #e2ded4; font-size: 16px; line-height: 1.7; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8); }
-.actions { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 14px; align-items: center; }
+.hero h1 { font-size: clamp(56px, 7.5vw, 102px); line-height: 1.06; letter-spacing: -.055em; text-transform: uppercase; font-weight: 900; margin: 0 0 26px; text-align: center; text-shadow: 0 4px 36px rgba(0, 0, 0, 0.9), 0 2px 14px rgba(0, 0, 0, 0.8); }
+.hero .softLine { color: var(--gold); text-shadow: 0 4px 36px rgba(196, 175, 120, 0.4), 0 2px 18px rgba(0, 0, 0, 0.9); }
+.heroCopy p { max-width: 660px; margin: 0 auto 36px; color: #eae5d8; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.7; text-align: center; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9); }
+.actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; align-items: center; }
 .buttonGold, .buttonDark, .heroLink { display: inline-flex; align-items: center; justify-content: center; gap: 22px; padding: 15px 24px; min-height: 52px; border: 1px solid transparent; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; transition: background 180ms, transform 180ms, box-shadow 180ms; }
+.hero .buttonGold, .hero .heroLink { padding: 18px 36px; min-height: 60px; font-size: 16px; font-weight: 700; gap: 16px; }
 .buttonGold { background: var(--gold); color: #111312; box-shadow: 0 4px 20px rgba(196, 175, 120, 0.25); }
 .buttonGold:hover { background: #e1cd9c; transform: translateY(-2px); box-shadow: 0 6px 26px rgba(196, 175, 120, 0.35); }
+.hero .buttonGold { box-shadow: 0 6px 30px rgba(196, 175, 120, 0.35); }
+.hero .buttonGold:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 40px rgba(196, 175, 120, 0.45); }
 .buttonDark { background: var(--night); color: var(--paper); }
 .buttonDark:hover { background: #34382e; transform: translateY(-2px); }
 .heroLink { border-color: rgba(255, 255, 255, 0.38); color: var(--paper); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(17, 19, 18, 0.35); }
 .heroLink:hover { background: rgba(255, 255, 255, 0.16); transform: translateY(-2px); }
-.heroBottom { position: absolute; z-index: 2; left: 5%; right: 5%; bottom: 24px; display: flex; justify-content: space-between; gap: 16px; font-size: 10px; letter-spacing: 1.1px; color: #e1ddcf; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); }
-.heroBottom a { min-height: 44px; display: inline-flex; align-items: center; gap: 18px; font-size: 12px; letter-spacing: 0; }
+.hero .heroLink:hover { transform: translateY(-3px) scale(1.02); background: rgba(255, 255, 255, 0.22); }
+.heroBottom { position: absolute; z-index: 2; pointer-events: auto; left: 5%; right: 5%; bottom: 28px; display: flex; justify-content: space-between; gap: 16px; font-size: 10px; letter-spacing: 1.1px; color: #e1ddcf; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); }
+.heroBottom a { min-height: 44px; display: inline-flex; align-items: center; gap: 12px; font-size: 12px; letter-spacing: 0; transition: transform 200ms ease, color 200ms ease; }
+.heroBottom a:hover { color: var(--gold); transform: translateY(2px); }
+.heroBottom a span { display: inline-block; animation: scrollBounce 2s infinite ease-in-out; }
+@keyframes scrollBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
 .heroBottom > span { display: flex; align-items: center; }
 @keyframes arrive { from { opacity: .3; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 .section, .sectionCompact { padding: 52px 6%; max-width: 1440px; margin: 0 auto; }
@@ -215,11 +220,11 @@
   .eventCopy .eventTitle { font-size: 21px; }
 }
 @media (max-width: 1040px) {
-  .heroImage { object-position: 84% 34%; }
-  .hero { min-height: 480px; }
-  .heroOverlay { background: linear-gradient(to right, rgba(17, 19, 18, 0.92) 0%, rgba(17, 19, 18, 0.72) 48%, rgba(17, 19, 18, 0.2) 75%, transparent 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.75) 0%, transparent 20%, rgba(17, 19, 18, 0.4) 75%, var(--night) 100%); }
-  .heroCopy { max-width: min(600px, 68vw); margin: auto 0 auto 6%; padding: 104px 0 76px; }
-  .hero h1 { font-size: clamp(44px, 6.2vw, 68px); letter-spacing: -.05em; }
+  .hero { min-height: 100vh; min-height: 100dvh; height: 100dvh; align-items: center; }
+  .heroCopy { max-width: min(840px, 92vw); margin: auto; padding: 110px 20px 84px; text-align: center; }
+  .hero h1 { font-size: clamp(48px, 8vw, 80px); letter-spacing: -.05em; }
+  .heroCopy p { max-width: 580px; margin: 0 auto 30px; }
+  .actions { justify-content: center; }
   .introGrid { grid-template-columns: 1fr; gap: 32px; }
   .section h2, .sectionCompact h2, .contactBand h2 { font-size: clamp(28px, 4vw, 36px); }
   .pillarGrid { gap: 16px; margin-top: 28px; }
@@ -236,15 +241,14 @@
   .brand { font-size: 13px; gap: 8px; }
   .brand img { width: auto; height: 46px; }
   .brand small { font-size: 8px; }
-  .heroImage { object-position: 85% 24%; }
-  .hero { margin-top: -84px; }
-  .heroOverlay { background: linear-gradient(to right, rgba(17, 19, 18, 0.94) 0%, rgba(17, 19, 18, 0.78) 55%, rgba(17, 19, 18, 0.35) 85%, rgba(17, 19, 18, 0.2) 100%), linear-gradient(to bottom, rgba(17, 19, 18, 0.78) 0%, transparent 22%, rgba(17, 19, 18, 0.45) 75%, var(--night) 100%); }
-  .heroCopy { max-width: 100%; margin: auto 0; padding: 100px 6% 72px; }
-  .heroKicker { gap: 10px; font-size: 9px; letter-spacing: 1.4px; margin-bottom: 20px; }
-  .hero h1 { font-size: clamp(38px, 11.2vw, 56px); letter-spacing: -.05em; }
-  .heroCopy p { font-size: 15px; max-width: 410px; margin-bottom: 24px; }
-  .buttonGold, .buttonDark, .heroLink { padding: 14px 20px; min-height: 49px; gap: 14px; font-size: 13px; }
-  .actions { gap: 12px; }
+  .hero { margin-top: -84px; min-height: 100vh; min-height: 100dvh; height: 100dvh; align-items: center; }
+  .heroCopy { max-width: 100%; margin: auto; padding: 96px 6% 80px; text-align: center; }
+  .heroKicker { justify-content: center; font-size: 10px; letter-spacing: 1.8px; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(42px, 12vw, 64px); letter-spacing: -.05em; }
+  .heroCopy p { font-size: 16px; max-width: 440px; margin: 0 auto 28px; }
+  .actions { justify-content: center; width: 100%; gap: 12px; }
+  .hero .buttonGold,
+  .hero .heroLink { padding: 16px 28px; min-height: 54px; font-size: 15px; width: 100%; max-width: 320px; }
   .heroBottom { bottom: 16px; font-size: 8px; letter-spacing: .6px; }
   .heroBottom a { font-size: 11px; gap: 10px; }
   .section, .sectionCompact { padding: 36px 6%; }
