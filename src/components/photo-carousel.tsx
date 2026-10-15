@@ -43,7 +43,7 @@ export function PhotoCarousel({ photos }: { photos: Photo[] }) {
         >
           {photos.map((photo, i) => (
             <figure key={photo.src} data-active={i === active} aria-hidden={i !== active} role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${photos.length}`}>
-              <Image src={photo.src} alt={photo.alt} fill draggable={false} sizes="(max-width: 760px) 88vw, (max-width: 1440px) 58vw, 820px" />
+              <Image src={photo.src} alt={photo.alt} fill draggable={false} sizes="(max-width: 760px) 88vw, (max-width: 1440px) 58vw, 820px" quality={90} />
             </figure>
           ))}
           <span className={styles.photoStamp} aria-hidden="true">THE GOLDEN AURA ALBUM</span>

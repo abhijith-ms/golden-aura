@@ -21,7 +21,8 @@ function Portrait({ name, photo }: { name: string; photo?: Photo }) {
           src={photo.src}
           alt={photo.alt}
           fill
-          sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 22vw"
+          sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 300px"
+          quality={90}
         />
       ) : (
         <span aria-hidden="true">

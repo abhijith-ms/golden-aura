@@ -33,7 +33,13 @@ export function Portrait({ name, photo }: { name: string; photo?: Photo }) {
   return (
     <div className={styles.portrait}>
       {photo ? (
-        <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 22vw" />
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 300px"
+          quality={90}
+        />
       ) : (
         <span aria-hidden="true">{name.split(" ").map((part) => part[0]).slice(0, 2).join("")}</span>
       )}
@@ -129,7 +135,8 @@ export function EventCard({
           src={event.image.src}
           alt={event.image.alt}
           fill
-          sizes="(max-width: 760px) 100vw, 15vw"
+          sizes="(max-width: 760px) 100vw, (max-width: 1200px) 50vw, 600px"
+          quality={90}
         />
         <span className={styles.imageYear}>{event.year}</span>
       </Link>

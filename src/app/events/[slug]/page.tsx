@@ -47,7 +47,8 @@ export default async function EventDetail({
           alt={event.image.alt}
           fill
           priority
-          sizes="90vw"
+          sizes="(max-width: 1100px) 100vw, 1440px"
+          quality={90}
         />
       </div>
       <section className={`${styles.section} ${styles.eventDetailGrid}`}>

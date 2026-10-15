@@ -130,13 +130,13 @@ export default async function Home() {
             <h2>Partners & <span>supporters.</span></h2>
             <Link className={styles.textLink} href="/partners">Partnerships & community <Arrow /></Link>
           </div>
-          <p>Official partners, corporate & institutional partners, and government & civic supporters · 2025</p>
+          <p>Official partners, corporate & institutional partners, and government & civic supporters</p>
           <PartnerMarquee><PartnerLogos partners={featuredPartners} /></PartnerMarquee>
         </section>
       )}
       <section className={`${styles.sectionCompact} ${styles.homeSupporters}`}>
         <span className={styles.eyebrow}>CONNECTED THROUGH CHESS</span>
-        <p>Chess bodies and tournament supporters · 2025</p>
+        <p>Chess bodies and tournament supporters</p>
         <PartnerLogos partners={connectedPartners} />
         <Link className={styles.textLink} href="/partners">All partners & supporters <Arrow /></Link>
       </section>

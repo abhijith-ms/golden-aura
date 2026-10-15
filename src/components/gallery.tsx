@@ -60,7 +60,8 @@ export function Gallery({ albums }: { albums: Album[] }) {
                       src={photo.src}
                       alt={photo.alt}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 450px"
+                      quality={90}
                     />
                     <span aria-hidden="true">↗</span>
                   </button>
@@ -105,7 +106,7 @@ export function Gallery({ albums }: { albums: Album[] }) {
         {selected && (
           <>
             <div className={styles.lightboxImage}>
-              <Image src={selected.src} alt={selected.alt} fill sizes="90vw" />
+              <Image src={selected.src} alt={selected.alt} fill sizes="95vw" quality={95} priority />
             </div>
             <p>{selected.alt}</p>
           </>
