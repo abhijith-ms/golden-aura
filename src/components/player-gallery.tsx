@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import type { EventAttendee, Photo } from "@/lib/types";
 import styles from "./site.module.css";
+import { CountryName } from "./country-name";
 
 const titles: Record<string, string> = {
   GM: "Grandmaster",
@@ -69,7 +70,7 @@ export function PlayerGallery({
               <abbr title={titles[player.title] ?? player.title}>
                 {player.title}
               </abbr>{" "}
-              · {player.country}
+              · <CountryName country={player.country} />
             </p>
           </article>
         ))}

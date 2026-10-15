@@ -1,8 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { defaultContent } from "../src/lib/default-content.ts";
 import { committeeGroups } from "../src/lib/types.ts";
+import { countryFlags } from "../src/lib/countries.ts";
 test("the bundled content references existing web assets and unique event routes", () => {
   const images = [
     ...defaultContent.events.map((event) => event.image.src),
@@ -65,4 +66,25 @@ test("the first-edition archive preserves featured names, federations and distin
   assert.equal(event.attendees?.find((person) => person.name === "Diajeng Theresa Singgih")?.title, "WIM");
   assert(event.attendees?.every((person) => person.country && person.photo));
   assert(defaultContent.events.filter((other) => other.slug !== event.slug).every((other) => !other.attendees?.length));
+});
+
+test("the committee introduction is timeless and each featured country has a flag", () => {
+  const page = defaultContent.pages.find((page) => page.slug === "committee")!;
+  assert(!/2025/.test(page.eyebrow + page.intro));
+  for (const person of defaultContent.events.flatMap((event) => event.attendees || [])) {
+    assert(countryFlags[person.country], person.country);
+    assert(existsSync(`public${countryFlags[person.country]}`));
+  }
+  const event = defaultContent.events.find((event) => event.slug === "namma-bengaluru-open-2024")!;
+  assert.equal(event.startDate, "2024-01-18");
+  assert.equal(event.endDate, "2024-01-26");
+  assert.equal(event.venue, "Sri Kanteerava Indoor Stadium, Bengaluru");
+});
+
+test("new asset imports keep the metadata required by the preparation script", () => {
+  const assets = JSON.parse(readFileSync("scripts/assets.json", "utf8"));
+  for (const asset of assets) {
+    assert(asset.album && asset.source && asset.file);
+    if (asset.album === "feedback" || asset.album === "flags") assert(existsSync(`public/images/${asset.file}`));
+  }
 });

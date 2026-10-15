@@ -12,7 +12,16 @@ for asset in assets:
     source = root / asset["source"]
     target = output / asset["file"]
     assert source.resolve() != target.resolve(), "Cannot replace an original"
-    max_width = 480 if asset["album"] == "brand" and target.stem != "chess-hero" else 600 if asset["album"] in ("committee", "players") else 1800
+    if asset["album"] == "flags":
+        max_width = 64
+    elif asset["album"] == "feedback":
+        max_width = 720
+    elif asset["album"] == "brand" and target.stem != "chess-hero":
+        max_width = 480
+    elif asset["album"] in ("committee", "players"):
+        max_width = 600
+    else:
+        max_width = 1800
     with Image.open(source) as original:
         image = ImageOps.exif_transpose(original)
         image.thumbnail((max_width, max_width), Image.Resampling.LANCZOS)

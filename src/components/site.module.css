@@ -1008,3 +1008,6 @@
   .eventFacts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .eventCopy .tag { font-size: 9px; padding: 5px 8px; }
 }
+
+.countryName { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; vertical-align: middle; }
+.countryName img { flex-shrink: 0; object-fit: contain; border-radius: 2px; }
