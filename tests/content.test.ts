@@ -23,10 +23,10 @@ test("the bundled content references existing web assets and unique event routes
   );
   assert.equal(defaultContent.site.impactStats.length, 3);
 });
-test("the 2025 committee has unique profiles, source groups and an honest missing-portrait fallback", () => {
-  assert.equal(defaultContent.committee.length, 25);
-  assert.equal(new Set(defaultContent.committee.map((member) => member.slug)).size, 25);
-  assert(!defaultContent.committee.some((member) => member.name === "D K Shivakumar"));
+test("the committee has unique profiles, source groups and an honest missing-portrait fallback", () => {
+  assert.equal(defaultContent.committee.length, 24);
+  assert.equal(new Set(defaultContent.committee.map((member) => member.slug)).size, 24);
+  assert(!defaultContent.committee.some((member) => ["D K Shivakumar", "Sowmya M U"].includes(member.name)));
   for (const member of defaultContent.committee) {
     assert(committeeGroups.includes(member.group));
     assert(member.name && member.role);

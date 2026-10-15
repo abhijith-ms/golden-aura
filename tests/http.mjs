@@ -33,6 +33,8 @@ for (const path of ["/not-a-real-page", "/events/not-an-event"])
   assert.equal((await fetch(base + path)).status, 404);
 const committee = await (await fetch(base + "/committee")).text();
 assert(committee.includes("MESSAGE OF SUPPORT") && !committee.includes("Hon. President"));
+assert(!committee.includes('id="leadership"') && !committee.includes("View the 2025 committee archive"));
+assert(committee.includes("MESSAGE FROM THE ORGANIZING SECRETARY"));
 const archived = await (
   await fetch(base + "/events/namma-bengaluru-open-2025")
 ).text();
