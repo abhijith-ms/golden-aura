@@ -1,0 +1,12 @@
+Knight geometry adapted from Chess Set by Riley Queen, published by Poly Haven.
+Source: https://polyhaven.com/a/chess_set
+Licence: CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/)
+Publisher licence: https://polyhaven.com/license
+Retrieved: 2026-10-15
+
+One knight extracted, normalised to unit height, and assigned new charcoal and
+champagne-gold materials. Its original normal atlas is resized to 1K and masked
+to retain the knight's UV islands. Board, other pieces and colour maps omitted.
+Publisher preview images are not included.
+
+Reproduction and source checksums: docs/plans/chess-3d-hero/README.md
