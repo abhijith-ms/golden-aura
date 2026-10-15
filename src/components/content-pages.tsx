@@ -160,13 +160,13 @@ export async function CommitteePage() {
             <div className={styles.leaderCardBody}>
               <span className={styles.leaderSignature}>DK Shivakumar</span>
               <h3 className={styles.leaderName}>SHRI D K SHIVAKUMAR</h3>
-              <p className={styles.leaderRole}>Hon&apos;ble Deputy Chief Minister of Karnataka</p>
-              <p className={styles.leaderSubRole}>Hon. President, 2nd Namma BIG Chess – 2025</p>
+              <p className={styles.leaderRole}>Deputy Chief Minister of Karnataka (2025)</p>
+              <p className={styles.leaderSubRole}>A message for the 2025 tournament</p>
               <div className={styles.leaderCardPattern} aria-hidden="true" />
             </div>
           </div>
           <div className={styles.leaderMessage}>
-            <h2>MESSAGE FROM THE HON. PRESIDENT</h2>
+            <h2>MESSAGE OF SUPPORT</h2>
             <p className={styles.leaderSalutation}>Dear Friends of Chess,</p>
             <blockquote className={styles.leaderQuote}>
               <p>

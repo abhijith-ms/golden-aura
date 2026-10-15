@@ -58,7 +58,7 @@ export const defaultContent: Content = {
       slug: "committee",
       eyebrow: "THE ORGANISING COMMITTEE",
       title: "The committee.",
-      intro: "Chess organisers, players, arbiters and advisers came together to deliver the second Namma Bengaluru International Grandmasters Open. These are the people and roles from the edition.",
+      intro: "Chess organisers, players, arbiters and advisers came together to deliver the second Namma Bengaluru International Grandmasters Open. Meet the people behind the tournament.",
     },
     {
       slug: "about",
@@ -165,7 +165,7 @@ export const defaultContent: Content = {
       dateLabel: "18–26 January 2024",
       startDate: "2024-01-18",
       endDate: "2024-01-26",
-      venue: "Sri Kanteerava Indoor Stadium, Bangalore",
+      venue: "Sri Kanteerava Indoor Stadium, Bengaluru",
       format: "INTERNATIONAL GRANDMASTERS OPEN",
       status: "completed",
       registrationOpen: false,
@@ -175,7 +175,8 @@ export const defaultContent: Content = {
         "open-2024-players",
         "Players at the first Bengaluru Grandmasters Open",
       ),
-      archiveUrl: "https://nammabigchess.com/",
+      brochureUrl: "https://aicf.in/wp-content/uploads/2023/12/Bangalore-GM-final.pdf",
+      archiveUrl: "https://nammabigchess.com/blrgmc-2024/",
     },
     {
       slug: "chess-and-coffee",
