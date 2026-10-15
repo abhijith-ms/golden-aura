@@ -9,6 +9,18 @@ Last updated: 2026-10-15. Read this file before resuming 3D hero work.
 - Initial still composition and deferred scene are implemented on this branch, with matching browser-rendered fallback artwork. Live production has not been changed. Astra's original wording about an unselected model and unstarted implementation describes the earlier planning state.
 - Pointer motion and adaptive quality are pending the still-composition review in milestones 1–2. Do not report the full 3D phase complete. Next: review the still, then add bounded pointer response, quality regression, and the remaining resilience/performance QA. Review through a PR and Vercel preview before merging.
 
+### Review feedback: replace the basic knight
+
+The user reviewed the first composition and said the knight looks very basic. The Poly Haven knight is now a technical prototype, **not the approved final asset**. Replace the model before adding motion; preserve the existing loading, fallback and layout integration.
+
+Target a refined carved Staunton knight: stronger muzzle and jaw, a defined brow and ears, deeper mane cuts, and a more deliberate neck profile. Use a satin charcoal surface, restrained champagne-gold accents and a warm rim light. Avoid the current soft/plastic appearance. The original `public/images/hero-knight-bg.webp` remains a useful visual reference for the sculpting and lighting direction, rather than a source of 3D geometry. Keep the hero compact.
+
+Next deliverable: compare two or three licensed candidate models within the actual desktop hero, with a phone crop, using consistent camera and lighting. Inspect appearance before optimising: more triangles alone do not guarantee a better sculpture. Confirm source access and redistribution/modification rights before accepting a replacement. No replacement is selected yet; whether the shortlist may include paid assets has been asked, and no purchase is authorised.
+
+Research so far: Trinh Hoang Hieu's [free knight](https://sketchfab.com/3d-models/free-3d-model-chess-knight-1ce4da41b0d442df9d9c88340f5c3075) and Jeyhun1985's [Staunton knight](https://sketchfab.com/3d-models/knight-staunton-full-size-chess-set-dffe461e0def4f0a84bfe8551e58105f) have been visually inspected. Both list CC BY, but their stylised shapes are not a convincing final improvement. The latter's listed 667.4k triangles also need substantial optimisation. [WChargin's sculpted knight](https://blendswap.com/blend/7722) is a further research lead only; its appearance and original Blender-file compatibility are not validated. Do not treat any of these as an approved replacement.
+
+After model/material review, continue with the bounded pointer tilt, matching fallback regeneration, quality adjustment and remaining device/failure testing. The live site remains unchanged.
+
 ## Decisions to carry forward
 
 Use one inward-facing charcoal knight with restrained champagne-gold details, warm studio lighting, and a soft contact shadow. Preserve the compact hero, floating navbar, Manrope/DM Sans typography, server-rendered copy, links, and existing section order.
@@ -21,7 +33,7 @@ Keep the image visible until a valid scene frame is ready. Use a local fallback 
 
 Export matching fallback WebPs from the final browser scene before release. Retain `public/images/hero-knight-bg.webp` as the original rollback asset. An unmatched old image must not be presented as the finished scene's matching fallback.
 
-## Selected model
+## Current prototype model — replacement required
 
 **Knight from [Chess Set by Riley Queen, published by Poly Haven](https://polyhaven.com/a/chess_set).** Checked on 2026-10-15 using the publisher's preview/clay views and downloaded glTF geometry. The traditional horse silhouette and circular base suit the sculpture direction. Recreate its materials for this website; the publisher's marble appearance is not the intended final look.
 
