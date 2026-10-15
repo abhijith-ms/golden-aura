@@ -5,6 +5,7 @@ const config: NextConfig = {
   serverExternalPackages: ["nodemailer"],
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 90, 95],
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" },
     ],
