@@ -337,18 +337,46 @@ export function HeroCanvas() {
     parentSection.addEventListener("touchend", onPointerLeave as EventListener, { passive: true });
     parentSection.addEventListener("mousedown", onPointerDown as EventListener, { passive: true });
 
-    // IntersectionObserver to pause loop when scrolled out of view
+    let isRunning = false;
+    let lastTime = performance.now();
+
+    function startLoop() {
+      if (isRunning || reducedMotionQuery.matches || !isVisible) return;
+      isRunning = true;
+      lastTime = performance.now();
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(renderFrame);
+    }
+
+    function stopLoop() {
+      isRunning = false;
+      cancelAnimationFrame(animationFrameId);
+    }
+
+    // IntersectionObserver to pause loop when scrolled out of view and resume when back
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           isVisible = entry.isIntersecting;
+          if (isVisible) {
+            startLoop();
+          } else {
+            stopLoop();
+          }
         }
       },
       { threshold: 0.05 }
     );
     observer.observe(canvas);
 
-    let lastTime = performance.now();
+    function onVisibilityChange() {
+      if (document.hidden) {
+        stopLoop();
+      } else if (isVisible) {
+        startLoop();
+      }
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     function renderFrame(now: number) {
       if (!ctx || width === 0 || height === 0) return;
@@ -614,20 +642,17 @@ export function HeroCanvas() {
 
       if (!reducedMotionQuery.matches && isVisible) {
         animationFrameId = requestAnimationFrame(renderFrame);
+      } else {
+        isRunning = false;
       }
     }
 
-    if (!reducedMotionQuery.matches) {
-      animationFrameId = requestAnimationFrame(renderFrame);
-    } else {
-      renderFrame(0);
-    }
+    startLoop();
 
     const onMotionChange = () => {
-      cancelAnimationFrame(animationFrameId);
+      stopLoop();
       if (!reducedMotionQuery.matches && isVisible) {
-        lastTime = performance.now();
-        animationFrameId = requestAnimationFrame(renderFrame);
+        startLoop();
       } else {
         renderFrame(0);
       }
@@ -635,8 +660,9 @@ export function HeroCanvas() {
     reducedMotionQuery.addEventListener("change", onMotionChange);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      stopLoop();
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       reducedMotionQuery.removeEventListener("change", onMotionChange);
       observer.disconnect();
       parentSection.removeEventListener("mousemove", onPointerMove as EventListener);
