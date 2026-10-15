@@ -3,12 +3,13 @@ import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { Arrow, ContactBand, EventCard, FocusAreas, Lines, PartnerLogos, PlayerGallery } from "@/components/shared";
 import { PhotoCarousel } from "@/components/photo-carousel";
+import { PartnerMarquee } from "@/components/partner-marquee";
 import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
 export default async function Home() {
   const { site, events, albums, partners } = await getContent();
-  const officialPartners = partners.filter((partner) => partner.category === "official");
+  const featuredPartners = partners.filter((partner) => partner.category === "official" || partner.category === "institutional" || partner.category === "government");
   const connectedPartners = partners.filter((partner) => partner.image && (!partner.category || partner.category === "community" || partner.category === "support"));
   const firstEdition = events.find((event) => event.slug === "namma-bengaluru-open-2024");
   const firstEditionPlayers = firstEdition?.attendees || [];
@@ -143,14 +144,15 @@ export default async function Home() {
         </div>
         <PhotoCarousel photos={photos} />
       </section>
-      {officialPartners.length > 0 && (
+      {featuredPartners.length > 0 && (
         <section id="partners" className={styles.sectionCompact}>
           <span className={styles.eyebrow}>SUPPORT BEHIND THE TOURNAMENT</span>
           <div className={styles.sectionHeading}>
-            <h2>Official partners.</h2>
+            <h2>Partners & <span>supporters.</span></h2>
             <Link className={styles.textLink} href="/partners">Partnerships & community <Arrow /></Link>
           </div>
-          <PartnerLogos partners={officialPartners} />
+          <p>Official partners, corporate & institutional partners, and government & civic supporters · 2025</p>
+          <PartnerMarquee><PartnerLogos partners={featuredPartners} /></PartnerMarquee>
         </section>
       )}
       <section className={`${styles.sectionCompact} ${styles.homeSupporters}`}>
