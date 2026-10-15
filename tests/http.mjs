@@ -38,6 +38,14 @@ assert(committee.includes("MESSAGE FROM THE ORGANIZING SECRETARY"));
 const home = await (await fetch(base + "/")).text();
 assert(home.includes("hero-knight-bg.webp") && !/<canvas\b/.test(home), "Home uses the static chess hero");
 assert(home.includes('id="participant-feedback"') && home.includes("Video-306.mp4"));
+const playersSection = home.split('id="first-edition"')[1].split('id="moments"')[0];
+assert.equal((playersSection.match(/<article\b/g) || []).length, 14, "Home displays every featured first-edition player");
+assert(!playersSection.includes("See more"), "The home player gallery is fully expanded");
+const feedbackSection = home.split('id="participant-feedback"')[1].split('id="partners"')[0];
+assert.equal((feedbackSection.match(/<video\b/g) || []).length, 3, "Feedback videos play inline");
+assert.equal((feedbackSection.match(/controls=""/g) || []).length, 3, "Each video has playback controls");
+assert(!feedbackSection.includes('target="_blank"') && !feedbackSection.includes("From the original tournament archive"));
+assert(!home.includes("Pause logo motion") && !home.includes("Resume logo motion"));
 const archived = await (
   await fetch(base + "/events/namma-bengaluru-open-2025")
 ).text();

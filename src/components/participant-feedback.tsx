@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { Arrow } from "./shared";
 import { CountryName } from "./country-name";
 import styles from "./site.module.css";
 
@@ -13,15 +11,13 @@ export function ParticipantFeedback() {
   return <section id="participant-feedback" className={styles.sectionCompact}>
     <div className={styles.sectionHeading}>
       <div><span className={styles.eyebrow}>VOICES FROM THE TOURNAMENT</span><h2>Feedback from <span>past participants.</span></h2></div>
-      <a className={styles.textLink} href="https://nammabigchess.com/" target="_blank" rel="noopener noreferrer">From the original tournament archive <Arrow /></a>
     </div>
     <ul className={styles.feedbackGrid} tabIndex={0} aria-label="Participant video feedback">
       {videos.map((video) => <li key={video.file}>
-        <a className={styles.feedbackVideo} href={`https://nammabigchess.com/wp-content/uploads/2025/03/${video.file}`} target="_blank" rel="noopener noreferrer" aria-label={`Watch feedback from ${video.name} (opens in a new tab)`}>
-          <Image src={`/images/${video.poster}`} alt="" fill sizes="(max-width: 760px) 80vw, 360px" />
-          <span className={styles.feedbackPlay} aria-hidden="true">▶</span>
-          <span className={styles.feedbackWatch}>Watch video <Arrow /></span>
-        </a>
+        <video className={styles.feedbackVideo} controls playsInline preload="none" poster={`/images/${video.poster}`} aria-label={`Feedback from ${video.name}`}>
+          <source src={`https://nammabigchess.com/wp-content/uploads/2025/03/${video.file}`} type="video/mp4" />
+          Your browser does not support embedded video.
+        </video>
         <h3>{video.name}</h3><p>{video.detail}</p>
       </li>)}
     </ul>
