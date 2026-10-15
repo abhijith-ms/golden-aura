@@ -21,7 +21,7 @@ export function Lines({ text }: { text: string }) {
 export function PageIntro({ copy }: { copy: PageCopy }) {
   return (
     <section className={styles.pageIntro}>
-      <div className={styles.eyebrow}>{copy.eyebrow}</div>
+      {copy.eyebrow ? <div className={styles.eyebrow}>{copy.eyebrow}</div> : null}
       <h1>
         <Lines text={copy.title} />
       </h1>
@@ -33,7 +33,13 @@ export function Portrait({ name, photo }: { name: string; photo?: Photo }) {
   return (
     <div className={styles.portrait}>
       {photo ? (
-        <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 22vw" />
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          sizes="(max-width: 760px) 44vw, (max-width: 1100px) 29vw, 300px"
+          quality={90}
+        />
       ) : (
         <span aria-hidden="true">{name.split(" ").map((part) => part[0]).slice(0, 2).join("")}</span>
       )}
@@ -52,20 +58,7 @@ export function PartnerLogos({ partners }: { partners: Partner[] }) {
     </ul>
   );
 }
-export function PlayerGallery({ players }: { players: EventAttendee[] }) {
-  const titles = { GM: "Grandmaster", IM: "International Master", WGM: "Woman Grandmaster", WIM: "Woman International Master", WFM: "Woman FIDE Master" };
-  return (
-    <div className={styles.peopleGrid}>
-      {players.map((player) => (
-        <article key={player.name} className={styles.personCard}>
-          <Portrait name={player.name} photo={player.photo} />
-          <h3>{player.name}</h3>
-          <p><abbr title={titles[player.title]}>{player.title}</abbr> · {player.country}</p>
-        </article>
-      ))}
-    </div>
-  );
-}
+export { PlayerGallery } from "./player-gallery";
 export function FocusAreas({
   site,
   variant = "cards",
@@ -142,7 +135,8 @@ export function EventCard({
           src={event.image.src}
           alt={event.image.alt}
           fill
-          sizes="(max-width: 760px) 100vw, 15vw"
+          sizes="(max-width: 760px) 100vw, (max-width: 1200px) 50vw, 600px"
+          quality={90}
         />
         <span className={styles.imageYear}>{event.year}</span>
       </Link>

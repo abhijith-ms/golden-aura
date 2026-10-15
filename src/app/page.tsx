@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { Arrow, ContactBand, EventCard, FocusAreas, Lines, PartnerLogos, PlayerGallery } from "@/components/shared";
 import { PhotoCarousel } from "@/components/photo-carousel";
 import { PartnerMarquee } from "@/components/partner-marquee";
+import { HeroCanvas } from "@/components/hero-canvas";
 import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
@@ -19,17 +19,7 @@ export default async function Home() {
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.heroBackdrop} aria-hidden="true">
-          <Image
-            src="/images/hero-knight-bg.webp"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className={styles.heroImage}
-          />
-          <div className={styles.heroOverlay} />
-        </div>
+        <HeroCanvas />
         <div className={styles.heroCopy}>
           <span className={styles.heroKicker}>GOLDEN AURA TRUST <span aria-hidden="true">/</span> BENGALURU</span>
           <h1><Lines text={site.heroTitle} /></h1>
@@ -104,17 +94,6 @@ export default async function Home() {
             </Link>
           </div>
         )}
-        <div className={styles.nextEventNote}>
-          <span className={styles.statusDot} aria-hidden="true" />
-          <span>
-            {events.some((e) => e.status === "upcoming")
-              ? "Explore upcoming events and entry details."
-              : "Next tournament dates will be announced."}
-          </span>
-          <Link href="/contact">
-            Ask the organisers <Arrow />
-          </Link>
-        </div>
       </section>
       {firstEdition && firstEditionPlayers.length > 0 && (
         <section id="first-edition" className={styles.section}>
@@ -151,13 +130,13 @@ export default async function Home() {
             <h2>Partners & <span>supporters.</span></h2>
             <Link className={styles.textLink} href="/partners">Partnerships & community <Arrow /></Link>
           </div>
-          <p>Official partners, corporate & institutional partners, and government & civic supporters · 2025</p>
+          <p>Official partners, corporate & institutional partners, and government & civic supporters</p>
           <PartnerMarquee><PartnerLogos partners={featuredPartners} /></PartnerMarquee>
         </section>
       )}
       <section className={`${styles.sectionCompact} ${styles.homeSupporters}`}>
         <span className={styles.eyebrow}>CONNECTED THROUGH CHESS</span>
-        <p>Chess bodies and tournament supporters · 2025</p>
+        <p>Chess bodies and tournament supporters</p>
         <PartnerLogos partners={connectedPartners} />
         <Link className={styles.textLink} href="/partners">All partners & supporters <Arrow /></Link>
       </section>
