@@ -62,7 +62,7 @@
     {
       "viewport": "390x844",
       "artifact": "phone-focus.jpg",
-      "observation": "Visible keyboard focus on Meet the Trust after Tab from the primary action; artwork is skipped."
+      "observation": "Visible outline around the primary hero action. A separate DOM check after Tab confirmed focus on Meet the Trust outside the artwork."
     },
     {
       "viewport": "1280x720",

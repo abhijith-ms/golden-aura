@@ -31,7 +31,7 @@ This is a visual review of the source model and its dark wood appearance, not cl
 - [Desktop](desktop.jpg): requested 1440x900 override; one ready canvas with the restored eight-second deadline and 1.5 DPR cap. Whole knight fits below the navbar; hero size and actions are unchanged.
 - [Tablet](tablet.jpg): requested 834x1112 override; matching static artwork and zero canvases.
 - [Phone](phone.jpg): requested 390x844 override; matching static artwork behind readable copy and both actions, zero canvases.
-- [Keyboard focus](phone-focus.jpg): Tab moves from Explore tournaments to Meet the Trust with a visible focus outline. The artwork adds no focus targets.
+- [Keyboard focus](phone-focus.jpg): the capture shows a visible outline around the primary hero action. The DOM check after Tab confirmed focus on Meet the Trust, outside the artwork; no artwork focus targets were added.
 - [Production](production.jpg): default 1280x720 view; a warm reload reaches one ready canvas. An initial local production visit stayed on the matching image; cold-start timing still needs profiling. Do not treat this as a measured cold-start performance pass.
 - [Model failure](model-failure.jpg): temporarily unavailable model gives a non-success response; the eligible hero has zero canvases and retains the loaded wooden fallback and HTML actions. The original GLB was restored immediately and its URL verified as 200 / 765,460 bytes.
 - [Creator credit](footer-credit.jpg): visible source title, creator, adaptation wording and CC BY 4.0 link.
