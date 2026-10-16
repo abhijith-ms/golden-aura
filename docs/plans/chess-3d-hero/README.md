@@ -1,89 +1,77 @@
 # Chess 3D hero: handoff
 
-Last updated: 2026-10-15. Read this file before resuming 3D hero work.
+Last updated: 2026-10-16. Read this file before resuming 3D hero work.
 
 ## Status and authority
 
-- [Astra's complete plan](astra-plan.md) is preserved verbatim from the user's attachment. Its source SHA-256 is `905c9eac7af4fef8b89caf988585b1116148682ab3dced430fc3f8eb3c65f287`.
-- The user authorised implementation on a new branch. Active branch: `codex/chess-3d-hero`, created from verified latest `main` at `54d08ae09161f1561ca6b275a028e65e2dafa75b` (merged PR #4). GitHub account verified as `abhijith-ms`.
-- Initial still composition and deferred scene are implemented on this branch, with matching browser-rendered fallback artwork. Live production has not been changed. Astra's original wording about an unselected model and unstarted implementation describes the earlier planning state.
-- Pointer motion and adaptive quality are pending the still-composition review in milestones 1–2. Do not report the full 3D phase complete. Next: review the still, then add bounded pointer response, quality regression, and the remaining resilience/performance QA. Review through a PR and Vercel preview before merging.
+- [Astra's complete plan](astra-plan.md) is preserved verbatim. Source SHA-256: `905c9eac7af4fef8b89caf988585b1116148682ab3dced430fc3f8eb3c65f287`.
+- The user authorised implementation on `codex/chess-3d-hero`, based on `main` at `54d08ae09161f1561ca6b275a028e65e2dafa75b` (merged PR #4). The remote belongs to `abhijith-ms`; verify the active GitHub account before every push.
+- The stationary, deferred desktop scene and matching static fallback are implemented. **Production has not changed. No merge is authorised by this still review.**
+- The user rejected the first Poly Haven knight as too basic and explicitly requires **free assets only**. A stronger replacement is now prepared for review; it has not been approved by the user.
+- Next: review the replacement still, then implement bounded pointer response and adaptive DPR, followed by the remaining failure/performance checks. Do not call the full 3D phase complete. Review a PR and Vercel preview before merging.
 
-### Review feedback: replace the basic knight
+## Replacement prepared for still review
 
-The user reviewed the first composition and said the knight looks very basic. The Poly Haven knight is now a technical prototype, **not the approved final asset**. Replace the model before adding motion; preserve the existing loading, fallback and layout integration.
+Knight from [Wooden Chess Board by Bhargav Limje](https://sketchfab.com/3d-models/wooden-chess-board-feca51cdf6114927abdb4b4dc538c2b7). The source GLB identifies the author as `bhargavslimjes24`, title `Wooden Chess Board`, source Sketchfab URL and **CC BY 4.0**. The publisher's model page also lists CC Attribution. [The licence](https://creativecommons.org/licenses/by/4.0/) allows commercial use, modification and redistribution with credit, a licence link and an indication of changes. These are supplied in the footer, GLB metadata and `public/models/knight.LICENSE.txt`. No paid, NC or ND asset is used.
 
-Target a refined carved Staunton knight: stronger muzzle and jaw, a defined brow and ears, deeper mane cuts, and a more deliberate neck profile. Use a satin charcoal surface, restrained champagne-gold accents and a warm rim light. Avoid the current soft/plastic appearance. The original `public/images/hero-knight-bg.webp` remains a useful visual reference for the sculpting and lighting direction, rather than a source of 3D geometry. Keep the hero compact.
+The complete 25,396,616-byte source board is redistributed publicly by [Stefan Salewski](https://github.com/StefanSalewski/Bevy-3D-Chess/blob/b5edff7481f5d210b91bb80013bf90d3712fe6c2/assets/models/wooden_chess_board.glb), with the original creator/licence metadata embedded. This is **Bhargav Limje's asset**, not the Ronildo asset also mentioned in that repository's source comments. The local source stays ignored at `refernce and guide/3d-source/cc-by-chess-set/source.glb`.
 
-Next deliverable: compare two or three licensed candidate models within the actual desktop hero, with a phone crop, using consistent camera and lighting. Inspect appearance before optimising: more triangles alone do not guarantee a better sculpture. Confirm source access and redistribution/modification rights before accepting a replacement. **The user requires free assets only.** No replacement is selected yet. Exclude paid assets and assets restricted to non-commercial use; preserve any required creator attribution.
+Source SHA-256:
 
-Research so far: Trinh Hoang Hieu's [free knight](https://sketchfab.com/3d-models/free-3d-model-chess-knight-1ce4da41b0d442df9d9c88340f5c3075) and Jeyhun1985's [Staunton knight](https://sketchfab.com/3d-models/knight-staunton-full-size-chess-set-dffe461e0def4f0a84bfe8551e58105f) have been visually inspected. Both list CC BY, but their stylised shapes are not a convincing final improvement. The latter's listed 667.4k triangles also need substantial optimisation. [WChargin's sculpted knight](https://blendswap.com/blend/7722) is a further research lead only; its appearance and original Blender-file compatibility are not validated. Do not treat any of these as an approved replacement.
+```text
+d2cb8b2b21a69e998a8725f41c5da28390d1f0092ec82831d53e4b0854d49bfc  source.glb
+```
 
-After model/material review, continue with the bounded pointer tilt, matching fallback regeneration, quality adjustment and remaining device/failure testing. The live site remains unchanged.
+To reproduce, download that pinned GitHub file into the ignored source path and run `python3 scripts/prepare-knight.py`. The script uses only Python's standard library and checks the source hash, node identity, licence metadata, accessor layout, geometry counts and output budget before writing the GLB. It isolates mesh 3, beneath `Black Knight _4` / node 10, discards board-placement transforms, converts 32-bit source indices to 16-bit, removes all textures/UV sets, normalises height and turns the original -X forward direction to -Z.
+
+| Export detail | Current value |
+|---|---|
+| GLB | `public/models/knight.glb`, **732,248 bytes** |
+| Geometry | **39,040 triangles**, 20,675 vertices; no decimation |
+| Organisation | One named root/mesh, two opaque material primitives |
+| Coordinates | Y-up, base centre at origin, floor Y=0, height 1, forward -Z |
+| Charcoal | `#1a1e1c`, metalness 0.35, roughness 0.4 |
+| Gold | `#c4af78`, metalness 1, roughness 0.28 |
+| Accents | Existing narrow base mouldings and a thin central mane edge |
+| Textures/decoders | None in the model; detail comes from geometry |
+| Matching fallback | `public/images/hero-knight-sculpture.webp`, **36,354 bytes**, 1024x1024, transparent |
+
+The new geometry gives a more defined muzzle, open jaw, brow, eye and carved neck. It remains a stylised Staunton piece, not a replica of the elaborate original background illustration. The user must review that artistic difference. Do not equate its larger triangle count with approval.
+
+[Replacement screenshots and comparison notes](../../verification/chess-3d-hero/model-review/README.md) include the rejected prototype baseline, the new model with unchanged lighting, the refined desktop treatment and tablet/phone crops. Only one accessible replacement was integrated after screening the other candidates; do not claim multiple replacement GLBs were tested.
+
+The fallback was exported immediately after the **actual browser scene** rendered the resting pose, at temporary capture DPR 2.5, then downsampled to 1024 and converted to WebP at quality 90. The temporary capture route, code, longer development deadline and elevated DPR were removed. Normal settings are again **eight seconds** and **DPR <=1.5**. The old prototype fallback was removed; the original `public/images/hero-knight-bg.webp` remains for rollback. A distinct new fallback filename avoids stale optimised-image caches.
 
 ## Decisions to carry forward
 
-Use one inward-facing charcoal knight with restrained champagne-gold details, warm studio lighting, and a soft contact shadow. Preserve the compact hero, floating navbar, Manrope/DM Sans typography, server-rendered copy, links, and existing section order.
+Use one inward-facing charcoal knight, restrained champagne gold, warm studio lighting and a soft contact shadow. Keep the compact hero, floating navbar, existing typography, server-rendered content, links and section order.
 
-Use Three.js and React Three Fiber behind a homepage-only lazy client boundary. Omit GSAP, Drei, controls, postprocessing, and additional pieces initially. CSS handles the 450ms image/scene crossfade; demand rendering and time-based damping handle subtle pointer response. Astra's package versions are a dated starting point: the selection review found Fiber 9.8.2 available after the plan's 9.8.1; recheck compatibility and pin stable versions when implementation begins. Do not upgrade the framework as part of this work.
+Three.js 0.186.1, React Three Fiber 9.8.2 and Three typings 0.186.0 are pinned. React remains locked at 19.3.0. Do not upgrade the framework for this work. Omit GSAP, Drei, controls, physics and postprocessing; the current local integration is sufficient.
 
-Start enhancement only above 1040px with a fine pointer and hover capability, respecting reduced motion, connection hints where available, and renderer success. Phones and touch tablets retain a static image. Defer the engine/model until the image and initial page load finish, then use an idle opportunity. No scroll-driven movement or additional hero height.
+The camera, lights and framing are unchanged from the prototype: position `[0, 1.05, 2.7]`, target `[0, 0.46, 0]`, FOV 30 degrees, model yaw 2.2 radians. Three's MIT-licensed `RoomEnvironment` generates a local 256px PMREM; the 64px contact shadow is generated locally. No environment download is required.
 
-Keep the image visible until a valid scene frame is ready. Use a local fallback for loading errors, an eight-second deadline, renderer failures, and context loss. Stop rendering when settled, offscreen, or hidden; clean up listeners, asynchronous work, and owned GPU resources. The canvas is decorative and cannot intercept input.
+Enhance only above 1040px with a fine pointer and hover, unrestricted motion/data preferences and successful renderer creation. Phones and touch tablets stay static. Wait for page and hero-image loading, then an idle opportunity. Keep the image until an actual scene frame succeeds; crossfade over 450ms. Keep loading errors, timeout, scene failure and context loss local to the artwork. No scroll movement or added hero height. The canvas is decorative, cannot intercept input and adds no keyboard stop.
 
-Export matching fallback WebPs from the final browser scene before release. Retain `public/images/hero-knight-bg.webp` as the original rollback asset. An unmatched old image must not be presented as the finished scene's matching fallback.
+Keep `hero-scene.tsx` behind the homepage-only lazy controller. Use demand rendering, visibility gating and owned-resource cleanup. Never replace the static HTML/copy with a canvas. Motion must stop when settled, hidden or offscreen, and reduced-motion changes must remove enhancement.
 
-## Current prototype model — replacement required
+## Earlier candidate research
 
-**Knight from [Chess Set by Riley Queen, published by Poly Haven](https://polyhaven.com/a/chess_set).** Checked on 2026-10-15 using the publisher's preview/clay views and downloaded glTF geometry. The traditional horse silhouette and circular base suit the sculpture direction. Recreate its materials for this website; the publisher's marble appearance is not the intended final look.
+- Poly Haven / Riley Queen's CC0 Chess Set: rejected by the user as too basic. Original prototype is recoverable in commit `4358a7c`; source hashes and its preparation method are recorded in that commit's handoff. It is no longer the selected runtime asset.
+- Trinh Hoang Hieu's Sketchfab knight and Jeyhun1985's Staunton knight: CC BY; visually screened, but shapes were still too soft/stylised. The latter also lists 667.4k triangles.
+- WChargin's BlendSwap sculpt: visually screened and rejected for its crude rounded form and separate particle mane.
+- Ronildo Facanha's [Realistic 3D Chess Pieces](https://sketchfab.com/3d-models/realistic-3d-chess-pieces-blender-fbb81d5dc8854f41b6e2db6673daefb3): CC BY, promising defined neck/mane; source download requires site access and was not obtained. Not integrated or cleared as a shipped source.
+- MiriamAHoyt's [Staunton set](https://blendswap.com/blend/18589): CC0, but source download requires sign-in. Not downloaded or integrated.
+- Moshe Caine's carved scan: no downloadable/clearly licensed source; excluded. Paid, NC and ND alternatives were excluded.
 
-[Poly Haven's asset licence](https://polyhaven.com/license) identifies this model as CC0, permitting commercial use, modification, and redistribution of the downloaded asset. Attribution is optional; retain this provenance anyway. Publisher preview renders, logos, and website text are separate from the CC0 model: do not copy those into the site. Select and document any environment asset separately.
+## Verification and next milestones
 
-| Source detail | Verified value |
-|---|---|
-| Asset identifier | `chess_set` |
-| Chosen node | `piece_knight_black_01`, node index 22 |
-| Mesh | Index 22, named `mesh.007` |
-| Geometry | 2,662 triangles; 1,705 exported vertices; one triangle primitive |
-| Original material | Index 2; replace with the planned charcoal/gold treatment |
-| Local geometry bounds | X: -0.01940348 to 0.01939151; Y: approximately 0 to 0.07499858; Z: -0.02438492 to 0.02099723 |
-| Geometry download | 53,740-byte glTF plus 1,732,220-byte binary for the complete source set |
+The initial prototype passed typecheck, 20 unit tests, a production build and local HTTP checks; its historical evidence remains in [the first verification record](../../verification/chess-3d-hero/README.md). The replacement has its own [current review record](../../verification/chess-3d-hero/model-review/README.md). Do not present historical prototype checks as replacement measurements.
 
-The triangle count is below Astra's suggested range; that range is a budget, not a minimum. Inspect silhouette and shading at final hero size before deciding whether refinement is needed. Do not add geometry solely to reach the range. The source knight is one material: restrained gold accents still require material assignment or a small mesh edit. Production scale, forward direction, normals, and appearance remain to be validated.
+1. User reviews the replacement still and phone/tablet crops.
+2. Implement pointer yaw <= +/-4 degrees and pitch <= +/-1.5 degrees, 150ms time-based damping, return to rest, and no frames while settled. Keep resting pose during crossfade; observe the hero passively only in its artwork region.
+3. Add one-way DPR reduction from 1.5 to 1.0 on sustained poor performance during actual motion, then static fallback if still poor. No continuous benchmark or oscillation.
+4. Complete browser tests for reduced-motion changes, Save-Data, slow/blocked downloads, context loss, shader/renderer failure and repeated route navigation. Verify no scene requests on unrelated routes.
+5. Measure production transfer totals, LCP/CLS impact, active frame pacing, idle renders and GPU/resource behaviour on representative hardware. The triangle/download budgets alone do not establish performance.
+6. Review via PR and Vercel preview, then merge only when authorised.
 
-Source geometry, the black-piece normal atlas and metadata are stored in `refernce and guide/3d-source/polyhaven-chess-set/`, ignored by Git. Original colour/roughness maps are omitted. The source glTF is not a complete standalone textured asset; do not serve or load it directly.
-
-`scripts/prepare-knight.py` extracts the knight, normalises its height, assigns two gold base bands, preserves UVs, and embeds the original normal atlas resized to 1K with unused UV areas masked out. Run with Python and Pillow, as for the existing asset script. Source-integrity and output-size assertions fail on unexpected files. The resulting `public/models/knight.glb` is **295,208 bytes**, with two material primitives, 2,662 triangles, and no compression decoder. Forward is -Z, Y-up, base at Y=0, height 1; the circular base remains centred on its original origin. `public/models/knight.LICENSE.txt` accompanies the asset.
-
-The scene uses Three's MIT-licensed `RoomEnvironment`, generated locally into a 256px PMREM, and a generated 64px contact-shadow texture. No environment/shadow download is needed. Camera: position `[0, 1.05, 2.7]`, target `[0, 0.46, 0]`, FOV 30°, model yaw 2.2 radians. Lighting is in `src/components/hero-scene.tsx`. Three 0.186.1, Fiber 9.8.2 and Three typings 0.186.0 are pinned; locked React remains 19.3.0.
-
-`public/images/hero-knight.webp` is the matching **22,490-byte**, 1003×1003 transparent render, exported immediately after the actual browser scene rendered its resting pose and converted with Pillow at WebP quality 90. Image and canvas share a square frame for consistent responsive placement. The original `hero-knight-bg.webp` is retained for rollback. Temporary capture code/API and elevated capture DPR were removed after export; runtime DPR is capped at 1.5.
-
-Official download/provenance endpoints:
-
-- [Publisher file manifest](https://api.polyhaven.com/files/chess_set)
-- [Source glTF](https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/chess_set/chess_set_1k.gltf)
-- [Source geometry binary](https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/chess_set/chess_set.bin)
-- [Source normal atlas](https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/chess_set/chess_set_pieces_black_nor_gl_2k.jpg)
-
-Downloaded source integrity was checked against the publisher's manifest sizes and MD5 values. SHA-256 values for future verification:
-
-```text
-3e21ecd0c2ffb703dfdb3f3ea7a379c1dbd4ec513ba2cb8e6cb1e5f276d7eb91  chess_set_1k.gltf
-c73476fd032a2cb4a9c256f70573eed260708132fdc42fec161c6216711560b3  chess_set.bin
-0f34ac3bb06c64d3a6a8f8999b13612b2e299c5d9888ba7bd8fc4d9f2f0acc7e  chess_set_pieces_black_nor_gl_2k.jpg
-```
-
-## Implementation and verification sequence
-
-1. Extract the knight, centre its base at Y=0, normalise its height, assign charcoal/gold, and frame a still scene within the existing hero. Check desktop, tablet, and phone crops. The still has been produced; client visual review is pending.
-2. Add the deferred scene with a matching fallback. Target GLB at or below 1MB and total model/environment/shadow transfers at or below 1.3MB. File size is within the model budget; production transfers/performance require separate measurement.
-3. Add pointer response (yaw at most ±4°, pitch ±1.5°), settling, visibility suspension, and one-way quality reduction from DPR 1.5 to 1.0 before falling back if necessary.
-4. Verify local error recovery, reduced-motion changes, blocked/slow downloads, context loss, repeated route navigation, no-JavaScript output, and no Three/Fiber requests on unrelated routes.
-5. Run typecheck, existing tests, one production build, and local HTTP checks sequentially. Verify browser behaviour and real-device performance separately. Preserve the HTTP contract: static hero in server HTML, no server-rendered canvas. Never run the API-containing HTTP script against production.
-
-The development machine has limited memory/disk space. Avoid duplicate builds, large source texture archives, and concurrent development/build processes. Initial unit checks cover policy boundaries and the standalone GLB contract. Record final build/browser verification before handoff.
-
-## Verification for the first review
-
-Typecheck, all 20 unit tests, one production build and local HTTP checks passed. [Screenshots, results and remaining checks](../../verification/chess-3d-hero/README.md) are saved alongside this handoff. The production browser reaches one scene, removes it on event navigation and recreates only one scene on returning Home. Phone/tablet widths retain the matching image. Full performance and failure-scenario testing is still pending.
+Run typecheck, unit tests and one production build sequentially. Stop the dev server before building and use one `.next` directory. Run `tests/http.mjs` only against the local fixture: it includes API requests and rejects remote hosts. The workstation has previously exhausted RAM and swap; avoid duplicate servers, builds or large simultaneous render jobs.

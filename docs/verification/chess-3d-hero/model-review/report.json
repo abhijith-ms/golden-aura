@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/chess-3d-hero",
+  "stage": "Replacement asset and still review; not final 3D release verification",
+  "contract": "README.md: preserve the compact hero, HTML actions and responsive frame; compare the rejected prototype with a more defined free knight before motion.",
+  "targetViewports": [
+    "1440x900",
+    "834x1112",
+    "390x844",
+    "1280x720"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "For the asset change: artwork remains aria-hidden with empty image alt and no focus targets; keyboard Tab moves from Explore tournaments to Meet the Trust with visible focus. New footer attribution links have descriptive names. Text remains visually readable. No motion was added; existing reduced-motion policy passes unit tests. Actual browser preference-change simulation is deferred and explicitly listed below."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "At requested desktop/tablet/phone overrides, measured client widths 1425/819/375 equal scroll widths. Desktop shows the whole knight below navbar. Narrow layouts have zero canvases, retain the matching image, and introduce no new artwork row or hero height."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "At initial navigation the image and actions remain visible before the deferred canvas reaches ready; production then reaches one ready canvas."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "This is a bundled decorative asset, not a user-supplied or empty collection; missing model is handled as an error."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Temporarily unavailable production GLB returns a non-success response. Eligible hero resolves to static with zero canvases and loaded matching image, retaining content and links. Source file restored and URL verified 200 afterwards; model-failure.jpg records the result."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "When enhancement is unavailable the complete server-rendered image, copy and links remain usable; the failed-model browser check and narrow-layout captures show this partial enhancement state."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Production desktop reaches data-scene=ready with exactly one canvas; its pose matches the static image. Tournament navigation reaches Events with zero canvases."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "The public decorative scene requests no account, device or user-data permission. The asset licence is documented separately."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "desktop-final.jpg",
+      "observation": "Requested override; full compact hero, refined knight under the navbar. Capture 1425x891 excludes browser gutter/chrome."
+    },
+    {
+      "viewport": "834x1112",
+      "artifact": "tablet-final.jpg",
+      "observation": "Requested override; matching static artwork, zero canvases, no horizontal overflow. Capture 819x1092."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "phone-final.jpg",
+      "observation": "Requested override; image remains behind readable copy and both actions; zero canvases. Capture 375x812."
+    },
+    {
+      "viewport": "1280x720",
+      "artifact": "desktop-production.jpg",
+      "observation": "Default production browser; exactly one ready canvas. Capture 1265x712."
+    },
+    {
+      "viewport": "1280x720",
+      "artifact": "model-failure.jpg",
+      "observation": "Unavailable model removes canvas and retains matching static artwork/copy/actions."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "phone-focus.jpg",
+      "observation": "Visible focus on Meet the Trust after Tab from the primary action; no artwork focus stop."
+    }
+  ],
+  "checks": {
+    "typecheck": "pass",
+    "unitTests": 20,
+    "productionBuild": "pass",
+    "localHttp": "pass with explicit localhost SITE_URL",
+    "temporaryCaptureCode": "removed",
+    "runtimeDprCap": 1.5,
+    "deadlineMs": 8000
+  },
+  "assets": {
+    "glbBytes": 732248,
+    "triangles": 39040,
+    "vertices": 20675,
+    "materialPrimitives": 2,
+    "textures": 0,
+    "fallbackBytes": 36354,
+    "fallbackDimensions": [
+      1024,
+      1024
+    ],
+    "licence": "CC BY 4.0; footer, GLB metadata and licence file"
+  },
+  "notChecked": [
+    "Actual reduced-motion/network preference changes in browser",
+    "Context loss, shader failure and renderer creation failure",
+    "Ten navigation cycles with resource instrumentation",
+    "Real-device startup/GPU/frame-pacing/LCP/CLS",
+    "Pointer motion and adaptive DPR are pending still approval",
+    "Vercel preview and merge"
+  ]
+}
