@@ -29,12 +29,11 @@ test("the shipped knight is standalone, unit height, uncompressed and within its
   assert.equal(document.materials.length, 2);
   assert.equal(document.buffers.length, 1);
   assert(!document.buffers[0].uri && !document.animations && !document.extensionsRequired);
-  assert.equal(document.images.length, 1);
-  assert.equal(document.images[0].mimeType, "image/png");
-  assert(!document.images[0].uri, "The normal map is embedded, with no external texture request");
+  assert(!document.images && !document.textures, "The sculpted detail needs no texture downloads");
+  assert.match(document.asset.copyright, /Bhargav Limje.*CC BY 4.0/);
   const primitives = document.meshes[0].primitives;
   assert.equal(primitives.length, 2);
-  assert.equal(primitives.reduce((sum: number, primitive: { indices: number }) => sum + document.accessors[primitive.indices].count / 3, 0), 2662);
+  assert.equal(primitives.reduce((sum: number, primitive: { indices: number }) => sum + document.accessors[primitive.indices].count / 3, 0), 39040);
   const position = document.accessors[primitives[0].attributes.POSITION];
   assert.equal(position.min[1], 0);
   assert.equal(position.max[1], 1);

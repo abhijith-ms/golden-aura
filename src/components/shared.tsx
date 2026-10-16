@@ -230,6 +230,9 @@ export function Footer({ site }: { site: SiteSettings }) {
         </div>
         <a href="#top">Back to top ↑</a>
       </div>
+      <p className={styles.artworkCredit}>
+        Knight adapted from <a href="https://sketchfab.com/3d-models/wooden-chess-board-feca51cdf6114927abdb4b4dc538c2b7">Wooden Chess Board by Bhargav Limje</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+      </p>
     </footer>
   );
 }

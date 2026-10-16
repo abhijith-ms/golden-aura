@@ -1,12 +1,25 @@
-Knight geometry adapted from Chess Set by Riley Queen, published by Poly Haven.
-Source: https://polyhaven.com/a/chess_set
-Licence: CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/)
-Publisher licence: https://polyhaven.com/license
-Retrieved: 2026-10-15
+Golden Aura knight asset and its matching hero-knight-sculpture.webp rendering
 
-One knight extracted, normalised to unit height, and assigned new charcoal and
-champagne-gold materials. Its original normal atlas is resized to 1K and masked
-to retain the knight's UV islands. Board, other pieces and colour maps omitted.
-Publisher preview images are not included.
+Adapted from "Wooden Chess Board" by Bhargav Limje (original metadata:
+bhargavslimjes24), licensed under Creative Commons Attribution 4.0 International.
 
-Reproduction and source checksums: docs/plans/chess-3d-hero/README.md
+Original model:
+https://sketchfab.com/3d-models/wooden-chess-board-feca51cdf6114927abdb4b4dc538c2b7
+
+Licence and legal code:
+https://creativecommons.org/licenses/by/4.0/
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Changes: extracted a single knight; removed the board, other pieces, original
+textures and UV sets; normalised scale and orientation; replaced materials with
+satin charcoal and champagne gold; assigned narrow base and mane accents;
+rendered a matching transparent WebP using the website's camera and lighting.
+The original creator does not endorse Golden Aura Trust.
+
+Source GLB redistributed with its original licence metadata by Stefan Salewski:
+https://github.com/StefanSalewski/Bevy-3D-Chess/blob/b5edff7481f5d210b91bb80013bf90d3712fe6c2/assets/models/wooden_chess_board.glb
+SHA-256: d2cb8b2b21a69e998a8725f41c5da28390d1f0092ec82831d53e4b0854d49bfc
+
+Model adaptations and matching rendering are also provided under CC BY 4.0.
+Creator, source and licence are credited in the website footer and GLB metadata.
+Retain this notice when redistributing these assets.
