@@ -36,7 +36,7 @@ assert(committee.includes("MESSAGE OF SUPPORT") && !committee.includes("Hon. Pre
 assert(!committee.includes('id="leadership"') && !committee.includes("View the 2025 committee archive"));
 assert(committee.includes("MESSAGE FROM THE ORGANIZING SECRETARY"));
 const home = await (await fetch(base + "/")).text();
-assert(home.includes("hero-knight-sculpture.webp") && !/<canvas\b/.test(home), "The progressively enhanced hero retains its server-rendered fallback");
+assert(home.includes("hero-knight-wood.webp") && !/<canvas\b/.test(home), "The progressively enhanced hero retains its server-rendered fallback");
 assert(home.includes('id="participant-feedback"') && home.includes("Video-306.mp4"));
 const playersSection = home.split('id="first-edition"')[1].split('id="moments"')[0];
 assert.equal((playersSection.match(/<article\b/g) || []).length, 14, "Home displays every featured first-edition player");
