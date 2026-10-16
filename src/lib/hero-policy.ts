@@ -32,3 +32,45 @@ export function openingKnightPosition(progress: number) {
   const p = Math.max(0, Math.min(1, progress));
   return { x: -0.21 + 0.84 * p, y: p === 0 || p === 1 ? 0 : Math.sin(Math.PI * p) * 0.32, z: 0.63 - 0.42 * p };
 }
+
+type HeroQuality = {
+  stage: "full" | "reduced" | "static";
+  moving: boolean;
+  warmup: number;
+  elapsed: number;
+  frames: number;
+  slow: number;
+};
+
+export function createHeroQuality(dpr: number): HeroQuality {
+  return {
+    stage: dpr > 1 ? "full" : "reduced",
+    moving: false, warmup: 0.25, elapsed: 0, frames: 0, slow: 0,
+  };
+}
+
+export function sampleHeroQuality(quality: HeroQuality, seconds: number, moving: boolean) {
+  if (quality.stage === "static") return null;
+  // The first demand frame can include the entire idle interval.
+  if (!moving || !quality.moving) {
+    quality.moving = moving;
+    quality.warmup = 0.25;
+    quality.elapsed = quality.frames = quality.slow = 0;
+    return null;
+  }
+  if (!Number.isFinite(seconds) || seconds <= 0) return null;
+  if (quality.warmup > 0) {
+    quality.warmup = Math.max(0, quality.warmup - seconds);
+    return null;
+  }
+  quality.elapsed += seconds;
+  quality.frames++;
+  if (seconds > 0.03) quality.slow++;
+  if (quality.elapsed < 1 || quality.frames < 12) return null;
+  const poor = quality.slow / quality.frames >= 0.6;
+  quality.elapsed = quality.frames = quality.slow = 0;
+  if (!poor) return null;
+  quality.stage = quality.stage === "full" ? "reduced" : "static";
+  quality.warmup = 0.25;
+  return quality.stage;
+}

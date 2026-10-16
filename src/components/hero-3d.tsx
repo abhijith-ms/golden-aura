@@ -23,6 +23,8 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [ready, setReady] = useState(false);
+  const [dprCap, setDprCap] = useState(1.5);
+  const reduceQuality = useCallback(() => setDprCap(1), []);
 
   const fallback = useCallback(() => {
     failed.current = true;
@@ -102,7 +104,7 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
 
   return (
     <div ref={frame} className={styles.heroArtwork} aria-hidden="true" data-scene={ready ? "ready" : mounted ? "loading" : "static"} data-eligible={allowed} data-visible={visible}>
-      {mounted && <SceneBoundary onFailure={fallback}><HeroScene frame={frame} active={visible && allowed} onReady={reveal} onFailure={fallback} /></SceneBoundary>}
+      {mounted && <SceneBoundary onFailure={fallback}><HeroScene frame={frame} active={visible && allowed} dprCap={dprCap} onReduceQuality={reduceQuality} onReady={reveal} onFailure={fallback} /></SceneBoundary>}
       {children}
     </div>
   );

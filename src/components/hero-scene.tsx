@@ -9,7 +9,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
-import { dampHeroAngle, heroPointerTarget, openingKnightPosition } from "@/lib/hero-policy";
+import { createHeroQuality, dampHeroAngle, heroPointerTarget, openingKnightPosition, sampleHeroQuality } from "@/lib/hero-policy";
 import { HeroPawn, HeroRook } from "./hero-pieces";
 import { HeroBoard } from "./hero-board";
 import { heroPieceScale } from "@/lib/hero-board";
@@ -17,7 +17,7 @@ import styles from "./site.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-type Props = { frame: RefObject<HTMLDivElement | null>; active: boolean; onReady: () => void; onFailure: () => void };
+type Props = { frame: RefObject<HTMLDivElement | null>; active: boolean; dprCap: number; onReduceQuality: () => void; onReady: () => void; onFailure: () => void };
 
 function disposeModel(model: Group) {
   const materials = new Set<Material>();
@@ -34,7 +34,7 @@ function disposeModel(model: Group) {
   textures.forEach((texture) => texture.dispose());
 }
 
-function Sculpture({ frame, active, onReady, onFailure }: Props) {
+function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props) {
   const { gl, scene, camera, invalidate } = useThree();
   const [model, setModel] = useState<Group>();
   const [presented, setPresented] = useState(false);
@@ -47,6 +47,8 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
   const ivoryRook = useRef<Group>(null);
   const landing = useRef<MeshStandardMaterial>(null);
   const entrance = useRef<gsap.core.Timeline | null>(null);
+  const scrollMotion = useRef<gsap.core.Timeline | null>(null);
+  const quality = useRef(createHeroQuality(gl.getPixelRatio()));
   const target = useRef({ yaw: 0, pitch: 0 });
   const activeRef = useRef(active);
   const shadow = useMemo(() => {
@@ -64,6 +66,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
   useEffect(() => () => shadow.dispose(), [shadow]);
   useEffect(() => {
     activeRef.current = active;
+    sampleHeroQuality(quality.current, 0, false);
     target.current = { yaw: 0, pitch: 0 };
     pointerGroup.current?.rotation.set(0, 0, 0);
     entrance.current?.paused(!active);
@@ -161,6 +164,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
       .to(motion, { gold: 1, duration: 1.1, ease: "power3.out" }, 0.35)
       .to(motion, { rook: 1, duration: 1.1, ease: "power3.out" }, 0.65);
     const timeline = gsap.timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.35 } });
+    scrollMotion.current = timeline;
     timeline.to(motion, { scroll: 1, ease: "none", onUpdate: applyMotion }, 0);
     timeline.to(artwork, { y: 104, scale: 1.04, ease: "none" }, 0);
     timeline.to(hero.querySelector("[data-hero-copy]"), { y: 28, opacity: 0.7, ease: "none" }, 0);
@@ -185,6 +189,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
       hero.removeEventListener("pointermove", move);
       hero.removeEventListener("pointerleave", reset);
       entrance.current = null;
+      scrollMotion.current = null;
     };
   }, { dependencies: [presented, frame, camera, invalidate], revertOnUpdate: true });
 
@@ -193,7 +198,12 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
     if (!active || !presented || !group) return;
     group.rotation.y = dampHeroAngle(group.rotation.y, target.current.yaw, seconds);
     group.rotation.x = dampHeroAngle(group.rotation.x, target.current.pitch, seconds);
-    if (group.rotation.y !== target.current.yaw || group.rotation.x !== target.current.pitch) invalidate();
+    const pointerMoving = group.rotation.y !== target.current.yaw || group.rotation.x !== target.current.pitch;
+    if (pointerMoving) invalidate();
+    const moving = pointerMoving || !!entrance.current?.isActive() || !!scrollMotion.current?.scrollTrigger?.getTween()?.isActive();
+    const adjustment = sampleHeroQuality(quality.current, seconds, moving);
+    if (adjustment === "reduced") onReduceQuality();
+    else if (adjustment === "static") onFailure();
   });
 
   return (
@@ -267,7 +277,7 @@ export default function HeroScene(props: Props) {
         aria-hidden="true"
         style={{ pointerEvents: "none" }}
         frameloop={props.active ? "demand" : "never"}
-        dpr={[1, 1.5]}
+        dpr={[1, props.dprCap]}
         camera={{ position: [2.8, 2.1, 3.8], fov: 27, near: 0.1, far: 20 }}
         gl={{ alpha: true, antialias: true, powerPreference: "low-power", toneMapping: ACESFilmicToneMapping, toneMappingExposure: 1.1 }}
         fallback={null}

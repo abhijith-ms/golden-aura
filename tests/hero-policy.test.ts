@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { canEnhanceHero, dampHeroAngle, heroPointerTarget, openingKnightPosition, type HeroCapabilities } from "../src/lib/hero-policy.ts";
+import { canEnhanceHero, createHeroQuality, dampHeroAngle, heroPointerTarget, openingKnightPosition, sampleHeroQuality, type HeroCapabilities } from "../src/lib/hero-policy.ts";
 import { createBoardTextures, heroPieceScale } from "../src/lib/hero-board.ts";
 
 test("the board has eight alternating squares per side with filtered, opaque grain", () => {
@@ -26,6 +26,53 @@ test("the board has eight alternating squares per side with filtered, opaque gra
 });
 
 const desktop: HeroCapabilities = { width: 1440, reducedMotion: false, finePointer: true, hover: true };
+
+function sampleFrames(quality: ReturnType<typeof createHeroQuality>, count: number, seconds: number, moving = true) {
+  return Array.from({ length: count }, () => sampleHeroQuality(quality, seconds, moving)).filter(Boolean);
+}
+
+test("quality ignores warm-up, idle/resume gaps, invalid intervals and isolated stalls", () => {
+  const quality = createHeroQuality(1.5);
+  assert.equal(sampleHeroQuality(quality, 10, true), null);
+  assert.deepEqual(sampleFrames(quality, 20, 1 / 60), []);
+  assert.equal(sampleHeroQuality(quality, 1.5, true), null);
+  assert.deepEqual(sampleFrames(quality, 180, 1 / 60), []);
+  assert.deepEqual(sampleFrames(quality, 5, 20, false), []);
+  assert.equal(sampleHeroQuality(quality, 30, true), null);
+  for (const delta of [NaN, Infinity, 0, -1]) assert.equal(sampleHeroQuality(quality, delta, true), null);
+  assert.deepEqual(sampleFrames(quality, 180, 1 / 60), []);
+  assert.equal(quality.stage, "full");
+});
+
+test("sustained slow motion reduces quality once, then takes the terminal fallback", () => {
+  const quality = createHeroQuality(1.5);
+  assert.deepEqual(sampleFrames(quality, 20, 1 / 30), [], "A short burst is insufficient");
+  const adjustments = sampleFrames(quality, 100, 1 / 30);
+  assert.deepEqual(adjustments, ["reduced", "static"]);
+  assert.deepEqual(sampleFrames(quality, 200, 1 / 10), [], "Fallback never fires twice");
+});
+
+test("quality stays reduced after recovery and sampling resets across pauses", () => {
+  const quality = createHeroQuality(1.5);
+  assert.deepEqual(sampleFrames(quality, 22, 1 / 15), ["reduced"]);
+  assert.deepEqual(sampleFrames(quality, 240, 1 / 60), []);
+  assert.equal(quality.stage, "reduced");
+  sampleFrames(quality, 10, 1 / 30);
+  sampleHeroQuality(quality, 60, false);
+  assert.deepEqual(sampleFrames(quality, 20, 1 / 30), []);
+  assert.equal(quality.stage, "reduced");
+});
+
+test("a native DPR-one scene falls back directly when motion remains slow", () => {
+  const quality = createHeroQuality(1);
+  assert.deepEqual(sampleFrames(quality, 60, 1 / 10), ["static"]);
+});
+
+test("occasional over-budget frames do not discard a generally smooth scene", () => {
+  const quality = createHeroQuality(1.5);
+  for (let i = 0; i < 300; i++) assert.equal(sampleHeroQuality(quality, i % 5 === 0 ? 0.06 : 1 / 60, true), null);
+  assert.equal(quality.stage, "full");
+});
 
 test("the opening move follows a knight's two-file, one-rank hop and lands on the board", () => {
   const start = openingKnightPosition(0);
