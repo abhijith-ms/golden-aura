@@ -7,10 +7,26 @@ Last updated: 2026-10-16. Read this file before resuming 3D hero work.
 - [Astra's complete plan](astra-plan.md) is preserved verbatim. Source SHA-256: `905c9eac7af4fef8b89caf988585b1116148682ab3dced430fc3f8eb3c65f287`.
 - The user authorised implementation on `codex/chess-3d-hero`, based on `main` at `54d08ae09161f1561ca6b275a028e65e2dafa75b` (merged PR #4). The remote belongs to `abhijith-ms`; verify the active GitHub account before every push.
 - The stationary, deferred desktop scene and matching static fallback are implemented. **Production has not changed. No merge is authorised by this still review.**
-- The user rejected the first Poly Haven knight as too basic and explicitly requires **free assets only**. A stronger replacement is now prepared for review; it has not been approved by the user.
-- Next: review the replacement still, then implement bounded pointer response and adaptive DPR, followed by the remaining failure/performance checks. Do not call the full 3D phase complete. Review a PR and Vercel preview before merging.
+- The user rejected **both the Poly Haven and Bhargav Limje knights**. The Bhargav asset remains in the branch as a rejected prototype. Do not treat it as approved or continue polishing it. The user explicitly requires **free assets only** and has supplied two specific alternatives below.
+- Draft [PR #5](https://github.com/abhijith-ms/golden-aura/pull/5) and its [Vercel review preview](https://golden-aura-git-codex-chess-3d-hero-abhijith-mss-projects.vercel.app/) contain the rejected Bhargav prototype. They have not been merged.
+- Next: obtain and try the user's supplied model, review its still composition, then implement bounded pointer response and adaptive DPR followed by remaining failure/performance checks. Do not call the full 3D phase complete.
 
-## Replacement prepared for still review
+## User-supplied alternatives — current priority
+
+Checked on 2026-10-16 through the actual model pages, the first model's download button and Sketchfab's public model metadata API. No new runtime asset was downloaded or substituted during this check.
+
+| User link | Model and creator | Access and rights |
+|---|---|---|
+| [Ly8C](https://skfb.ly/Ly8C) | [Chessboard by Oleksandr Zymohliad](https://sketchfab.com/3d-models/chessboard-3cee8ada5d99468cbc93ded83b3ca70a) | Free download; CC BY 4.0 permits commercial reuse with attribution. Download button opens the Sketchfab login dialog in the current browser. Needs the downloadable glTF/GLB or original archive from a signed-in user. |
+| [6XXpB](https://skfb.ly/6XXpB) | [Chess Piece: Knight (Horse) by Tenebrius](https://sketchfab.com/3d-models/chess-piece-knight-horse-dd5c780cce3d46e4b34606e659f437e0) | Public preview only: no Download button, API `isDownloadable: false`, empty licence object. Its `free` tag does not supply reuse rights. Requires an authorised source file and creator permission before integration. |
+
+The first set has a traditional wooden knight with a curved neck and circular base; preserve its appearance for the initial comparison. Its 639,918 triangles / 640,756 vertices describe the entire board, not the isolated knight. Extract only the knight, inspect its actual geometry and textures, then optimise. Do not discard useful sculpting simply to hit an arbitrary triangle count or immediately replace all original materials.
+
+The second has a more defined horse head and mane and a dark marble finish. Its listed geometry is 11,104 triangles / 5,554 vertices. It is promising visually, but public viewing and a `free` tag do not authorise extracting the viewer's geometry. Do not scrape its viewer resources or substitute an unverified lookalike.
+
+Current blocker: source access. Request the first model's downloaded ZIP in `refernce and guide/3d-source/` (glTF with its `.bin` and texture files, GLB, or original Blender archive). Do not request passwords or API tokens. No new source files means no honest in-hero comparison yet. Keep the existing loading/fallback integration and production site intact while awaiting the source.
+
+## Current branch asset — rejected, pending replacement
 
 Knight from [Wooden Chess Board by Bhargav Limje](https://sketchfab.com/3d-models/wooden-chess-board-feca51cdf6114927abdb4b4dc538c2b7). The source GLB identifies the author as `bhargavslimjes24`, title `Wooden Chess Board`, source Sketchfab URL and **CC BY 4.0**. The publisher's model page also lists CC Attribution. [The licence](https://creativecommons.org/licenses/by/4.0/) allows commercial use, modification and redistribution with credit, a licence link and an indication of changes. These are supplied in the footer, GLB metadata and `public/models/knight.LICENSE.txt`. No paid, NC or ND asset is used.
 
@@ -36,7 +52,7 @@ To reproduce, download that pinned GitHub file into the ignored source path and 
 | Textures/decoders | None in the model; detail comes from geometry |
 | Matching fallback | `public/images/hero-knight-sculpture.webp`, **36,354 bytes**, 1024x1024, transparent |
 
-The new geometry gives a more defined muzzle, open jaw, brow, eye and carved neck. It remains a stylised Staunton piece, not a replica of the elaborate original background illustration. The user must review that artistic difference. Do not equate its larger triangle count with approval.
+This geometry has an open jaw and carved neck, but the user rejected its appearance. Its larger triangle count did not solve the visual problem. Keep these asset details for reproducibility of the current branch, not as a recommendation.
 
 [Replacement screenshots and comparison notes](../../verification/chess-3d-hero/model-review/README.md) include the rejected prototype baseline, the new model with unchanged lighting, the refined desktop treatment and tablet/phone crops. Only one accessible replacement was integrated after screening the other candidates; do not claim multiple replacement GLBs were tested.
 
@@ -67,7 +83,7 @@ Keep `hero-scene.tsx` behind the homepage-only lazy controller. Use demand rende
 
 The initial prototype passed typecheck, 20 unit tests, a production build and local HTTP checks; its historical evidence remains in [the first verification record](../../verification/chess-3d-hero/README.md). The replacement has its own [current review record](../../verification/chess-3d-hero/model-review/README.md). Do not present historical prototype checks as replacement measurements.
 
-1. User reviews the replacement still and phone/tablet crops.
+1. Obtain and compare the user's supplied model(s), regenerate the matched fallback and review the replacement still and phone/tablet crops. Both earlier asset choices were rejected.
 2. Implement pointer yaw <= +/-4 degrees and pitch <= +/-1.5 degrees, 150ms time-based damping, return to rest, and no frames while settled. Keep resting pose during crossfade; observe the hero passively only in its artwork region.
 3. Add one-way DPR reduction from 1.5 to 1.0 on sustained poor performance during actual motion, then static fallback if still poor. No continuous benchmark or oscillation.
 4. Complete browser tests for reduced-motion changes, Save-Data, slow/blocked downloads, context loss, shader/renderer failure and repeated route navigation. Verify no scene requests on unrelated routes.
