@@ -10,8 +10,8 @@ Last updated: 2026-10-16. Read this file before resuming 3D hero work.
 - The user supplied two alternatives and downloaded **Chessboard by Oleksandr Zymohliad**. Its knight is extracted with the set's dark wood finish. **Current review: a cinematic opening with board and proportion polish. The user said this looks far better and requested higher board quality and corrected piece sizes.**
 - [Draft PR #5](https://github.com/abhijith-ms/golden-aura/pull/5) and [Vercel branch preview](https://golden-aura-git-codex-chess-3d-hero-abhijith-mss-projects.vercel.app/) are the review surfaces. No production merge is authorised.
 - **Current scope changed on 2026-10-16:** the user requested 3D/parallax and supplied [Astra's revised motion plan](astra-revised-motion-plan.md), saved verbatim (SHA-256 `251f627af8ca614e6ded848748870ef25b4753539539a97de68601b5b58e7111`). Build a reviewable **hero-to-introduction prototype first**. Its shallow board, 12–18-degree scroll turn, viewpoint shift, layered parallax and desktop smoothing trial supersede the original pointer-only/no-board/no-scroll constraints. Keep the technical foundation and compact layout. Hold gallery/card choreography until visual approval.
-- **Latest user direction:** “Hero is okay, but there is no wow factor … create something with 3js and try it out.” This authorises a larger board and supporting pieces within the hero. The current experiment uses one actual knight hop, supporting-piece moves and a camera arc. See the current integration below. Other homepage choreography remains unchanged.
-- Adaptive DPR and remaining resilience/performance checks are still pending; do not report the entire 3D phase complete.
+- **Latest user direction:** after accepting the cinematic direction and requesting board/proportion polish, the user said “Proceed with next step.” This pass adds adaptive rendering quality. It preserves the board, pieces, motion and layout. Other homepage choreography remains unchanged.
+- Adaptive DPR is implemented and its integration is verified with controlled synthetic frame samples. Representative-device calibration and the remaining resilience/performance checks are still pending; do not report the entire 3D phase complete.
 
 ## Current source and licence
 
@@ -78,16 +78,21 @@ Three's RoomEnvironment and the existing local 64px contact texture remain; ther
 
 Lenis uses lerp 0.12 and the same GSAP ticker, with native touch and anchors preserved. Keyboard navigation and clicks interrupt wheel inertia. It is scoped to the eligible deferred homepage scene and destroyed on unmount, failure or eligibility changes. The ticker callback is removed while the document is hidden. A Lenis callback is not a continuous WebGL render loop: Fiber remains demand-driven and only invalidates while scroll/pointer transforms change. All ScrollTriggers, inline transforms and listeners are reverted on cleanup.
 
+Adaptive quality samples existing `useFrame` intervals only while the opening timeline, ScrollTrigger's actual scrub tween or unsettled pointer damping is active. Preparation and the 450ms handoff are excluded. Each motion session skips its first delta (which may contain idle time), allows 250ms warm-up, then requires at least one second and 12 intervals. A window is poor when at least 60% of intervals exceed 30ms. One poor window lowers the DPR cap from 1.5 to 1; another poor window at low quality invokes the existing terminal image fallback. A scene starting at native DPR <=1 goes directly to fallback on sustained poor motion. These are initial responsiveness thresholds, not representative-device performance approval.
+
+The cap belongs to `HeroArtwork`, so it survives temporary responsive/eligibility teardown and cannot rise again during that homepage visit. Sampling resets across pauses without raising the quality. The monitor adds no timer, benchmark loop, `requestAnimationFrame`, render invalidation or dependency. Static fallback removes the canvas, Lenis and GSAP transforms; resizing cannot restart a failed enhancement during that visit. A fresh homepage visit can enhance again.
+
+[Adaptive-quality verification](../../verification/chess-3d-hero/adaptive-quality/README.md) records unit tests, controlled browser DPR/fallback transitions and limits. Temporary synthetic sample overrides and DOM counters were removed before production build.
+
 [Current board/proportion polish and verification](../../verification/chess-3d-hero/board-polish/README.md) document the latest review. The [cinematic experiment](../../verification/chess-3d-hero/cinematic-experiment/README.md), [earlier motion prototype](../../verification/chess-3d-hero/motion-prototype/README.md) and still comparisons are historical.
 
 Enhance only above 1040px with a fine pointer/hover, unrestricted motion/data preferences and successful renderer creation. Phones and touch tablets retain the static image. Wait for initial page and hero-image loading, then idle time. Retain the image until a valid scene frame succeeds. Keep errors, deadline and context loss local to the artwork. Preserve asynchronous cancellation and owned-resource disposal.
 
 ## Next milestones and checks
 
-1. Review the board/proportion polish, opening recording and phone/tablet composition with the user. The cinematic direction is accepted; this refinement is the current review point. Finish performance/fallback work before extending motion to tournament cards or the community gallery.
-2. Add one-way DPR reduction from 1.5 to 1.0 during sustained poor active-motion performance, then static fallback if still poor. No continuous benchmark or oscillation.
-3. Complete browser tests for actual reduced-motion/network preference changes, context loss, shader/renderer failure, extended navigation/resource profiling and engine-request isolation. Policy unit tests, basic route cleanup and a missing-model browser check are covered; these are not the full resilience matrix.
-4. Measure production transfer totals, LCP/CLS and frame pacing on representative hardware. Local temporary counters confirmed settling/offscreen cessation, not a 60fps performance sign-off or proof of total GPU memory.
-5. Review PR/Vercel preview and merge only when authorised.
+1. Complete browser tests for actual reduced-motion/network preference changes, context loss, shader/renderer failure, extended navigation/resource profiling and engine-request isolation. Policy unit tests, basic route cleanup, a missing-model check and synthetic adaptive-quality integration are covered; these are not the full resilience matrix.
+2. Measure production transfer totals, LCP/CLS and frame pacing on representative hardware, and calibrate the adaptive thresholds. Local counters confirm settling and controlled DPR transitions, not a 60fps sign-off or proof of total GPU memory.
+3. After this foundation is approved, refine tournament-card and community-gallery motion without extra scroll length or blocked actions.
+4. Review PR/Vercel preview and merge only when authorised.
 
 Run typecheck, unit tests and one production build sequentially. Stop development before building, reuse one `.next` directory, then run `tests/http.mjs` against a local fixture with `SITE_URL=http://localhost:3000`. It includes API requests and must never target production. This workstation has previously exhausted RAM/swap: avoid duplicate servers/builds and simultaneous large render jobs.
