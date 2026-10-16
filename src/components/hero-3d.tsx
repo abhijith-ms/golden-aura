@@ -102,7 +102,7 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
 
   return (
     <div ref={frame} className={styles.heroArtwork} aria-hidden="true" data-scene={ready ? "ready" : mounted ? "loading" : "static"} data-eligible={allowed} data-visible={visible}>
-      {mounted && <SceneBoundary onFailure={fallback}><HeroScene active={visible && allowed} onReady={reveal} onFailure={fallback} /></SceneBoundary>}
+      {mounted && <SceneBoundary onFailure={fallback}><HeroScene frame={frame} active={visible && allowed} onReady={reveal} onFailure={fallback} /></SceneBoundary>}
       {children}
     </div>
   );

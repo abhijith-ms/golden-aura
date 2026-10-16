@@ -1,9 +1,30 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { canEnhanceHero, type HeroCapabilities } from "../src/lib/hero-policy.ts";
+import { canEnhanceHero, dampHeroAngle, heroPointerTarget, type HeroCapabilities } from "../src/lib/hero-policy.ts";
 
 const desktop: HeroCapabilities = { width: 1440, reducedMotion: false, finePointer: true, hover: true };
+
+test("pointer travel stays within four degrees yaw and one-and-a-half degrees pitch", () => {
+  assert.deepEqual(heroPointerTarget(0, 0), { yaw: 0, pitch: 0 });
+  for (const sign of [-1, 1]) {
+    const target = heroPointerTarget(sign * 10, sign * 10);
+    assert.equal(target.yaw, sign * Math.PI / 45);
+    assert.equal(target.pitch, sign * Math.PI / 120);
+  }
+});
+
+test("damping is time-based, settles at rest and bounds a resumed frame", () => {
+  function settle(fps: number, seconds: number, start: number, target: number) {
+    let angle = start;
+    for (let frame = 0; frame < fps * seconds; frame++) angle = dampHeroAngle(angle, target, 1 / fps);
+    return angle;
+  }
+  assert(Math.abs(settle(60, 0.3, 0, 0.07) - settle(120, 0.3, 0, 0.07)) < 1e-12);
+  assert.equal(settle(60, 1, 0.07, 0), 0);
+  assert.equal(dampHeroAngle(0, 0.07, 10), dampHeroAngle(0, 0.07, 0.05));
+  assert.equal(dampHeroAngle(0, 0.07, -1), 0);
+});
 
 test("hero enhancement requires desktop space, fine hover input and unrestricted motion/data", () => {
   assert.equal(canEnhanceHero(desktop), true);

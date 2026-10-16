@@ -23,7 +23,7 @@ export default async function Home() {
       <section className={styles.hero}>
         <div className={styles.heroBackdrop} aria-hidden="true">
           <HeroArtwork><Image
-            src="/images/hero-knight-wood.webp"
+            src="/images/hero-knight-board.webp"
             alt=""
             fill
             priority
@@ -32,7 +32,7 @@ export default async function Home() {
           /></HeroArtwork>
           <div className={styles.heroOverlay} />
         </div>
-        <div className={styles.heroCopy}>
+        <div className={styles.heroCopy} data-hero-copy>
           <span className={styles.heroKicker}>GOLDEN AURA TRUST <span aria-hidden="true">/</span> BENGALURU</span>
           <h1><Lines text={site.heroTitle} /></h1>
           <p>{site.heroIntro}</p>
@@ -54,7 +54,7 @@ export default async function Home() {
           <span className={styles.eyebrowMeta}>ROOTED IN BENGALURU</span>
         </div>
         <div className={styles.introGrid}>
-          <div>
+          <div data-hero-intro>
             <h2>
               A game for everyone.
               <br />
