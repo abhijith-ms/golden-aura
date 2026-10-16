@@ -27,7 +27,7 @@
 .mobileDrawer .navCta { background: var(--night); color: var(--paper); justify-content: space-between; margin-top: 24px; }
 .hero { position: relative; margin-top: -96px; min-height: clamp(480px, 65vh, 640px); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; background: var(--night); color: var(--paper); overflow: hidden; isolation: isolate; }
 .heroBackdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.heroArtwork { position: absolute; height: calc(100% - 70px); max-height: 560px; aspect-ratio: 1.6; right: -4%; bottom: 0; pointer-events: none; animation: artworkArrive 800ms cubic-bezier(.22, 1, .36, 1) backwards; }
+.heroArtwork { position: absolute; height: calc(100% - 70px); max-height: 560px; aspect-ratio: 1.6; right: -4%; bottom: 0; pointer-events: none; mask-image: linear-gradient(to right, transparent, #000 18%); animation: artworkArrive 800ms cubic-bezier(.22, 1, .36, 1) backwards; }
 .heroArtwork::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 60%, #ac824117, transparent 67%); }
 .heroSculptureImage { object-fit: contain; opacity: 1; }
 .heroArtwork[data-scene="ready"] .heroSculptureImage { opacity: 0; transition: opacity 450ms cubic-bezier(0.22, 1, 0.36, 1); }

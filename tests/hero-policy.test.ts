@@ -2,6 +2,28 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { canEnhanceHero, dampHeroAngle, heroPointerTarget, openingKnightPosition, type HeroCapabilities } from "../src/lib/hero-policy.ts";
+import { createBoardTextures, heroPieceScale } from "../src/lib/hero-board.ts";
+
+test("the board has eight alternating squares per side with filtered, opaque grain", () => {
+  const { map, detail } = createBoardTextures(4);
+  assert(map.image.data && detail.image.data);
+  assert.equal(map.image.width, 1024);
+  assert.equal(map.image.height, 1024);
+  assert.equal(map.image.data.length, 1024 * 1024 * 4);
+  for (let row = 0; row < 8; row++) for (let column = 0; column < 8; column++) {
+    const offset = ((row * 128 + 64) * 1024 + column * 128 + 64) * 4;
+    const expectedLight = (row + column) % 2 === 1;
+    assert.equal(map.image.data[offset] > 100, expectedLight);
+    assert.equal(map.image.data[offset + 3], 255);
+    assert(detail.image.data[offset] >= 130 && detail.image.data[offset] <= 210);
+  }
+  assert.equal(map.generateMipmaps, true);
+  assert.equal(detail.generateMipmaps, true);
+  assert.equal(map.anisotropy, 4);
+  const capped = createBoardTextures(16);
+  assert.equal(capped.map.anisotropy, 8);
+  for (const texture of [map, detail, capped.map, capped.detail]) texture.dispose();
+});
 
 const desktop: HeroCapabilities = { width: 1440, reducedMotion: false, finePointer: true, hover: true };
 
@@ -79,5 +101,14 @@ test("the shipped knight is standalone, unit height, uncompressed and within its
   assert.equal(document.accessors[primitives[0].attributes.TEXCOORD_0].count, position.count);
   assert.equal(position.min[1], 0);
   assert.equal(position.max[1], 1);
+  const view = document.bufferViews[position.bufferView];
+  const offset = 20 + glb.readUInt32LE(12) + 8 + view.byteOffset + (position.byteOffset || 0);
+  let baseRadius = 0;
+  for (let vertex = 0; vertex < position.count; vertex++) {
+    const start = offset + vertex * 12;
+    if (glb.readFloatLE(start + 4) < 0.1) baseRadius = Math.max(baseRadius, Math.hypot(glb.readFloatLE(start), glb.readFloatLE(start + 8)));
+  }
+  const footprint = baseRadius * 2 * heroPieceScale.knight / 0.42;
+  assert(footprint > 0.7 && footprint < 0.85, "The actual knight base fits its square with visible clearance");
   for (const view of document.bufferViews) assert(view.byteOffset + view.byteLength <= document.buffers[0].byteLength);
 });

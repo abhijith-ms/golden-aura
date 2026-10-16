@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, NearestFilter, PMREMGenerator, SRGBColorSpace, type Group, type Material, type MeshStandardMaterial, type Texture } from "three";
+import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, PMREMGenerator, type Group, type Material, type MeshStandardMaterial, type Texture } from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import gsap from "gsap";
@@ -11,6 +11,8 @@ import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
 import { dampHeroAngle, heroPointerTarget, openingKnightPosition } from "@/lib/hero-policy";
 import { HeroPawn, HeroRook } from "./hero-pieces";
+import { HeroBoard } from "./hero-board";
+import { heroPieceScale } from "@/lib/hero-board";
 import styles from "./site.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -47,17 +49,6 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
   const entrance = useRef<gsap.core.Timeline | null>(null);
   const target = useRef({ yaw: 0, pitch: 0 });
   const activeRef = useRef(active);
-  const board = useMemo(() => {
-    const pixels = new Uint8Array(6 * 6 * 4);
-    for (let y = 0; y < 6; y++) for (let x = 0; x < 6; x++) {
-      pixels.set((x + y) % 2 ? [113, 108, 89, 255] : [22, 29, 25, 255], (y * 6 + x) * 4);
-    }
-    const texture = new DataTexture(pixels, 6, 6);
-    texture.colorSpace = SRGBColorSpace;
-    texture.magFilter = texture.minFilter = NearestFilter;
-    texture.needsUpdate = true;
-    return texture;
-  }, []);
   const shadow = useMemo(() => {
     const pixels = new Uint8Array(64 * 64 * 4);
     for (let y = 0; y < 64; y++) for (let x = 0; x < 64; x++) {
@@ -70,7 +61,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
     return texture;
   }, []);
 
-  useEffect(() => () => { shadow.dispose(); board.dispose(); }, [shadow, board]);
+  useEffect(() => () => shadow.dispose(), [shadow]);
   useEffect(() => {
     activeRef.current = active;
     target.current = { yaw: 0, pitch: 0 };
@@ -155,7 +146,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
       knightTravel.current?.position.set(pose.x, pose.y, pose.z);
       knightShadow.current?.position.set(pose.x, 0, pose.z);
       knightShadow.current?.scale.setScalar(1 + pose.y);
-      if (goldPawn.current) goldPawn.current.position.z = 0.63 - 0.42 * motion.gold;
+      if (goldPawn.current) goldPawn.current.position.z = 1.05 - 0.42 * motion.gold;
       if (ivoryRook.current) ivoryRook.current.position.z = -1.05 + 0.42 * motion.rook;
       if (landing.current) landing.current.opacity = 0.12 + 0.38 * motion.knight;
       scrollGroup.current?.rotation.set(-0.06 * motion.scroll, -0.25 - 0.48 * motion.scroll, 0);
@@ -212,44 +203,31 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
       <directionalLight position={[3, 2, -2]} color="#e4d4ab" intensity={3} />
       <directionalLight position={[2, 1, 3]} color="#dce4e5" intensity={0.7} />
       <group ref={scrollGroup} rotation={[0, -0.25, 0]}>
-        <group>
-          <mesh position={[0, -0.052, 0]}>
-            <boxGeometry args={[2.58, 0.08, 2.58]} />
-            <meshStandardMaterial color="#111a15" roughness={0.35} />
-          </mesh>
-          <mesh position={[0, -0.015, 0]}>
-            <boxGeometry args={[2.55, 0.006, 2.55]} />
-            <meshStandardMaterial color="#a18a58" metalness={0.6} roughness={0.4} />
-          </mesh>
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.011, 0]}>
-            <planeGeometry args={[2.52, 2.52]} />
-            <meshStandardMaterial map={board} metalness={0.12} roughness={0.32} />
-          </mesh>
-        </group>
+        <HeroBoard />
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.63, -0.007, 0.21]}>
           <planeGeometry args={[0.41, 0.41]} />
           <meshStandardMaterial ref={landing} color="#c4af78" emissive="#b08c43" emissiveIntensity={0.5} transparent opacity={0.12} depthWrite={false} />
         </mesh>
         <group ref={knightShadow} position={[-0.21, 0, 0.63]}>
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.003, 0]}>
-            <planeGeometry args={[0.85, 0.85]} />
+            <planeGeometry args={[0.54, 0.54]} />
             <meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} />
           </mesh>
         </group>
         <group ref={knightTravel} position={[-0.21, 0, 0.63]}>
           <group ref={pointerGroup}>
-            {model && <primitive object={model} rotation={[0, 2.2, 0]} scale={1.12} dispose={null} />}
+            {model && <primitive object={model} rotation={[0, 2.2, 0]} scale={heroPieceScale.knight} dispose={null} />}
           </group>
         </group>
-        <group ref={goldPawn} position={[-0.63, 0, 0.63]}>
+        <group ref={goldPawn} position={[-0.63, 0, 1.05]} scale={heroPieceScale.pawn}>
           <HeroPawn color="#c4a363" />
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.003, 0]}><planeGeometry args={[0.65, 0.65]} /><meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} /></mesh>
         </group>
-        <group ref={ivoryRook} position={[-1.05, 0, -1.05]} scale={1.15}>
+        <group ref={ivoryRook} position={[-1.05, 0, -1.05]} scale={heroPieceScale.rook}>
           <HeroRook />
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.0025, 0]}><planeGeometry args={[0.65, 0.65]} /><meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} /></mesh>
         </group>
-        <group position={[0.63, 0, -0.63]} scale={1.1}>
+        <group position={[0.63, 0, -0.63]} scale={heroPieceScale.pawn}>
           <HeroPawn color="#18231e" />
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.003, 0]}><planeGeometry args={[0.65, 0.65]} /><meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} /></mesh>
         </group>

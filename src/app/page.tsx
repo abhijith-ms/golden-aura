@@ -23,7 +23,7 @@ export default async function Home() {
       <section className={styles.hero}>
         <div className={styles.heroBackdrop} aria-hidden="true">
           <HeroArtwork><Image
-            src="/images/hero-opening-move.webp"
+            src="/images/hero-tournament-board.webp"
             alt=""
             fill
             priority
