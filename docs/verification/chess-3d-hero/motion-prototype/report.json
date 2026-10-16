@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/chess-3d-hero",
+  "stage": "Hero-to-introduction visual prototype; broader choreography and device performance sign-off pending",
+  "contract": "README.md: compact chess-led hero with procedural board, matched fallback, bounded scroll/pointer movement and layered parallax. No extra page length. Other homepage choreography waits for visual approval.",
+  "targetViewports": ["1440x900", "834x1112", "390x844", "1280x720"],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Decorative artwork has zero focus targets. Tab from Explore tournaments reaches Meet the Trust with a 3px outline. Phone menu opens; Escape closes, restores Menu focus and clears body overflow. Pointer observation does not capture input. Eligibility tests cover reduced motion, touch and data restrictions; actual browser preference changes remain explicitly untested."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Desktop knight/board fit below navbar and above discovery link. Tablet/phone use the matching image with zero canvases/no Lenis. Client and scroll widths match at 1425, 819 and 375. Desktop-to-tablet resize reverts inline transforms and destroys enhancement. No section height or page length was added."
+  },
+  "contentStates": {
+    "loading": {"status": "pass", "evidence": "Reload observations begin static/loading with the bundled image and HTML actions; production reaches one ready canvas. Image/canvas handoff waits for a valid rendered frame. Cold-start timing was not benchmarked."},
+    "empty": {"status": "not-applicable", "reason": "Bundled decorative artwork is not a user collection; missing geometry is handled by the local failure fallback."},
+    "error": {"status": "pass", "evidence": "Temporarily missing model returned HTTP 404 while fallback returned 200. Browser retained loaded board image and actions with zero canvases/no Lenis. Model restored before production checks."},
+    "partial": {"status": "pass", "evidence": "Failure and narrow layouts retain complete copy, navigation, both actions and matching artwork while enhancement is absent."},
+    "success": {"status": "pass", "evidence": "One ready canvas on desktop and production. Recorded downward/upward scroll reverses to zero. Temporary counters stop at rest/offscreen; route checks remove canvas/Lenis on Events and restore one canvas on Home."},
+    "permission": {"status": "not-applicable", "reason": "Public decorative scene requests no account or device permission. Existing source attribution is retained."}
+  },
+  "renderedEvidence": [
+    {"viewport": "1440x900", "artifact": "desktop.jpg", "observation": "Ready scene with complete knight and shallow board, readable actions and compact hero; capture is 1425x891."},
+    {"viewport": "1440x900", "artifact": "scroll-down.jpg", "observation": "Layered parallax and changed board/knight perspective over the existing scroll distance."},
+    {"viewport": "1440x900", "artifact": "focus.jpg", "observation": "Keyboard focus check captured after Tab; DOM confirms Meet the Trust with 3px outline."},
+    {"viewport": "834x1112", "artifact": "tablet.jpg", "observation": "Matching static composition with enhancement removed; capture is 819x1092."},
+    {"viewport": "390x844", "artifact": "phone.jpg", "observation": "Matching background behind readable copy/actions, native menu and no extra artwork row; capture is 375x812."},
+    {"viewport": "1280x720", "artifact": "production.jpg", "observation": "Production one ready canvas, full board framing and no console errors in the check; capture is 1265x712."},
+    {"viewport": "1280x720", "artifact": "production-scroll.jpg", "observation": "Production parallax at 216px scroll: artwork 33.88px, introduction -6.93px."},
+    {"viewport": "1440x900", "artifact": "model-failure.jpg", "observation": "Unavailable enhancement leaves matching board image and complete actions."},
+    {"viewport": "1440x900", "artifact": "scroll-demo.mp4", "observation": "Actual browser screenshot sequence of wheel scroll down/up, encoded using capture intervals; not a performance trace."}
+  ],
+  "checks": {"typecheck": "pass", "unitTests": 22, "productionBuild": "pass", "localHttp": "pass; localhost fixture only", "diffCheck": "pass", "captureInstrumentation": "removed", "dprCap": 1.5, "deadlineMs": 8000},
+  "notChecked": ["Client visual approval", "Adaptive DPR", "Actual browser reduced-motion/network changes", "Representative hardware startup/LCP/CLS/frame pacing", "Context-loss/shader/renderer simulations", "Extended resource and request-isolation profiling", "Production merge"]
+}

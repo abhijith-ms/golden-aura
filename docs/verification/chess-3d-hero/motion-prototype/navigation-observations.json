@@ -1,0 +1,22 @@
+[
+  {
+    "canvases": 0,
+    "lenis": false,
+    "route": "events"
+  },
+  {
+    "canvases": 1,
+    "lenis": true,
+    "route": "home"
+  },
+  {
+    "canvases": 0,
+    "lenis": false,
+    "route": "events"
+  },
+  {
+    "canvases": 1,
+    "lenis": true,
+    "route": "home"
+  }
+]
