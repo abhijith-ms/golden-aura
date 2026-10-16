@@ -23,11 +23,11 @@ export default async function Home() {
       <section className={styles.hero}>
         <div className={styles.heroBackdrop} aria-hidden="true">
           <HeroArtwork><Image
-            src="/images/hero-knight-board.webp"
+            src="/images/hero-opening-move.webp"
             alt=""
             fill
             priority
-            sizes="450px"
+            sizes="(max-width: 768px) 700px, 900px"
             className={styles.heroSculptureImage}
           /></HeroArtwork>
           <div className={styles.heroOverlay} />

@@ -2,14 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, NearestFilter, PMREMGenerator, SRGBColorSpace, type Group, type Material, type Texture } from "three";
+import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, NearestFilter, PMREMGenerator, SRGBColorSpace, type Group, type Material, type MeshStandardMaterial, type Texture } from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
-import { dampHeroAngle, heroPointerTarget } from "@/lib/hero-policy";
+import { dampHeroAngle, heroPointerTarget, openingKnightPosition } from "@/lib/hero-policy";
+import { HeroPawn, HeroRook } from "./hero-pieces";
 import styles from "./site.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -38,14 +39,20 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
   const [prepared, setPrepared] = useState(false);
   const scrollGroup = useRef<Group>(null);
   const pointerGroup = useRef<Group>(null);
+  const knightTravel = useRef<Group>(null);
+  const knightShadow = useRef<Group>(null);
+  const goldPawn = useRef<Group>(null);
+  const ivoryRook = useRef<Group>(null);
+  const landing = useRef<MeshStandardMaterial>(null);
+  const entrance = useRef<gsap.core.Timeline | null>(null);
   const target = useRef({ yaw: 0, pitch: 0 });
   const activeRef = useRef(active);
   const board = useMemo(() => {
-    const pixels = new Uint8Array(4 * 4 * 4);
-    for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) {
-      pixels.set((x + y) % 2 ? [111, 96, 69, 255] : [30, 37, 32, 255], (y * 4 + x) * 4);
+    const pixels = new Uint8Array(6 * 6 * 4);
+    for (let y = 0; y < 6; y++) for (let x = 0; x < 6; x++) {
+      pixels.set((x + y) % 2 ? [113, 108, 89, 255] : [22, 29, 25, 255], (y * 6 + x) * 4);
     }
-    const texture = new DataTexture(pixels, 4, 4);
+    const texture = new DataTexture(pixels, 6, 6);
     texture.colorSpace = SRGBColorSpace;
     texture.magFilter = texture.minFilter = NearestFilter;
     texture.needsUpdate = true;
@@ -68,6 +75,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
     activeRef.current = active;
     target.current = { yaw: 0, pitch: 0 };
     pointerGroup.current?.rotation.set(0, 0, 0);
+    entrance.current?.paused(!active);
     if (active) invalidate();
   }, [active, invalidate]);
   useEffect(() => {
@@ -113,7 +121,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
   useEffect(() => {
     if (!model || !active || prepared) return;
     let cancelled = false;
-    camera.lookAt(0, 0.36, 0);
+    camera.lookAt(0.15, 0.35, 0);
     async function prepare() {
       try {
         await gl.compileAsync(scene, camera);
@@ -140,17 +148,30 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
     const artwork = frame.current;
     const hero = artwork?.closest("section");
     if (!presented || !artwork || !hero || !scrollGroup.current) return;
-    const progress = { value: 0 };
+    const motion = { knight: 0, camera: 0, gold: 0, rook: 0, scroll: 0 };
     const requestFrame = () => { if (activeRef.current) invalidate(); };
-    const timeline = gsap.timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.35 } });
-    timeline.to(progress, { value: 1, ease: "none", onUpdate: () => {
-      if (!scrollGroup.current) return;
-      scrollGroup.current.rotation.set(-0.045 * progress.value, Math.PI * 16 / 180 * progress.value, 0);
-      camera.position.y = 1.05 + 0.18 * progress.value;
-      camera.lookAt(0, 0.36, 0);
+    const applyMotion = () => {
+      const pose = openingKnightPosition(motion.knight);
+      knightTravel.current?.position.set(pose.x, pose.y, pose.z);
+      knightShadow.current?.position.set(pose.x, 0, pose.z);
+      knightShadow.current?.scale.setScalar(1 + pose.y);
+      if (goldPawn.current) goldPawn.current.position.z = 0.63 - 0.42 * motion.gold;
+      if (ivoryRook.current) ivoryRook.current.position.z = -1.05 + 0.42 * motion.rook;
+      if (landing.current) landing.current.opacity = 0.12 + 0.38 * motion.knight;
+      scrollGroup.current?.rotation.set(-0.06 * motion.scroll, -0.25 - 0.48 * motion.scroll, 0);
+      camera.position.set(2.8 - motion.camera - 0.4 * motion.scroll, 2.1 + 0.15 * motion.camera + 0.6 * motion.scroll, 3.8 + 0.35 * motion.camera - 0.3 * motion.scroll);
+      camera.lookAt(0.15, 0.35, 0);
       requestFrame();
-    } }, 0);
-    timeline.to(artwork, { y: 88, scale: 1.035, ease: "none" }, 0);
+    };
+    requestFrame();
+    entrance.current = gsap.timeline({ paused: !activeRef.current, onUpdate: applyMotion })
+      .to(motion, { camera: 1, duration: 2.1, ease: "power2.inOut" }, 0)
+      .to(motion, { knight: 1, duration: 1.65, ease: "power2.inOut" }, 0.12)
+      .to(motion, { gold: 1, duration: 1.1, ease: "power3.out" }, 0.35)
+      .to(motion, { rook: 1, duration: 1.1, ease: "power3.out" }, 0.65);
+    const timeline = gsap.timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.35 } });
+    timeline.to(motion, { scroll: 1, ease: "none", onUpdate: applyMotion }, 0);
+    timeline.to(artwork, { y: 104, scale: 1.04, ease: "none" }, 0);
     timeline.to(hero.querySelector("[data-hero-copy]"), { y: 28, opacity: 0.7, ease: "none" }, 0);
     const intro = hero.nextElementSibling?.querySelector("[data-hero-intro]");
     if (intro) timeline.to(intro, { y: -18, ease: "none" }, 0);
@@ -172,9 +193,7 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
     return () => {
       hero.removeEventListener("pointermove", move);
       hero.removeEventListener("pointerleave", reset);
-      scrollGroup.current?.rotation.set(0, 0, 0);
-      camera.position.y = 1.05;
-      camera.lookAt(0, 0.36, 0);
+      entrance.current = null;
     };
   }, { dependencies: [presented, frame, camera, invalidate], revertOnUpdate: true });
 
@@ -188,31 +207,51 @@ function Sculpture({ frame, active, onReady, onFailure }: Props) {
 
   return (
     <>
-      <ambientLight intensity={0.25} />
+      <ambientLight intensity={0.35} />
       <directionalLight position={[-3, 4, 4]} color="#fff0d7" intensity={4} />
       <directionalLight position={[3, 2, -2]} color="#e4d4ab" intensity={3} />
       <directionalLight position={[2, 1, 3]} color="#dce4e5" intensity={0.7} />
-      <group ref={scrollGroup}>
-        <group rotation={[0, -0.22, 0]}>
-          <mesh position={[0, -0.038, 0]}>
-            <boxGeometry args={[1.08, 0.05, 1.08]} />
-            <meshStandardMaterial color="#171d19" roughness={0.45} />
+      <group ref={scrollGroup} rotation={[0, -0.25, 0]}>
+        <group>
+          <mesh position={[0, -0.052, 0]}>
+            <boxGeometry args={[2.58, 0.08, 2.58]} />
+            <meshStandardMaterial color="#111a15" roughness={0.35} />
           </mesh>
           <mesh position={[0, -0.015, 0]}>
-            <boxGeometry args={[1.07, 0.006, 1.07]} />
+            <boxGeometry args={[2.55, 0.006, 2.55]} />
             <meshStandardMaterial color="#a18a58" metalness={0.6} roughness={0.4} />
           </mesh>
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.011, 0]}>
-            <planeGeometry args={[1.03, 1.03]} />
-            <meshStandardMaterial map={board} roughness={0.5} />
+            <planeGeometry args={[2.52, 2.52]} />
+            <meshStandardMaterial map={board} metalness={0.12} roughness={0.32} />
           </mesh>
         </group>
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.003, 0]}>
-          <planeGeometry args={[0.9, 0.9]} />
-          <meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} />
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.63, -0.007, 0.21]}>
+          <planeGeometry args={[0.41, 0.41]} />
+          <meshStandardMaterial ref={landing} color="#c4af78" emissive="#b08c43" emissiveIntensity={0.5} transparent opacity={0.12} depthWrite={false} />
         </mesh>
-        <group ref={pointerGroup}>
-          {model && <primitive object={model} rotation={[0, 2.2, 0]} dispose={null} />}
+        <group ref={knightShadow} position={[-0.21, 0, 0.63]}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.003, 0]}>
+            <planeGeometry args={[0.85, 0.85]} />
+            <meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} />
+          </mesh>
+        </group>
+        <group ref={knightTravel} position={[-0.21, 0, 0.63]}>
+          <group ref={pointerGroup}>
+            {model && <primitive object={model} rotation={[0, 2.2, 0]} scale={1.12} dispose={null} />}
+          </group>
+        </group>
+        <group ref={goldPawn} position={[-0.63, 0, 0.63]}>
+          <HeroPawn color="#c4a363" />
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.003, 0]}><planeGeometry args={[0.65, 0.65]} /><meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} /></mesh>
+        </group>
+        <group ref={ivoryRook} position={[-1.05, 0, -1.05]} scale={1.15}>
+          <HeroRook />
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.0025, 0]}><planeGeometry args={[0.65, 0.65]} /><meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} /></mesh>
+        </group>
+        <group position={[0.63, 0, -0.63]} scale={1.1}>
+          <HeroPawn color="#18231e" />
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.003, 0]}><planeGeometry args={[0.65, 0.65]} /><meshBasicMaterial map={shadow} transparent depthWrite={false} toneMapped={false} /></mesh>
         </group>
       </group>
     </>
@@ -251,7 +290,7 @@ export default function HeroScene(props: Props) {
         style={{ pointerEvents: "none" }}
         frameloop={props.active ? "demand" : "never"}
         dpr={[1, 1.5]}
-        camera={{ position: [0, 1.05, 2.7], fov: 30, near: 0.1, far: 20 }}
+        camera={{ position: [2.8, 2.1, 3.8], fov: 27, near: 0.1, far: 20 }}
         gl={{ alpha: true, antialias: true, powerPreference: "low-power", toneMapping: ACESFilmicToneMapping, toneMappingExposure: 1.1 }}
         fallback={null}
         onCreated={({ events }) => {

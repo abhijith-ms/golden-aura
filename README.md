@@ -1,6 +1,6 @@
 # Golden Aura Trust
 
-Next.js website with Sanity editing, curated event galleries, and a server-side enquiry form. This branch prototypes a deferred desktop Three.js knight on a shallow board, with scroll-driven movement, layered parallax and matching static artwork. It uses self-hosted Manrope headings and DM Sans body text. Manrope uses its bundled SIL Open Font License in `src/app/fonts/OFL.txt`. Registration and payments are later phases.
+Next.js website with Sanity editing, curated event galleries, and a server-side enquiry form. This branch experiments with a cinematic desktop Three.js opening: a walnut knight hops across a larger board while supporting pieces move and the camera arcs around the scene. Scroll adds layered parallax, and other devices retain matching static opening artwork. It uses self-hosted Manrope headings and DM Sans body text. Manrope uses its bundled SIL Open Font License in `src/app/fonts/OFL.txt`. Registration and payments are later phases.
 
 The [3D hero handoff and selected knight model](docs/plans/chess-3d-hero/README.md) preserve current decisions and both [Astra's original plan](docs/plans/chess-3d-hero/astra-plan.md) and [revised motion brief](docs/plans/chess-3d-hero/astra-revised-motion-plan.md). Read these before resuming the 3D phase. Three.js/Fiber own the scene; GSAP/ScrollTrigger coordinate hero-to-introduction motion. Lenis provides a light desktop wheel-smoothing trial.
 
@@ -85,7 +85,7 @@ An existing cookieless Plausible account can be enabled with `NEXT_PUBLIC_PLAUSI
 
 Confirm the public domain, office contact details, team/committee roles, affiliations, and government verification requirements. Registration information appears only when supplied in the CMS. No unique-player count or experience claim has been invented; the redesigned homepage presents real event and affiliation information instead of a decorative statistics strip. The ₹55 lakh and ₹4 lakh edition prize funds come from the supplied draft/press materials and should receive final client sign-off.
 
-No registration database or payment checkout is included. The hero-to-introduction motion prototype is under review on `codex/chess-3d-hero`; visual approval and representative-device performance sign-off are pending. Other homepage choreography waits for this review. Retain ownership of hosting, CMS, source code, and future payment accounts with the Trust.
+No registration database or payment checkout is included. The cinematic opening-move experiment is under review on `codex/chess-3d-hero`; visual approval and representative-device performance sign-off are pending. Other homepage choreography waits for this review. Retain ownership of hosting, CMS, source code, and future payment accounts with the Trust.
 
 The October content review removes the Leadership group and Sowmya M U's committee card while retaining her organising-secretary message above the directory. The committee introduction omits the edition year and the external committee-archive link is removed. For an already seeded CMS, update the committee page introduction and unpublish `committee-sowmya-m-u`; the top message remains part of the page layout.
 

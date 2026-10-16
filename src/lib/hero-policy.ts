@@ -27,3 +27,8 @@ export function dampHeroAngle(current: number, target: number, seconds: number) 
   const next = current + (target - current) * (1 - Math.exp(-Math.max(0, Math.min(seconds, 0.05)) / 0.15));
   return Math.abs(target - next) < 0.0002 ? target : next;
 }
+
+export function openingKnightPosition(progress: number) {
+  const p = Math.max(0, Math.min(1, progress));
+  return { x: -0.21 + 0.84 * p, y: p === 0 || p === 1 ? 0 : Math.sin(Math.PI * p) * 0.32, z: 0.63 - 0.42 * p };
+}

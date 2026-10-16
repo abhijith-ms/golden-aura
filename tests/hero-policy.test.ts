@@ -1,9 +1,26 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { canEnhanceHero, dampHeroAngle, heroPointerTarget, type HeroCapabilities } from "../src/lib/hero-policy.ts";
+import { canEnhanceHero, dampHeroAngle, heroPointerTarget, openingKnightPosition, type HeroCapabilities } from "../src/lib/hero-policy.ts";
 
 const desktop: HeroCapabilities = { width: 1440, reducedMotion: false, finePointer: true, hover: true };
+
+test("the opening move follows a knight's two-file, one-rank hop and lands on the board", () => {
+  const start = openingKnightPosition(0);
+  const end = openingKnightPosition(1);
+  assert.equal(start.y, 0);
+  assert.equal(end.y, 0);
+  assert(Math.abs((end.x - start.x) / 0.42 - 2) < 1e-12);
+  assert(Math.abs((end.z - start.z) / 0.42 + 1) < 1e-12);
+  assert.equal(openingKnightPosition(0.5).y, 0.32);
+  assert.deepEqual(openingKnightPosition(-10), start);
+  assert.deepEqual(openingKnightPosition(10), end);
+  for (let frame = 0; frame <= 120; frame++) {
+    const pose = openingKnightPosition(frame / 120);
+    assert(pose.y >= 0 && pose.y <= 0.32);
+    assert(Math.abs(pose.x) < 1.26 && Math.abs(pose.z) < 1.26);
+  }
+});
 
 test("pointer travel stays within four degrees yaw and one-and-a-half degrees pitch", () => {
   assert.deepEqual(heroPointerTarget(0, 0), { yaw: 0, pitch: 0 });
