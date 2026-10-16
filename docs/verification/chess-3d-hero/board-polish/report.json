@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/chess-3d-hero",
+  "stage": "Board surface and piece proportion refinement",
+  "contract": "README.md: recorded before implementation; full physical board, consistent piece footprints, accepted cinematic motion, compact hero and immediate tournament access, matched static opening image.",
+  "targetViewports": ["1440x900", "834x1112", "390x844", "1280x720"],
+  "accessibility": {"status": "pass", "evidence": "Tab reaches Meet the Trust with a 3px outline; artwork has zero focus targets. Mobile Menu/Escape restores focus and unlocks scrolling. Existing overlays and new edge blend preserve readable copy. Reduced-motion/data gating unit tests pass; actual browser preference transitions remain explicitly untested."},
+  "responsive": {"status": "pass", "evidence": "Requested desktop/tablet/phone layouts have equal client and scroll widths of 1425, 819 and 375. Smaller devices retain a loaded static image without canvas/Lenis. Phone hero stays 542.94px and Home returns its top to zero. No added layout row or scroll length."},
+  "contentStates": {
+    "loading": {"status": "pass", "evidence": "The reload recording shows the static opening composition before the live move; initial image decoding and the existing CSS entrance precede enhancement. HTML actions and layout are present throughout; no spinner or blocking overlay is added."},
+    "empty": {"status": "not-applicable", "reason": "Bundled decorative assets have no user collection or empty dataset; missing geometry follows the failure path."},
+    "error": {"status": "pass", "evidence": "Observed local model HTTP 404 settles to a loaded fallback image with zero canvases and no Lenis. Restored asset before production build."},
+    "partial": {"status": "pass", "evidence": "Static tablet/phone and model-failure views retain the full heading, both actions, navigation and matching board image without a live scene."},
+    "success": {"status": "pass", "evidence": "Actual opening recording and landed desktop show corrected bases, eight-by-eight surface and camera/hop sequence. Production shows one ready canvas with no console errors; Events navigation tears it down."},
+    "permission": {"status": "not-applicable", "reason": "Public decorative artwork needs no account/device permission. Existing licensed knight attribution remains; board and supporting pieces are generated locally."}
+  },
+  "renderedEvidence": [
+    {"viewport": "1440x900", "artifact": "desktop.jpg", "observation": "Landed composition, full eight-by-eight playing pattern, walnut frame and corrected piece footprints."},
+    {"viewport": "1440x900", "artifact": "knight-hop.jpg", "observation": "Actual mid-hop frame with navbar and action clearance."},
+    {"viewport": "1440x900", "artifact": "loading.jpg", "observation": "Static opening composition during reload before the knight move."},
+    {"viewport": "1440x900", "artifact": "opening-demo.mp4", "observation": "Actual timestamped browser screenshot sequence, including opening image and revised hop/landing; not an FPS trace."},
+    {"viewport": "1440x900", "artifact": "focus.jpg", "observation": "Visible focus on Meet the Trust, no focus inside the decorative artwork."},
+    {"viewport": "1440x900", "artifact": "scroll.jpg", "observation": "Board and copy parallax during scroll; accepted scroll behavior remains."},
+    {"viewport": "834x1112", "artifact": "tablet.jpg", "observation": "Loaded static board with no canvas or smoothing after responsive reload; preserved scroll position is documented."},
+    {"viewport": "390x844", "artifact": "phone.jpg", "observation": "Loaded static board behind legible copy/actions in the original compact mobile hero."},
+    {"viewport": "1440x900", "artifact": "model-failure.jpg", "observation": "Missing model keeps the matched opening image and actions."},
+    {"viewport": "1280x720", "artifact": "production.jpg", "observation": "Final production build at default viewport, one ready scene and no temporary capture route."}
+  ],
+  "checks": {"typecheck": "pass", "unitTests": 24, "productionBuild": "pass", "localHttp": "pass; localhost fixture", "diffCheck": "pass", "fallbackBytes": 88114, "runtimeDprCap": 1.5, "deadlineMs": 8000, "captureInstrumentation": "removed"},
+  "notChecked": ["Adaptive DPR", "Representative-device performance and Core Web Vitals", "Actual browser preference switches", "Context/shader/renderer failure simulations", "Extended resource profiling", "Production merge"]
+}
