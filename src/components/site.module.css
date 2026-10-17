@@ -104,10 +104,15 @@
 .pillarCard:hover .pillarPillMarker { width: 44px; background: var(--gold); }
 .tag { display: inline-block; font-size: 10px; font-weight: 650; letter-spacing: .6px; line-height: 1.5; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; color: #514d43; }
 .eventGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.eventCard { min-width: 0; background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; display: grid; grid-template-columns: 36% minmax(0, 1fr); overflow: hidden; }
+.eventCard { min-width: 0; background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; display: grid; grid-template-columns: 36% minmax(0, 1fr); overflow: hidden; transition: transform 280ms ease, border-color 280ms ease, box-shadow 280ms ease; }
 .eventImage { position: relative; display: block; min-height: 180px; overflow: hidden; }
-.eventImage img { object-fit: cover; transition: transform 300ms; }
-.eventImage:hover img { transform: scale(1.025); }
+.eventImage img { object-fit: cover; transition: transform 650ms cubic-bezier(.22, 1, .36, 1); }
+.eventCard:focus-within { border-color: #a38a4d; box-shadow: 0 8px 24px #2923170d; }
+.eventCard:focus-within .eventImage img { transform: scale(1.035); }
+@media (hover: hover) and (pointer: fine) {
+  .eventCard:hover { transform: translateY(-3px); border-color: #b9a579; box-shadow: 0 10px 28px #29231712; }
+  .eventCard:hover .eventImage img { transform: scale(1.035); }
+}
 .imageYear { position: absolute; left: 10px; top: 10px; background: var(--paper); color: var(--ink); padding: 6px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
 .eventCopy { padding: 20px; display: flex; flex-direction: column; align-items: flex-start; flex: 1; }
 .eventCopy .eventTitle { font-size: 22px; font-weight: 700; line-height: 1.2; letter-spacing: -.015em; margin: 12px 0; }
@@ -217,12 +222,19 @@
 .galleryGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 14px; }
 .galleryGrid figure { margin: 0; }
 .photoButton { position: relative; display: block; width: 100%; aspect-ratio: 4/3; background: var(--soft); padding: 0; border: 0; border-radius: 16px; overflow: hidden; }
-.photoButton img { object-fit: cover; transition: transform 250ms; }
-.photoButton:hover img { transform: scale(1.025); }
+.photoButton img { object-fit: cover; transition: transform 650ms cubic-bezier(.22, 1, .36, 1); }
+.photoButton:focus-visible img { transform: scale(1.04); }
+@media (hover: hover) and (pointer: fine) {
+  .photoButton:hover img { transform: scale(1.04); }
+}
 .photoButton span { position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--paper); color: var(--ink); }
 .galleryGrid figcaption { font-size: 12px; line-height: 1.5; color: var(--muted); margin-top: 12px; }
 .lightbox { border: 0; border-radius: 16px; padding: 18px; width: min(1100px, 92vw); max-height: 94vh; overflow: auto; background: var(--paper); color: var(--ink); }
 .lightbox::backdrop { background: #111312e8; }
+.lightbox[open] { animation: photographOpen 240ms cubic-bezier(.22, 1, .36, 1); }
+.lightbox[open]::backdrop { animation: photographBackdrop 240ms ease; }
+@keyframes photographOpen { from { opacity: 0; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes photographBackdrop { from { opacity: 0; } to { opacity: 1; } }
 .lightboxImage { position: relative; height: 75vh; }
 .lightboxImage img { object-fit: contain; }
 .lightbox p { font-size: 13px; margin: 14px 5px 0; }
@@ -1529,10 +1541,13 @@
 .photoStage { position: relative; height: clamp(260px, 26vw, 350px); border: 6px solid #fffcf5; border-radius: 12px; overflow: hidden; background: var(--night); touch-action: pan-y pinch-zoom; cursor: grab; }
 .photoStage:active { cursor: grabbing; }
 .photoStage:focus-visible { outline: 3px solid #96732b; outline-offset: 5px; }
-.photoStage figure { position: absolute; inset: 0; margin: 0; opacity: 0; visibility: hidden; transform: translateX(calc(var(--photo-direction) * 24px)) scale(1.045); transition: opacity 650ms ease, transform 850ms cubic-bezier(.22, 1, .36, 1), visibility 650ms; }
-.photoStage figure[data-active="true"] { opacity: 1; visibility: visible; transform: translateX(0) scale(1); z-index: 1; }
+.photoStage figure { position: absolute; inset: 0; margin: 0; opacity: 0; visibility: hidden; transform: translateX(calc(var(--photo-direction) * 5%)) scale(1.035); clip-path: inset(0 0 0 12%); transition: opacity 600ms ease, transform 800ms cubic-bezier(.22, 1, .36, 1), clip-path 800ms cubic-bezier(.22, 1, .36, 1), visibility 800ms; }
+.photoJournal[data-direction="-1"] .photoStage figure { clip-path: inset(0 12% 0 0); }
+.photoStage figure[data-previous="true"] { transform: translateX(calc(var(--photo-direction) * -4%)) scale(.985); clip-path: inset(0); z-index: 1; }
+.photoStage figure[data-active="true"] { opacity: 1; visibility: visible; transform: none; clip-path: inset(0); z-index: 2; }
+.photoJournal[data-direction="-1"] .photoStage figure[data-active="true"], .photoJournal[data-direction="-1"] .photoStage figure[data-previous="true"] { clip-path: inset(0); }
 .photoStage img { object-fit: cover; user-select: none; }
-.photoStamp { position: absolute; z-index: 2; left: 14px; bottom: 14px; padding: 8px 10px; border: 1px solid #fff5; border-radius: 4px; background: #111312a6; color: #fffaf0; font-size: 8px; letter-spacing: 1.6px; pointer-events: none; }
+.photoStamp { position: absolute; z-index: 3; left: 14px; bottom: 14px; padding: 8px 10px; border: 1px solid #fff5; border-radius: 4px; background: #111312a6; color: #fffaf0; font-size: 8px; letter-spacing: 1.6px; pointer-events: none; }
 .photoStory { min-width: 0; }
 .photoStory > .eyebrow { font-size: 9px; letter-spacing: 1.3px; }
 .photoStory h3 { font-size: clamp(26px, 3vw, 40px); line-height: 1.22; letter-spacing: -.015em; margin: 20px 0 28px; }
@@ -1560,7 +1575,7 @@
   .marqueeGroup .partnerLogos li { width: auto; }
   .marqueeGroup[aria-hidden] { display: none; }
   .marqueeViewport { mask-image: none; }
-  .photoStage figure, .photoThumbnails button[aria-current="true"], .photoThumbnails button:hover { transform: none; }
+  .photoStage figure, .photoThumbnails button[aria-current="true"], .photoThumbnails button:hover, .eventCard:hover, .eventCard:focus-within .eventImage img, .eventCard:hover .eventImage img, .photoButton:hover img, .photoButton:focus-visible img { transform: none; }
 }
 .missionGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 40px; }
 .missionArticle { display: flex; flex-direction: column; align-items: flex-start; }

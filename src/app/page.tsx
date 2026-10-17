@@ -92,7 +92,7 @@ export default async function Home() {
           </Link>
         </div>
         {featured.length ? (
-          <div className={styles.eventGrid}>
+          <div className={styles.eventGrid} data-reveal-group>
             {featured.map((e) => (
               <EventCard key={e.slug} event={e} featured />
             ))}
