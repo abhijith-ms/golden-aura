@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-17",
+  "branch": "codex/chess-3d-hero",
+  "contract": "README.md: recorded before implementation; slower bottom-left foreground queen sweep with warm rim/cool fill, same landing and compact page, working tournament actions and interruption.",
+  "targetViewports": ["1440x900", "1280x720", "1280x1000", "390x844"],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Tab settles the foreground and visibly focuses Skip to content; wheel scroll also settles it and returns the layer below HTML. Existing navigation remains usable; artwork has no focus targets/pointer interception. Static phone copy/actions remain readable. Policy tests cover reduced-motion/data exclusion; actual preference transitions and motion-comfort approval remain pending."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Rendered both desktop sizes, tall desktop and static phone. Hero/document height at 1280x720 remain 561.47/5212px; desktop 1440x900 document remains 5253px. Phone client/scroll widths both 375px, loaded image and zero canvases."
+  },
+  "contentStates": {
+    "loading": { "status": "pass", "evidence": "Current opening recording retains the four-piece image and immediate HTML actions while the live queen prepares and begins the pass." },
+    "empty": { "status": "not-applicable", "reason": "The unchanged bundled decoration has no empty collection. Unavailable geometry follows the existing failure path." },
+    "error": { "status": "pass", "evidence": "The same fallback policy and model ownership remain unchanged. Actual context-loss and queen HTTP 404 cleanup were verified in ../queen-flight/README.md; these historical checks were not re-injected in this lighting/pacing pass. Current production render has no console errors." },
+    "partial": { "status": "pass", "evidence": "Current phone capture retains complete heading, navigation, both actions and the four-piece image with no live scene."
+    },
+    "success": { "status": "pass", "evidence": "Current timestamped recording shows the slower left entry, central close pass, recession and final composition. Studio lighting restores before landing; Home return skips the foreground. Production has one ready canvas without review controls." },
+    "permission": { "status": "not-applicable", "reason": "Same already licensed bundled decoration, no new source asset, device permission, service or account access." }
+  },
+  "renderedEvidence": [
+    { "viewport": "1440x900", "artifact": "slower-queen-pass.mp4", "observation": "Actual screenshot-timestamp recording of the slower foreground-to-board sweep; not an FPS trace." },
+    { "viewport": "1440x900", "artifact": "left-entry-1440.jpg", "observation": "Actual recorded frame with giant queen entering along the bottom-left/left edge." },
+    { "viewport": "1440x900", "artifact": "foreground-1440.jpg", "observation": "Warm rim and cooler fill with lower studio illumination during the near-camera pass." },
+    { "viewport": "1440x900", "artifact": "desktop-final.jpg", "observation": "Same landing and final board with original illumination restored." },
+    { "viewport": "1280x720", "artifact": "left-entry-1280.jpg", "observation": "Bottom-left pass at smaller desktop aspect ratio without additional layout height." },
+    { "viewport": "1280x720", "artifact": "interrupted.jpg", "observation": "Tab skips the pass and focuses the visible Skip to content link." },
+    { "viewport": "1280x720", "artifact": "production.jpg", "observation": "Final production build, no temporary session/pose override or diagnostic attribute." },
+    { "viewport": "1280x1000", "artifact": "tall-recession.jpg", "observation": "Readable lit queen receding toward the board at tall desktop size." },
+    { "viewport": "390x844", "artifact": "phone.jpg", "observation": "Loaded static fallback and readable compact layout, zero canvases and no horizontal overflow." }
+  ],
+  "checks": { "typecheck": "pass", "unitTests": 37, "productionBuild": "pass", "localHttp": "pass; localhost fixture", "diffCheck": "pass", "flightSeconds": 3.2, "previousFlightSeconds": 1.3, "newDependencies": 0, "newAssetsForRuntime": 0, "instrumentation": "removed before build" },
+  "notChecked": ["Representative-device performance and GPU memory", "Actual preference transitions", "Context/model failures not re-injected this refinement; prior evidence retained", "Motion-comfort approval", "Production merge"]
+}

@@ -1,4 +1,4 @@
-# Proposed queen fly-in opening
+# Queen fly-in opening
 
 Date: 2026-10-17. Status: approved by the user's “Okay proceed” and implemented for branch-preview review. The storyboard below is the initial proposal; the implementation record at the end gives the actual choices and outstanding checks.
 
@@ -63,7 +63,7 @@ Capture actual rendered frames for: initial queen absence, closest cropped pass,
 
 A successful prototype has a clear queen silhouette, a smooth depth path and a seamless landing/handoff. Model quality, fullscreen projection continuity, transient GPU cost and motion comfort remain open until those captures and device checks are complete.
 
-## Implementation record — 2026-10-17
+## Initial implementation record — 2026-10-17
 
 - Selected the matching queen from the already licensed Oleksandr set: mesh 22 / node 24, full 57,120-triangle geometry, 1,463,528-byte standalone GLB. Its domed crown/turned collar and wood grain were inspected in a model still and actual foreground rendering. No replacement paid asset or new dependency.
 - One full-viewport, pointer-transparent canvas uses an expanded version of the hero lens. During the flight only the queen renders above page content, while the matching HTML board holds. The same renderer returns to a scissored hero presentation at landing. Tests confirm pixel-coordinate continuity, initial invisibility and whole-bounds near-plane safety at 1440x900, 1280x720 and 1280x1000.
@@ -73,3 +73,13 @@ A successful prototype has a clear queen silhouette, a smooth depth path and a s
 - Full scene: 90,436 triangles / 21 draws; foreground: 57,122 triangles / 2 draws. Retain the viewport-sized drawing buffer after landing for projection continuity, with demand rendering and hero scissor/mask. This differs from the proposed transient buffer and needs device memory/frame-pacing measurement before production approval.
 - [Verification and actual opening recording](../../verification/chess-3d-hero/queen-flight/README.md): 36 tests, typecheck, production build and local HTTP checks; responsive stills, keyboard/scroll/link interruption, once-per-session, actual WebGL context loss, missing-model fallback and five production route cycles. Temporary pose/session overrides, counters and failure controls are removed.
 - Still pending: representative-device loading/frame pacing and motion-comfort review, actual browser preference transitions, additional shader/renderer failures and extended GPU/resource profiling. Keep draft PR #5 and review deployment; no production merge.
+
+## User review refinement — slower bottom-left pass
+
+The user accepted the initial effect but said the movement was too fast. They requested a huge queen passing from bottom left across the viewer's face toward the board, with dramatic lighting.
+
+Queen travel is now **3.2s**, compared with 1.3s. A six-point trajectory starts below/left, crosses two close foreground controls at lens depth 0.34, then recedes to the existing empty square. Physical scale, landing, near plane, model and projection remain. After the 450ms blend the existing board opening starts at timeline 3.65s, giving about 5.5s total after scene readiness.
+
+Queen-mounted warm rim and cooler fill lights follow the movement. The studio/environment dims locally in the queen render to give those edges contrast, then returns smoothly before landing. Accent is bounded, zero at the start/end and fully faded by progress 0.94; interrupted motion also restores the original lighting. No bloom, particles, new texture, postprocessing or dependency.
+
+[Updated recording and review evidence](../../verification/chess-3d-hero/queen-left-pass/README.md) cover this revision. The new path and lighting envelope retain the geometric safety tests and add direction/pacing/accent assertions. Static/failure policy and the remaining device/preference checks are unchanged.
