@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { Matrix4, PerspectiveCamera, Vector3 } from "three";
-import { createQueenFlight, queenFlightPose, queenLanding, queenScale, setHeroProjection } from "../src/lib/hero-flight.ts";
+import { createQueenFlight, queenFlightDuration, queenFlightPose, queenLanding, queenScale, setHeroProjection } from "../src/lib/hero-flight.ts";
 
 function camera() {
   const lens = new PerspectiveCamera(27, 1.6, 0.03, 20);
@@ -56,6 +56,10 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 720
     const flight = createQueenFlight(lens, frame, viewport, board);
     const expanded = lens.clone();
     setHeroProjection(expanded, frame, viewport, true);
+    const leftEntry = queenFlightPose(flight, 0.2).position.clone().applyMatrix4(board).project(expanded);
+    const closePass = queenFlightPose(flight, 0.4).position.clone().applyMatrix4(board).project(expanded);
+    assert(leftEntry.x < -1 && leftEntry.y < -1, "The queen's base enters from the bottom left");
+    assert(closePass.x > leftEntry.x + 1, "The close pass travels across the foreground toward the board");
     assert(queenFlightPose(flight, 1).position.distanceTo(queenLanding) < 1e-12);
     assert(queenFlightPose(flight, 1).rotation.angleTo(queenFlightPose(flight, 2).rotation) < 1e-12);
     let clearance = Infinity;
@@ -75,3 +79,16 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 720
     }
   });
 }
+
+test("the slower flight's lighting rises smoothly and disappears before landing", () => {
+  const flight = createQueenFlight(camera(), { left: 640, top: 70, width: 824, height: 515 }, { width: 1440, height: 900 }, new Matrix4().makeRotationY(-0.25));
+  assert(queenFlightDuration >= 3 && queenFlightDuration <= 4);
+  assert.equal(queenFlightPose(flight, 0).accent, 0);
+  assert.equal(queenFlightPose(flight, 0.4).accent, 1);
+  assert.equal(queenFlightPose(flight, 0.94).accent, 0);
+  assert.equal(queenFlightPose(flight, 1).accent, 0);
+  for (let i = 0; i <= 100; i++) {
+    const accent = queenFlightPose(flight, i / 100).accent;
+    assert(accent >= 0 && accent <= 1);
+  }
+});

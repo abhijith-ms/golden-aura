@@ -3,6 +3,7 @@ import { CatmullRomCurve3, MathUtils, Matrix4, PerspectiveCamera, Quaternion, Ve
 export type HeroFrame = { left: number; top: number; width: number; height: number };
 export const queenLanding = new Vector3(0.21, 0, -0.63);
 export const queenScale = 0.82;
+export const queenFlightDuration = 3.2;
 
 export function setHeroProjection(camera: PerspectiveCamera, frame: HeroFrame, viewport: { width: number; height: number }, expanded: boolean) {
   camera.clearViewOffset();
@@ -24,7 +25,7 @@ export function createQueenFlight(camera: PerspectiveCamera, frame: HeroFrame, v
   const rotation = new Quaternion().setFromRotationMatrix(board).invert().multiply(lens.quaternion)
     .multiply(new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), -0.35));
   const curve = new CatmullRomCurve3([
-    point(-0.2, -8, 0.45), point(-0.1, -1.2, 0.29), point(0.5, -0.25, 1.6),
+    point(-2.4, -7, 0.46), point(-1.8, -2.4, 0.34), point(-0.3, -1.1, 0.34), point(0.55, -0.25, 1.6),
     queenLanding.clone().add(new Vector3(0, 0.3, 0)), queenLanding.clone(),
   ], false, "centripetal");
   return { curve, rotation };
@@ -35,5 +36,6 @@ export function queenFlightPose(flight: ReturnType<typeof createQueenFlight>, pr
   return {
     position: flight.curve.getPoint(p),
     rotation: flight.rotation.clone().slerp(new Quaternion(), MathUtils.smoothstep(p, 0.35, 0.85)),
+    accent: MathUtils.smoothstep(p, 0.04, 0.16) * (1 - MathUtils.smoothstep(p, 0.62, 0.94)),
   };
 }

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, PerspectiveCamera, PMREMGenerator, type Group, type Material, type MeshStandardMaterial, type Texture } from "three";
+import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, PerspectiveCamera, PMREMGenerator, type DirectionalLight, type Group, type Material, type MeshStandardMaterial, type PointLight, type Texture } from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import gsap from "gsap";
@@ -14,7 +14,7 @@ import { createHeroQuality, dampHeroAngle, heroPointerTarget, openingKnightPosit
 import { HeroPawn, HeroRook } from "./hero-pieces";
 import { HeroBoard } from "./hero-board";
 import { heroPieceScale } from "@/lib/hero-board";
-import { createQueenFlight, queenFlightPose, queenLanding, queenScale } from "@/lib/hero-flight";
+import { createQueenFlight, queenFlightDuration, queenFlightPose, queenLanding, queenScale } from "@/lib/hero-flight";
 import { renderHeroViewport } from "./hero-viewport";
 import styles from "./site.module.css";
 
@@ -50,6 +50,10 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
   const ivoryRook = useRef<Group>(null);
   const queenTravel = useRef<Group>(null);
   const queenShadow = useRef<Mesh>(null);
+  const queenRim = useRef<PointLight>(null);
+  const queenFill = useRef<PointLight>(null);
+  const studioKey = useRef<DirectionalLight>(null);
+  const studioBack = useRef<DirectionalLight>(null);
   const flying = useRef(false);
   const landing = useRef<MeshStandardMaterial>(null);
   const entrance = useRef<gsap.core.Timeline | null>(null);
@@ -170,6 +174,12 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
       const queen = queenFlightPose(flight, motion.queen);
       queenTravel.current?.position.copy(queen.position);
       queenTravel.current?.quaternion.copy(queen.rotation);
+      if (queenRim.current) queenRim.current.intensity = 16 * queen.accent;
+      if (queenFill.current) queenFill.current.intensity = 2.5 * queen.accent;
+      // Only the queen renders during the pass; restore the studio before the board returns.
+      scene.environmentIntensity = 0.65 - 0.4 * queen.accent;
+      if (studioKey.current) studioKey.current.intensity = 4 * (1 - 0.65 * queen.accent);
+      if (studioBack.current) studioBack.current.intensity = 3 * (1 - 0.65 * queen.accent);
       const queenLayer = motion.queen < 1 ? 1 : 0;
       queenTravel.current?.traverse((object) => object.layers.set(queenLayer));
       if (queenShadow.current) {
@@ -190,9 +200,9 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
     };
     applyMotion();
     entrance.current = gsap.timeline({ paused: !activeRef.current, onUpdate: applyMotion });
-    if (hasFlight) entrance.current.to(motion, { queen: 1, duration: 1.3, ease: "none", onStart: () => { flying.current = true; onQueenStart(); }, onComplete: () => { flying.current = false; onQueenComplete(); } }, 0);
+    if (hasFlight) entrance.current.to(motion, { queen: 1, duration: queenFlightDuration, ease: "none", onStart: () => { flying.current = true; onQueenStart(); }, onComplete: () => { flying.current = false; onQueenComplete(); } }, 0);
     else onQueenComplete();
-    const opening = hasFlight ? 1.75 : 0;
+    const opening = hasFlight ? queenFlightDuration + 0.45 : 0;
     entrance.current
       .to(motion, { camera: 1, duration: 1.4, ease: "power2.inOut" }, opening)
       .to(motion, { knight: 1, duration: 1.2, ease: "power2.inOut" }, opening + 0.08)
@@ -237,7 +247,7 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
       entrance.current = null;
       scrollMotion.current = null;
     };
-  }, { dependencies: [presented, frame, camera, invalidate, playQueen, onQueenStart, onQueenComplete, layer], revertOnUpdate: true });
+  }, { dependencies: [presented, frame, camera, scene, invalidate, playQueen, onQueenStart, onQueenComplete, layer], revertOnUpdate: true });
 
   useFrame(() => {
     if (!active || !frame.current || !layer.current) return;
@@ -263,13 +273,15 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
   return (
     <>
       <ambientLight intensity={0.35} onUpdate={(light) => light.layers.enableAll()} />
-      <directionalLight position={[-3, 4, 4]} color="#fff0d7" intensity={4} onUpdate={(light) => light.layers.enableAll()} />
-      <directionalLight position={[3, 2, -2]} color="#e4d4ab" intensity={3} onUpdate={(light) => light.layers.enableAll()} />
+      <directionalLight ref={studioKey} position={[-3, 4, 4]} color="#fff0d7" intensity={4} onUpdate={(light) => light.layers.enableAll()} />
+      <directionalLight ref={studioBack} position={[3, 2, -2]} color="#e4d4ab" intensity={3} onUpdate={(light) => light.layers.enableAll()} />
       <directionalLight position={[2, 1, 3]} color="#dce4e5" intensity={0.7} onUpdate={(light) => light.layers.enableAll()} />
       <group ref={scrollGroup} rotation={[0, -0.25, 0]}>
         <HeroBoard />
         <group ref={queenTravel} position={queenLanding} scale={queenScale}>
           {models && <primitive object={models.queen} dispose={null} />}
+          <pointLight ref={queenRim} position={[-0.7, 1, -0.8]} color="#ffc377" intensity={0} decay={0} />
+          <pointLight ref={queenFill} position={[-0.9, 0.45, 0.8]} color="#b9d7ed" intensity={0} decay={0} />
         </group>
         <mesh ref={queenShadow} position={[queenLanding.x, -0.003, queenLanding.z]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[0.56, 0.56]} />
