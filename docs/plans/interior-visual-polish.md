@@ -4,7 +4,7 @@ Authorised 2026-10-17 after the homepage visual review. The user wants visual ch
 
 ## Contract
 
-- Continue the existing ivory/charcoal/champagne design and approved Archivo/DM Sans type. Purpose: scan an event's identity/dates/venue, understand the Trust, and recognise committee members and their roles.
+- Continue the existing ivory/charcoal/champagne design and approved Manrope/DM Sans type. Purpose: scan an event's identity/dates/venue, understand the Trust, and recognise committee members and their roles.
 - Local observations: the 2025 detail's dates start at about 1080px on desktop, beneath a large uppercase title and 460px photograph. The committee's centred introduction/emblem and large message portraits put its core profiles about 1972px down. The Trust uses a large standalone emblem and vertically stacked mission icons. Improve this hierarchy without removing or rewriting content.
 - Tournament details: put title/description beside the existing photograph on desktop; use natural title case, a smaller image on mobile, and quiet bordered facts alongside the existing edition details. Keep all event actions, archive content, rules, infographic, attendees and status logic intact.
 - Tournament archive: match the interior heading scale and compact gaps while retaining the existing ordering and cards. At tablet widths (761–1100px), put each image above its card text so venue labels fit without splitting words; desktop and phone arrangements stay as before.

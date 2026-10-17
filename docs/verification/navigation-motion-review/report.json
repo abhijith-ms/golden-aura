@@ -1,0 +1,156 @@
+{
+  "date": "2026-10-17",
+  "reviewedCommit": "e41b5e3e3ccc7c2c477bc7639033b97a035a2f38",
+  "preview": "https://golden-aura-git-codex-chess-3d-hero-abhijith-mss-projects.vercel.app/",
+  "navigation": [
+    {
+      "layout": "mobile",
+      "label": "The Trust",
+      "path": "/about",
+      "passed": true
+    },
+    {
+      "layout": "mobile",
+      "label": "Committee",
+      "path": "/committee",
+      "heading": "The committee.",
+      "passed": true
+    },
+    {
+      "layout": "mobile",
+      "label": "Events",
+      "path": "/events",
+      "heading": "Tournaments.",
+      "passed": true
+    },
+    {
+      "layout": "mobile",
+      "label": "Gallery",
+      "path": "/gallery",
+      "heading": "At the board.",
+      "passed": true
+    },
+    {
+      "layout": "mobile",
+      "label": "Partners",
+      "path": "/partners",
+      "heading": "Better together.",
+      "passed": true
+    },
+    {
+      "layout": "mobile",
+      "label": "Get in touch",
+      "path": "/contact",
+      "heading": "Let’s talk chess.",
+      "passed": true
+    },
+    {
+      "layout": "mobile",
+      "label": "Home",
+      "path": "/",
+      "heading": "CHESS FOR\nEVERYONE.",
+      "passed": true
+    },
+    {
+      "layout": "desktop",
+      "label": "The Trust",
+      "path": "/about",
+      "heading": "The Golden Aura Trust.",
+      "passed": true
+    },
+    {
+      "layout": "desktop",
+      "label": "Committee",
+      "path": "/committee",
+      "heading": "The committee.",
+      "passed": true
+    },
+    {
+      "layout": "desktop",
+      "label": "Events",
+      "path": "/events",
+      "heading": "Tournaments.",
+      "passed": true
+    },
+    {
+      "layout": "desktop",
+      "label": "Gallery",
+      "path": "/gallery",
+      "heading": "At the board.",
+      "passed": true
+    },
+    {
+      "layout": "desktop",
+      "label": "Partners",
+      "path": "/partners",
+      "heading": "Better together.",
+      "passed": true
+    },
+    {
+      "layout": "desktop",
+      "label": "Get in touch",
+      "path": "/contact",
+      "heading": "Let’s talk chess.",
+      "passed": true
+    },
+    {
+      "layout": "desktop",
+      "label": "Home",
+      "path": "/",
+      "heading": "CHESS FOR\nEVERYONE.",
+      "passed": true
+    }
+  ],
+  "motion": {
+    "anchor": {
+      "headerBottom": 84,
+      "scrollY": 485,
+      "sectionTop": 100
+    },
+    "carousel": {
+      "last": "5 of 5",
+      "nextDisabled": true,
+      "afterReversal": "2 of 5",
+      "mobileLast": "5 of 5"
+    },
+    "marquee": {
+      "focusPause": true
+    },
+    "videos": {
+      "count": 3,
+      "nativeControls": true,
+      "playsInline": true,
+      "wrappedInLinks": false,
+      "playbackTested": false
+    },
+    "homeReturn": {
+      "scrollY": 0,
+      "mainTop": 0,
+      "bodyOverflow": "",
+      "drawerOpen": false
+    },
+    "resize": {
+      "bodyOverflow": "",
+      "dialogOpen": false,
+      "viewport": "1440x900"
+    },
+    "consoleErrors": []
+  },
+  "landscapeDrawer": {
+    "viewport": "844x390",
+    "height": 390,
+    "scrollHeight": 675,
+    "scrollTop": 285,
+    "contactLinkWorked": true
+  },
+  "keyboard": {
+    "forwardTabFromClose": "Home",
+    "escapeRestoresMenu": true,
+    "reverseWrap": "Shift+Tab from first control left no DOM element focused in the in-app browser; native browser reverse wrapping was not established."
+  },
+  "limits": [
+    "No UI changes were needed.",
+    "Native reduced-motion transitions and second-device/high-DPR calibration remain pending.",
+    "No live enquiry submission, playback, automated axe audit, full network trace or new Core Web Vitals measurements."
+  ]
+}
