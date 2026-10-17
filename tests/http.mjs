@@ -31,6 +31,8 @@ for (const path of [
 }
 for (const path of ["/not-a-real-page", "/events/not-an-event"])
   assert.equal((await fetch(base + path)).status, 404);
+for (const path of ["/__hero-qa.js", "/models/chessboard.glb"])
+  assert.equal((await fetch(base + path)).status, 404, "QA fixture and full source model are not public assets");
 const committee = await (await fetch(base + "/committee")).text();
 assert(committee.includes("MESSAGE OF SUPPORT") && !committee.includes("Hon. President"));
 assert(!committee.includes('id="leadership"') && !committee.includes("View the 2025 committee archive"));
