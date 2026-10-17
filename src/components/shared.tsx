@@ -231,7 +231,7 @@ export function Footer({ site }: { site: SiteSettings }) {
         <a href="#top">Back to top ↑</a>
       </div>
       <p className={styles.artworkCredit}>
-        Knight adapted from <a href="https://sketchfab.com/3d-models/chessboard-3cee8ada5d99468cbc93ded83b3ca70a">Chessboard by Oleksandr Zymohliad</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        Chess pieces adapted from <a href="https://sketchfab.com/3d-models/chessboard-3cee8ada5d99468cbc93ded83b3ca70a">Chessboard by Oleksandr Zymohliad</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
       </p>
     </footer>
   );
