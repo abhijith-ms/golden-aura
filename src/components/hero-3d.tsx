@@ -6,6 +6,8 @@ import { canEnhanceHero } from "@/lib/hero-policy";
 import styles from "./site.module.css";
 
 const HeroScene = dynamic(() => import("./hero-scene"), { ssr: false });
+// Reset on reload, while preventing replays when the scene remounts in this document.
+let queenSeen = false;
 
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 
@@ -19,7 +21,6 @@ class SceneBoundary extends Component<{ children: ReactNode; onFailure: () => vo
 export function HeroArtwork({ children }: { children: ReactNode }) {
   const frame = useRef<HTMLDivElement>(null);
   const failed = useRef(false);
-  const queenSeen = useRef(false);
   const [allowed, setAllowed] = useState(false);
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -28,10 +29,7 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
   const [playQueen, setPlayQueen] = useState(false);
   const [queenPending, setQueenPending] = useState(false);
   const reduceQuality = useCallback(() => setDprCap(1), []);
-  const queenStarted = useCallback(() => {
-    queenSeen.current = true;
-    try { sessionStorage.setItem("golden-aura:queen-intro-v1", "seen"); } catch { /* Page-local guard still prevents replays. */ }
-  }, []);
+  const queenStarted = useCallback(() => { queenSeen = true; }, []);
   const queenComplete = useCallback(() => { setQueenPending(false); }, []);
 
   const fallback = useCallback(() => {
@@ -93,9 +91,7 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
       scheduled = true;
       const start = () => {
         if (failed.current) return;
-        let seen = queenSeen.current;
-        try { seen ||= sessionStorage.getItem("golden-aura:queen-intro-v1") === "seen"; } catch { /* Storage is optional. */ }
-        const play = !seen && (frame.current?.closest("section")?.getBoundingClientRect().top ?? -1) >= -2;
+        const play = !queenSeen && (frame.current?.closest("section")?.getBoundingClientRect().top ?? -1) >= -2;
         setPlayQueen(play);
         setQueenPending(play);
         setMounted(true);

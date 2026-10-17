@@ -27,6 +27,7 @@
   let saveData = params.get("qa-data") === "save";
   if (connection) Object.defineProperty(connection, "saveData", { configurable: true, get: () => saveData });
   if (params.get("qa-storage") === "blocked") Object.defineProperty(window, "sessionStorage", { get() { throw new Error("Storage disabled by local QA fixture"); } });
+  if (params.get("qa-storage") === "seen") sessionStorage.setItem("golden-aura:queen-intro-v1", "seen");
 
   let shaderInjected = false;
   const nativeContext = HTMLCanvasElement.prototype.getContext;
