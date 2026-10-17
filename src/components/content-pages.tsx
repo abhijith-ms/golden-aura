@@ -68,7 +68,7 @@ export async function AboutPage() {
           alt="The Golden Aura Trust official emblem"
           width={480}
           height={373}
-          sizes="(max-width: 760px) 180px, (max-width: 1100px) 22vw, 280px"
+          sizes="(max-width: 760px) 86px, 220px"
           priority
         />
       </div>
@@ -152,7 +152,7 @@ export async function CommitteePage() {
                 src="/images/D_K_Shivakumar.avif"
                 alt="Shri D K Shivakumar"
                 fill
-                sizes="(max-width: 760px) 340px, 320px"
+                sizes="(max-width: 760px) 92px, (max-width: 960px) 180px, 220px"
                 quality={90}
                 priority
               />
@@ -198,7 +198,7 @@ export async function CommitteePage() {
                 src="/images/committee-sowmya-m-u.webp"
                 alt="Sowmya M U, President, BUDCA"
                 fill
-                sizes="(max-width: 760px) 340px, 320px"
+                sizes="(max-width: 760px) 92px, (max-width: 960px) 180px, 220px"
                 quality={90}
               />
             </div>
@@ -213,7 +213,7 @@ export async function CommitteePage() {
         </article>
       </section>
 
-      <PageIntro copy={copy(content, "committee")} />
+      <div className={styles.committeeIntro}><PageIntro copy={copy(content, "committee")} /></div>
       {committee.length ? (
         <>
           <nav className={`${styles.sectionCompact} ${styles.committeeNav}`} aria-label="Committee groups">
@@ -225,16 +225,18 @@ export async function CommitteePage() {
             const members = committee.filter((member) => member.group === group);
             if (!members.length) return null;
             return (
-              <section id={group.toLowerCase().replaceAll(" ", "-")} key={group} className={`${styles.section} ${i % 2 ? styles.softSection : ""}`}>
+              <section id={group.toLowerCase().replaceAll(" ", "-")} key={group} className={`${styles.section} ${styles.committeeSection} ${i % 2 ? styles.softSection : ""}`}>
                 <span className={styles.eyebrow}>NAMMA BENGALURU OPEN · 2025</span>
                 <h2>{group}</h2>
                 <div className={styles.peopleGrid}>
                   {members.map((member) => (
-                    <article className={styles.personCard} key={member.slug}>
+                    <article className={`${styles.personCard} ${styles.committeeCard}`} key={member.slug}>
                       <Portrait name={member.name} photo={member.photo} />
-                      <h3>{member.name}</h3>
-                      <p>{member.role}</p>
-                      {member.affiliation && <p className={styles.personAffiliation}>{member.affiliation}</p>}
+                      <div className={styles.committeeDetails}>
+                        <h3>{member.name}</h3>
+                        <p>{member.role}</p>
+                        {member.affiliation && <p className={styles.personAffiliation}>{member.affiliation}</p>}
+                      </div>
                     </article>
                   ))}
                 </div>
@@ -256,7 +258,7 @@ export async function EventsPage() {
   const past = orderEvents(content.events.filter((e) => e.status !== "upcoming"));
   return (
     <>
-      <PageIntro copy={copy(content, "events")} />
+      <div className={styles.archiveIntro}><PageIntro copy={copy(content, "events")} /></div>
       {upcoming.length > 0 && <section className={styles.sectionCompact}>
         <div className={styles.sectionLabel}>THE NEXT MOVE</div>
           <div className={styles.eventGrid}>
@@ -265,7 +267,7 @@ export async function EventsPage() {
             ))}
           </div>
       </section>}
-      <section className={`${styles.section} ${styles.softSection}`}>
+      <section className={`${styles.section} ${styles.softSection} ${styles.archiveSection}`}>
         <div className={styles.sectionLabel}>
           <span>THE EVENT ARCHIVE</span>
           <span>PAST EDITIONS & COMMUNITY GATHERINGS</span>

@@ -33,23 +33,25 @@ export default async function EventDetail({
   const action = eventAction(event);
   return (
     <>
-      <PageIntro
-        copy={{
-          slug,
-          eyebrow: `${event.status.toUpperCase()} · ${event.format}`,
-          title: event.title,
-          intro: event.description,
-        }}
-      />
-      <div className={styles.eventDetailHero}>
-        <Image
-          src={event.image.src}
-          alt={event.image.alt}
-          fill
-          priority
-          sizes="(max-width: 1100px) 100vw, 1440px"
-          quality={90}
+      <div className={styles.eventMasthead}>
+        <PageIntro
+          copy={{
+            slug,
+            eyebrow: `${event.status.toUpperCase()} · ${event.format}`,
+            title: event.title,
+            intro: event.description,
+          }}
         />
+        <div className={styles.eventDetailHero}>
+          <Image
+            src={event.image.src}
+            alt={event.image.alt}
+            fill
+            priority
+            sizes="(max-width: 760px) 88vw, (max-width: 1440px) 42vw, 540px"
+            quality={90}
+          />
+        </div>
       </div>
       <section className={`${styles.section} ${styles.eventDetailGrid}`}>
         <div className={styles.eventOverviewCol}>
