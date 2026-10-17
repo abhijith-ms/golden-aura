@@ -1,0 +1,65 @@
+{
+  "contract": "docs/plans/interior-visual-polish.md \u2014 compact event, Trust and committee presentation with identical content and functionality.",
+  "targetViewports": [
+    "1440x900",
+    "834x1112",
+    "390x844",
+    "320x740"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Single H1, existing heading/link/image semantics and alt text retained. All text comparisons match. Four committee group links resolve, each 44px high; focus outlines retained. Passive profiles/emblems add no focus targets. Existing reduced-motion CSS disables animation/transitions; no new scheduling/interaction code. Native preference and screen-reader certification are not claimed."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "16 page/viewport cases check all four surfaces at all four targets. No document overflow; long titles, message copy, names and roles fit. Desktop event facts start about 430px earlier. Tablet archive cards corrected after a long venue-label fit failure. Core members use one six-card desktop row, three tablet/two phone columns."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "Fixed image bounds retained. Initial read-only observations include lazy images not yet decoded; rendered captures show loaded photographs and emblems without changing layout structure."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "Styling adds no data source or empty state. Existing populated collections are reviewed; empty collection branches remain unchanged and were not injected."
+    },
+    "error": {
+      "status": "not-applicable",
+      "reason": "No new request/error UI or data path. Existing image/route failure handling is unchanged; deliberate asset failures were outside this visual pass."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "Actual M Raju advisory card renders MR initials without a portrait while retaining his name/role. Other profiles retain their supplied photographs; no invented asset is used."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Normalised main DOM text matches the prior preview in all 16 cases. Full two messages/four message paragraphs and all 24 committee profiles remain. All four group anchors resolve. No console errors in the reviewed local journeys."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "Public content styling only; no uploads, accounts, permission requests or data submission."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "event-1440.jpg",
+      "observation": "Natural-case long tournament title beside its photo, with dates/venue/status visible in the first desktop viewport."
+    },
+    {
+      "viewport": "834x1112",
+      "artifact": "archive-834.jpg",
+      "observation": "Tablet archive cards put images above text, align caption starts and retain complete dates/venues without overflow."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "committee-390.jpg",
+      "observation": "Smaller emblem and horizontal speaker identity card preserve the full message beneath; subsequent profile/initials captures show the two-column cards."
+    },
+    {
+      "viewport": "320x740",
+      "artifact": "about-320.jpg",
+      "observation": "Trust emblem/title and complete intro wrap inside the narrow viewport; framed photograph and story follow without horizontal overflow."
+    }
+  ]
+}

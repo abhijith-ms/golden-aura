@@ -1,0 +1,446 @@
+{
+  "before": {
+    "event": {
+      "factsTop": 1079.671875,
+      "mainHeight": 4181.90625,
+      "textSha256": "bd7c30a0a9f36d9a0cbe9dfb1bf2cc152f6765da8cae2c277b48e211f501b1f6"
+    },
+    "about": {
+      "mainHeight": 1937.546875,
+      "textSha256": "ed13d96b4e798b755a8493495ff275d2eb946c0e9d888acfc6d159ebf7442888"
+    },
+    "committee": {
+      "coreTop": 1971.953125,
+      "mainHeight": 5399.390625,
+      "textSha256": "a7d3049222f7bf310a01ef6e45688744d8525a15b6538c2c629dd64a430273b3"
+    },
+    "archive": {
+      "mainHeight": 1534.6875,
+      "textSha256": "f01614605840de05f16ac33d2855a60956d4bc603d286c20f59bc984a0841443"
+    }
+  },
+  "matrix": [
+    {
+      "page": "about",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 1854.515625,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "1440x900",
+      "visibleImages": [
+        {
+          "alt": "The Golden Aura Trust official emblem",
+          "loaded": true
+        },
+        {
+          "alt": "A player concentrating at a Chess and Coffee gathering",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "archive",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 695.53125,
+      "h1Count": 1,
+      "mainHeight": 1448.921875,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "1440x900",
+      "visibleImages": [
+        {
+          "alt": "Players at the first Bengaluru Grandmasters Open",
+          "loaded": true
+        },
+        {
+          "alt": "Players competing at the 2025 Namma Bengaluru Open",
+          "loaded": true
+        },
+        {
+          "alt": "Players concentrating at the 2025 tournament",
+          "loaded": true
+        },
+        {
+          "alt": "People playing at a Chess and Coffee gathering",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "event",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 649.5,
+      "h1Count": 1,
+      "mainHeight": 3809.90625,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "1440x900",
+      "visibleImages": [
+        {
+          "alt": "Players competing at the 2025 Namma Bengaluru Open",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "committee",
+      "coreColumns": "195.656px 195.672px 195.672px 195.656px 195.672px 195.672px",
+      "coreTop": 1448.296875,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 3859.328125,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "1440x900",
+      "visibleImages": [
+        {
+          "alt": "Bangalore International Grandmasters Tournament Organizing Committee (BLRGMC)",
+          "loaded": true
+        },
+        {
+          "alt": "Shri D K Shivakumar",
+          "loaded": true
+        },
+        {
+          "alt": "Sowmya M U, President, BUDCA",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "about",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 2121.546875,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "834x1112",
+      "visibleImages": [
+        {
+          "alt": "The Golden Aura Trust official emblem",
+          "loaded": true
+        },
+        {
+          "alt": "A player concentrating at a Chess and Coffee gathering",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "archive",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 808.125,
+      "h1Count": 1,
+      "mainHeight": 1674.125,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "834x1112",
+      "visibleImages": [
+        {
+          "alt": "Players at the first Bengaluru Grandmasters Open",
+          "loaded": true
+        },
+        {
+          "alt": "Players competing at the 2025 Namma Bengaluru Open",
+          "loaded": true
+        },
+        {
+          "alt": "Players concentrating at the 2025 tournament",
+          "loaded": true
+        },
+        {
+          "alt": "People playing at a Chess and Coffee gathering",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "event",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 572.375,
+      "h1Count": 1,
+      "mainHeight": 5643.84375,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "834x1112",
+      "visibleImages": [
+        {
+          "alt": "Players competing at the 2025 Namma Bengaluru Open",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "committee",
+      "coreColumns": "229.578px 229.578px 229.578px",
+      "coreTop": 1672.953125,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 5548.234375,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "834x1112",
+      "visibleImages": [
+        {
+          "alt": "Bangalore International Grandmasters Tournament Organizing Committee (BLRGMC)",
+          "loaded": true
+        },
+        {
+          "alt": "Shri D K Shivakumar",
+          "loaded": true
+        },
+        {
+          "alt": "Sowmya M U, President, BUDCA",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "about",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 3049.0625,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "390x844",
+      "visibleImages": [
+        {
+          "alt": "The Golden Aura Trust official emblem",
+          "loaded": true
+        },
+        {
+          "alt": "A player concentrating at a Chess and Coffee gathering",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "archive",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 793.203125,
+      "h1Count": 1,
+      "mainHeight": 2719.578125,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "390x844",
+      "visibleImages": [
+        {
+          "alt": "Players at the first Bengaluru Grandmasters Open",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "event",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 777.75,
+      "h1Count": 1,
+      "mainHeight": 8137.25,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "390x844",
+      "visibleImages": [
+        {
+          "alt": "Players competing at the 2025 Namma Bengaluru Open",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "committee",
+      "coreColumns": "157px 157px",
+      "coreTop": 2604.09375,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 7109.6875,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "390x844",
+      "visibleImages": [
+        {
+          "alt": "Bangalore International Grandmasters Tournament Organizing Committee (BLRGMC)",
+          "loaded": true
+        },
+        {
+          "alt": "Shri D K Shivakumar",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "about",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 3389.0625,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "320x740",
+      "visibleImages": [
+        {
+          "alt": "The Golden Aura Trust official emblem",
+          "loaded": true
+        },
+        {
+          "alt": "A player concentrating at a Chess and Coffee gathering",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "archive",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 874.734375,
+      "h1Count": 1,
+      "mainHeight": 2951.921875,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "320x740",
+      "visibleImages": [
+        {
+          "alt": "Players at the first Bengaluru Grandmasters Open",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "event",
+      "coreColumns": null,
+      "coreTop": null,
+      "factsTop": 848.96875,
+      "h1Count": 1,
+      "mainHeight": 9195.6875,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "320x740",
+      "visibleImages": [
+        {
+          "alt": "Players competing at the 2025 Namma Bengaluru Open",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    },
+    {
+      "page": "committee",
+      "coreColumns": "126.203px 126.203px",
+      "coreTop": 3021.859375,
+      "factsTop": null,
+      "h1Count": 1,
+      "mainHeight": 7365.125,
+      "overflow": false,
+      "textFits": true,
+      "titleFits": true,
+      "viewport": "320x740",
+      "visibleImages": [
+        {
+          "alt": "Bangalore International Grandmasters Tournament Organizing Committee (BLRGMC)",
+          "loaded": true
+        },
+        {
+          "alt": "Shri D K Shivakumar",
+          "loaded": true
+        }
+      ],
+      "contentPreserved": true
+    }
+  ],
+  "coreDesktop": {
+    "linkTargets": [
+      {
+        "exists": true,
+        "height": 44,
+        "target": "#core-committee"
+      },
+      {
+        "exists": true,
+        "height": 44,
+        "target": "#chief-arbiters"
+      },
+      {
+        "exists": true,
+        "height": 44,
+        "target": "#advisory-board"
+      },
+      {
+        "exists": true,
+        "height": 44,
+        "target": "#tournament-team"
+      }
+    ],
+    "loaded": true,
+    "members": 6,
+    "nameFont": "17px",
+    "namesFit": true,
+    "roleFont": "13px",
+    "rows": 1
+  },
+  "phoneCommittee": {
+    "h1Count": 1,
+    "messageParagraphs": 4,
+    "overflow": false,
+    "speakerCards": [
+      {
+        "height": 130.671875,
+        "width": 330
+      },
+      {
+        "height": 130,
+        "width": 330
+      }
+    ],
+    "textFits": true,
+    "profilesFit": true
+  },
+  "initials": {
+    "hasPhoto": false,
+    "initials": "MR",
+    "name": "M Raju",
+    "width": 157
+  },
+  "consoleErrors": []
+}
