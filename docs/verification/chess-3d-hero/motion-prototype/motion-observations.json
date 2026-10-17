@@ -1,0 +1,52 @@
+{
+  "observations": [
+    {
+      "frames": {
+        "engine": "three.js r186",
+        "frames": "4",
+        "turn": "0",
+        "yaw": "0"
+      },
+      "heroTop": 0,
+      "introStyle": "",
+      "label": "idle-baseline"
+    },
+    {
+      "artStyle": "translate3d(0px, 47.3847px, 0px) scale(1.0188, 1.0188)",
+      "copyStyle": "translate3d(0px, 15.0769px, 0px)",
+      "frames": {
+        "engine": "three.js r186",
+        "frames": "83",
+        "turn": "0.1503669567499793",
+        "yaw": "0"
+      },
+      "heroTop": -315,
+      "introStyle": "translate3d(0px, -9.6923px, 0px)",
+      "label": "scroll-down"
+    },
+    {
+      "artStyle": "translate(0px, 0px)",
+      "frames": {
+        "engine": "three.js r186",
+        "frames": "167",
+        "turn": "0",
+        "yaw": "0"
+      },
+      "heroTop": 0,
+      "introStyle": "translate(0px, 0px)",
+      "label": "scroll-up"
+    },
+    {
+      "engine": "three.js r186",
+      "frames": "167",
+      "label": "idle-after-reverse",
+      "turn": "0",
+      "yaw": "0"
+    }
+  ],
+  "notes": [
+    "Temporary development useFrame counters were removed before the production build.",
+    "Each counter snapshot precedes that frame’s final pointer damping step.",
+    "Offscreen was also checked separately: counter 485 stayed unchanged from hero top -678 to settled -1080; Home returned to zero scroll/turn."
+  ]
+}

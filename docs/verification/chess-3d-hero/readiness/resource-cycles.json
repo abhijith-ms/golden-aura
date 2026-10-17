@@ -1,0 +1,92 @@
+[
+  {
+    "cycle": 1,
+    "active": [
+      {
+        "lost": false,
+        "textures": 11,
+        "buffers": 84,
+        "programs": 6,
+        "width": 1425,
+        "height": 900,
+        "renderer": "ANGLE (AMD, AMD Radeon Graphics (radeonsi renoir ACO), OpenGL 4.6)"
+      }
+    ],
+    "canvas": {
+      "width": 1425,
+      "height": 900
+    }
+  },
+  {
+    "cycle": 2,
+    "active": [
+      {
+        "lost": false,
+        "textures": 11,
+        "buffers": 84,
+        "programs": 6,
+        "width": 1425,
+        "height": 900,
+        "renderer": "ANGLE (AMD, AMD Radeon Graphics (radeonsi renoir ACO), OpenGL 4.6)"
+      }
+    ],
+    "canvas": {
+      "width": 1425,
+      "height": 900
+    }
+  },
+  {
+    "cycle": 3,
+    "active": [
+      {
+        "lost": false,
+        "textures": 11,
+        "buffers": 84,
+        "programs": 6,
+        "width": 1425,
+        "height": 900,
+        "renderer": "ANGLE (AMD, AMD Radeon Graphics (radeonsi renoir ACO), OpenGL 4.6)"
+      }
+    ],
+    "canvas": {
+      "width": 1425,
+      "height": 900
+    }
+  },
+  {
+    "cycle": 4,
+    "active": [
+      {
+        "lost": false,
+        "textures": 11,
+        "buffers": 84,
+        "programs": 6,
+        "width": 1425,
+        "height": 900,
+        "renderer": "ANGLE (AMD, AMD Radeon Graphics (radeonsi renoir ACO), OpenGL 4.6)"
+      }
+    ],
+    "canvas": {
+      "width": 1425,
+      "height": 900
+    }
+  },
+  {
+    "cycle": 5,
+    "active": [
+      {
+        "lost": false,
+        "textures": 11,
+        "buffers": 84,
+        "programs": 6,
+        "width": 1425,
+        "height": 900,
+        "renderer": "ANGLE (AMD, AMD Radeon Graphics (radeonsi renoir ACO), OpenGL 4.6)"
+      }
+    ],
+    "canvas": {
+      "width": 1425,
+      "height": 900
+    }
+  }
+]

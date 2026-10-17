@@ -60,7 +60,7 @@ export function Gallery({ albums }: { albums: Album[] }) {
                       src={photo.src}
                       alt={photo.alt}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 450px"
+                      sizes="(max-width: 360px) 88vw, (max-width: 760px) 44vw, (max-width: 1440px) 29vw, 410px"
                       quality={90}
                     />
                     <span aria-hidden="true">↗</span>

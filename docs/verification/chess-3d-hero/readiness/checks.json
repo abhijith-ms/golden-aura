@@ -1,0 +1,15 @@
+{
+  "localChecks": "pass",
+  "releaseVerdict": "INCONCLUSIVE",
+  "slowDeadlineMs": 8014.299999982119,
+  "resourceCycles": 5,
+  "idleDraws": 103,
+  "idleObservationMs": 74140,
+  "deferredEngineChunks": [
+    "319w8uezwv13o.js"
+  ],
+  "remaining": [
+    "Native browser/CSS preference switching",
+    "Second-device/higher-DPR calibration"
+  ]
+}

@@ -1,0 +1,29 @@
+Golden Aura wooden knight and its matching hero-knight-wood.webp rendering
+
+Adapted from "Chessboard" by Oleksandr Zymohliad, licensed under Creative Commons
+Attribution 4.0 International. Commercial use, modification and redistribution
+are permitted under that licence with attribution and an indication of changes.
+
+Creator:
+https://sketchfab.com/oleksandr_zymohliad
+Original model (user-selected link https://skfb.ly/Ly8C):
+https://sketchfab.com/3d-models/chessboard-3cee8ada5d99468cbc93ded83b3ca70a
+Licence:
+https://creativecommons.org/licenses/by/4.0/
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Changes: extracted the black knight upper piece and matching circular base;
+removed the board and other pieces; merged the two meshes without decimation;
+normalised scale, base origin and forward direction; applied the source set's
+dark wood material with linear texture filtering, retained the UVs and
+re-encoded its 512x1024 JPEG at quality 90; rendered a
+matching transparent WebP using the website's camera and lighting.
+The original creator does not endorse Golden Aura Trust.
+
+Original user-supplied GLB SHA-256:
+2d5e463da58ae98cd9c7234c7dd17f1248c947100400419c057653f04963a92c
+Reproduction: scripts/prepare-knight.py and docs/plans/chess-3d-hero/README.md.
+
+The adapted model and matching rendering are also provided under CC BY 4.0.
+Credit is included in the website footer and GLB metadata. Retain this notice
+and credit when redistributing these assets.

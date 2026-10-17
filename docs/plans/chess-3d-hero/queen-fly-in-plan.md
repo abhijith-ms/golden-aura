@@ -1,0 +1,89 @@
+# Queen fly-in opening
+
+Date: 2026-10-17. Status: approved by the user's “Okay proceed” and implemented for branch-preview review. The storyboard below is the initial proposal; the implementation record at the end gives the actual choices and outstanding checks.
+
+## User intent
+
+The queen begins invisible, enters from the viewer's side, becomes a very large foreground object that briefly fills/crosses the viewport, then recedes into the scene and settles on an empty board square. It should feel like an object travelling through depth in a 3D movie. Keep the accepted board, corrected piece proportions and existing opening as the destination.
+
+## Creative direction
+
+Use a queen with a readable crown, polished silhouette and convincing close-up shading. Start by inspecting/extracting the queen from the already supplied Oleksandr Zymohliad chess set so its finish and base match the knight. Its source licence is already recorded in the handoff, but the exact queen geometry and close-up suitability still need visual verification. Prefer the existing walnut finish with warm rim lighting. The previous rejected models are not approved alternatives.
+
+Keep physical piece size consistent through the flight. Camera distance and perspective should create the dramatic size change. At the near pass, the queen is intentionally cropped beyond the viewport; it need not be visible as an entire piece at that moment. This distinguishes the giant foreground shot from its final board-sized silhouette.
+
+No artificial waiting after readiness, looping, camera shake, flashes, particles or required scroll interaction. The shot is an opening moment, not extra page length or a loading screen. The final queen should be slightly taller than the knight, with a base that fits the same 0.42-unit squares.
+
+## Proposed storyboard
+
+Times are relative to a fully prepared live scene, not the start of the page request. These are starting timings to judge in a rendered prototype.
+
+| Time | Queen / scene | Intended impression |
+| --- | --- | --- |
+| 0.00–0.45s | Matching image-to-canvas handoff; queen is fully outside the visible frustum; board and other pieces hold. | Existing readable homepage appears immediately. |
+| 0.45–0.85s | Queen sweeps into the foreground from below and slightly to one side, passing very close to the lens. | A large, cropped silhouette briefly dominates the viewport. Full coverage should last roughly 150–250ms, without a flash. |
+| 0.85–1.80s | Queen travels away along a smooth depth path toward an empty centre/back square; its full crown and body become readable. | Strong perspective establishes that it is entering the world of the board. |
+| 1.80–2.10s | Final descent, restrained deceleration and contact shadow settle the base onto its square. | Weight and a clean landing, without a rubbery bounce. |
+| 2.10–3.60s | A tightened version of the existing camera arc, knight hop and supporting-piece movement completes the composition. Queen stays planted. | The arrival leads into the accepted chess opening. |
+
+Do not run every piece move through the near-camera pass. Start other-piece travel after the queen lands. The precise empty landing square and crown orientation should be chosen from projected screenshots, with no collisions or obstruction of the knight. A queen arriving from outside the board is a cinematic placement, not a claim to depict a legal tournament position or move.
+
+## Presentation and input
+
+- The user's screen-filling request requires artwork beyond the current right-hand hero canvas and its clipping/mask. Keep page structure, hero height, text and buttons in place.
+- Prototype one canvas with a temporary viewport-sized presentation for the foreground shot. The queen and board must share the same 3D camera/depth relationship; do not add a second independent WebGL scene for the fly-by.
+- Returning to the existing hero-sized presentation is a projection/layout problem, not just changing CSS width. Match the board's projected square corners and queen base before/after any resize or crop so there is no visible jump. Do not shrink a DOM overlay containing an unrelated render.
+- Keep the lens steady through the foreground pass. Coordinate later camera movement and queen flight in the same GSAP pose calculation so independent writers cannot fight over camera transforms.
+- Begin outside the frustum, enter in front of the near clipping plane and inspect the whole model bounding volume through the path. Avoid visible clipping slices, sudden appearance or passing geometry through the lens.
+- Foreground coverage is brief. Canvas remains pointer-transparent; navigation, keyboard focus and existing links remain usable. Never lock scrolling. Scrolling away, opening navigation or using a link should end the fly-in and settle/clean up the scene rather than leave a full-screen obstruction following the user.
+- Recommend playing the full fly-in once per tab session, marked when it actually starts. Returning to Home, resizing or bringing the hero back into view should not replay the screen-filling shot. If session storage is unavailable, retain a safe page-local guard.
+- Desktop eligibility remains. Reduced-motion/data-restricted, touch/tablet and failed-renderer cases keep a static complete composition. Mobile receives no full-screen fly-by.
+
+## Asset and performance requirements
+
+The queen is not yet selected or extracted. First inspect its crown, normals, silhouette and wood texture at the closest projected size. Do not disguise a visibly weak close-up asset with blur. If the supplied queen cannot support the shot, review another free licensed option before implementation.
+
+Export only the required queen geometry, preserving attribution and reusing materials/textures where practical. Never serve the full 38MB source set. Measure the combined knight/queen/supporting-piece scene, transfer size and texture allocations; adding a close-up queen changes the existing geometry budget.
+
+The transient full-viewport drawing buffer costs more than the current small artwork. Keep demand rendering, the DPR cap/adaptive reduction, local failure handling and resource disposal. If quality/performance fails during the flight, remove the foreground layer and restore the usable static hero immediately. Adaptive quality and a synthetic test are not proof that the full-screen shot performs well on typical hardware.
+
+The matching initial fallback must keep the queen invisible to avoid an image/canvas pop. Decide whether restricted devices show the final queen composition through a separate static image or retain the current four-piece opening; render and review the chosen fallback before shipping. No additional postprocessing package is required for the first prototype.
+
+## Smallest implementation sequence
+
+1. **Asset/still gate:** identify the exact queen; export a lean preview and inspect the closest pass and final board proportions. No changes to the existing hero until those stills are credible.
+2. **Depth/projection prototype:** render the foreground-to-board path with the camera held steady and other pieces frozen. Verify near-plane safety and the full-viewport-to-hero handoff first.
+3. **Choreography:** integrate the proposed sequence with existing GSAP motion, session/replay rules and scroll/navigation interruption. Tighten timing from actual recordings.
+4. **Fallback/resilience:** matching static images, reduced motion, slow/failing assets, adaptive-quality transitions, context loss, preference changes and clean route teardown. The outstanding resilience work remains part of this step.
+5. **Performance/review:** production build, representative-laptop frame pacing and loading checks, desktop aspect ratios, mobile static layout and recording. Update the draft PR/branch preview for review; no production merge without authorisation.
+
+## Review evidence and acceptance
+
+Capture actual rendered frames for: initial queen absence, closest cropped pass, mid-flight depth, landed queen, final board and interrupted flight. Check 1440x900 and 1280x720 desktop compositions, plus a tall desktop viewport; retain tablet/phone static checks. The shot must not change document height, hide working controls behind a modal or leave a viewport overlay after navigation.
+
+A successful prototype has a clear queen silhouette, a smooth depth path and a seamless landing/handoff. Model quality, fullscreen projection continuity, transient GPU cost and motion comfort remain open until those captures and device checks are complete.
+
+## Initial implementation record — 2026-10-17
+
+- Selected the matching queen from the already licensed Oleksandr set: mesh 22 / node 24, full 57,120-triangle geometry, 1,463,528-byte standalone GLB. Its domed crown/turned collar and wood grain were inspected in a model still and actual foreground rendering. No replacement paid asset or new dependency.
+- One full-viewport, pointer-transparent canvas uses an expanded version of the hero lens. During the flight only the queen renders above page content, while the matching HTML board holds. The same renderer returns to a scissored hero presentation at landing. Tests confirm pixel-coordinate continuity, initial invisibility and whole-bounds near-plane safety at 1440x900, 1280x720 and 1280x1000.
+- Queen scale 0.82; landing [0.21, 0, -0.63]; near plane 0.03. The closest path control is 0.29 units in lens depth, with a lens-facing orientation that straightens toward the board. Perspective creates the near-camera crop without changing physical scale.
+- Actual choreography after readiness: 450ms initial handoff, 1.3s queen flight, 450ms board blend, 1.4s camera/opening travel (supporting moves staggered within it). No extra hero height, scroll length, pinning or input lock.
+- Once-per-tab session marker is written at flight start. Scroll, resize, keyboard navigation and clicks on links/buttons settle the opening. Repeated Home visits show the queen already on the board. Restricted/mobile and failure cases keep the existing four-piece fallback image; no new static composition was needed.
+- Full scene: 90,436 triangles / 21 draws; foreground: 57,122 triangles / 2 draws. Retain the viewport-sized drawing buffer after landing for projection continuity, with demand rendering and hero scissor/mask. This differs from the proposed transient buffer and needs device memory/frame-pacing measurement before production approval.
+- [Verification and actual opening recording](../../verification/chess-3d-hero/queen-flight/README.md): 36 tests, typecheck, production build and local HTTP checks; responsive stills, keyboard/scroll/link interruption, once-per-session, actual WebGL context loss, missing-model fallback and five production route cycles. Temporary pose/session overrides, counters and failure controls are removed.
+- Still pending: representative-device loading/frame pacing and motion-comfort review, actual browser preference transitions, additional shader/renderer failures and extended GPU/resource profiling. Keep draft PR #5 and review deployment; no production merge.
+
+## User review refinement — slower bottom-left pass
+
+The user accepted the initial effect but said the movement was too fast. They requested a huge queen passing from bottom left across the viewer's face toward the board, with dramatic lighting.
+
+Queen travel is now **3.2s**, compared with 1.3s. A six-point trajectory starts below/left, crosses two close foreground controls at lens depth 0.34, then recedes to the existing empty square. Physical scale, landing, near plane, model and projection remain. After the 450ms blend the existing board opening starts at timeline 3.65s, giving about 5.5s total after scene readiness.
+
+Queen-mounted warm rim and cooler fill lights follow the movement. The studio/environment dims locally in the queen render to give those edges contrast, then returns smoothly before landing. Accent is bounded, zero at the start/end and fully faded by progress 0.94; interrupted motion also restores the original lighting. No bloom, particles, new texture, postprocessing or dependency.
+
+[Updated recording and review evidence](../../verification/chess-3d-hero/queen-left-pass/README.md) cover this revision. The new path and lighting envelope retain the geometric safety tests and add direction/pacing/accent assertions. Static/failure policy and the remaining device/preference checks are unchanged.
+
+## User review refinement — replay on reload
+
+The user requested that reloading Home show the queen entrance again. This supersedes the initial once-per-tab recommendation above. A module flag now lasts only for the current document and is set at the actual flight start; full reloads reset it. Scene remounts and returning to view in the same document do not replay it. The old session-storage marker is ignored, so existing visitors receive the updated behavior without clearing browser storage. Timing, lighting, interruption, static-device and reduced-motion policy remain unchanged.

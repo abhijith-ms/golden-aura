@@ -18,7 +18,7 @@ export function ParticipantFeedback() {
           <source src={`https://nammabigchess.com/wp-content/uploads/2025/03/${video.file}`} type="video/mp4" />
           Your browser does not support embedded video.
         </video>
-        <h3>{video.name}</h3><p>{video.detail}</p>
+        <div className={styles.feedbackCaption}><h3>{video.name}</h3><p>{video.detail}</p></div>
       </li>)}
     </ul>
     <div className={styles.feedbackQuotes}>

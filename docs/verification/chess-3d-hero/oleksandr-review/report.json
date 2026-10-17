@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/chess-3d-hero",
+  "stage": "User-selected wooden asset/still review; motion and full performance QA pending",
+  "contract": "README.md: use the user-supplied Chessboard knight and source wood texture; preserve compact hero, HTML actions, responsive frame, fallback and reduced-motion policy.",
+  "targetViewports": [
+    "1440x900",
+    "834x1112",
+    "390x844",
+    "1280x720"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "For the asset change: decorative empty image alt and aria-hidden artwork remain; zero artwork focus targets; Tab moves from Explore tournaments to Meet the Trust with a visible focus outline. Source credit links have descriptive names. Text remains readable on desktop/tablet/phone. No motion logic changed; reduced-motion eligibility unit checks pass, while actual browser preference-change simulation remains deferred."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Requested desktop/tablet/phone overrides show unchanged compact hero and whole desktop knight below navbar. Measured document widths 1425/819/375 equal scroll widths. Tablet and phone have zero canvases and the matching image, with no new artwork row."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "The production first view retains the matching wooden artwork and HTML actions while enhancement is unavailable/preparing; a warm reload reaches one ready canvas. Cold-start timings have not been profiled."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "This is a bundled decorative asset, not an empty user collection; a missing model is handled as an error."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Temporarily unavailable local GLB returns a non-success response. Eligible hero remains static with zero canvases and loaded wooden fallback. File restored and URL verified 200 / 765460 bytes."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "Missing enhancement leaves complete artwork, copy and both actions usable, as shown by model-failure.jpg and narrow static views."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Desktop with normal deadline/DPR and a production warm reload reach data-scene=ready with exactly one canvas using the new textured asset."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "The bundled public decorative scene requests no account/device permission. Source CC BY 4.0 attribution is documented and displayed in the footer."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "desktop.jpg",
+      "observation": "Requested outer override; ready canvas, inward-facing dark wooden knight below navbar and clear actions."
+    },
+    {
+      "viewport": "834x1112",
+      "artifact": "tablet.jpg",
+      "observation": "Requested outer override; static matching image, zero canvases and no horizontal overflow."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "phone.jpg",
+      "observation": "Requested outer override; static matching image behind readable copy and both links."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "phone-focus.jpg",
+      "observation": "Visible outline around the primary hero action. A separate DOM check after Tab confirmed focus on Meet the Trust outside the artwork."
+    },
+    {
+      "viewport": "1280x720",
+      "artifact": "production.jpg",
+      "observation": "Default production view after warm reload reaches one ready canvas. Initial local production visit retained image; cold startup remains unmeasured."
+    },
+    {
+      "viewport": "1280x720",
+      "artifact": "model-failure.jpg",
+      "observation": "Non-success model response removes canvas and leaves matching image/actions available."
+    },
+    {
+      "viewport": "1280x720",
+      "artifact": "footer-credit.jpg",
+      "observation": "Footer visibly credits Chessboard by Oleksandr Zymohliad and links CC BY 4.0."
+    }
+  ],
+  "checks": {
+    "sourceExportAssertions": "pass",
+    "typecheck": "pass",
+    "unitTests": 20,
+    "productionBuild": "pass",
+    "localHttp": "pass; local SITE_URL fixture only",
+    "captureCode": "removed",
+    "runtimeDprCap": 1.5,
+    "deadlineMs": 8000
+  },
+  "assets": {
+    "glbBytes": 765460,
+    "triangles": 26626,
+    "vertices": 13477,
+    "materials": 1,
+    "textures": 1,
+    "embeddedJpegBytes": 172599,
+    "textureDimensions": [
+      512,
+      1024
+    ],
+    "fallbackBytes": 31968,
+    "fallbackDimensions": [
+      1003,
+      1003
+    ],
+    "licence": "CC BY 4.0"
+  },
+  "notChecked": [
+    "Client visual approval",
+    "Pointer response and adaptive DPR",
+    "Actual reduced-motion/network preference changes",
+    "Context-loss/shader/renderer failure simulations",
+    "Prolonged navigation/resource instrumentation",
+    "Representative-device cold startup/frame pacing/LCP/CLS",
+    "Production merge"
+  ]
+}

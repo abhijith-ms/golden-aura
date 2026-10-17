@@ -1,0 +1,127 @@
+{
+  "before": {
+    "feedbackSectionHeight": 574.671875,
+    "partnerSectionHeight": 391.296875,
+    "playerSectionHeight": 828.53125
+  },
+  "desktop": {
+    "countryFont": "11px",
+    "feedbackSectionHeight": 576.09375,
+    "namesFit": true,
+    "overflow": false,
+    "partnerSectionHeight": 362.796875,
+    "playerCount": 14,
+    "playerSectionHeight": 795.8125,
+    "rowCount": 2,
+    "unloadedPlayerImages": 0,
+    "viewport": "1440x900"
+  },
+  "tablet": {
+    "gridScrollWidth": 1248,
+    "gridWidth": 721,
+    "namesFit": true,
+    "overflow": false,
+    "playerCount": 14,
+    "rowCount": 2,
+    "viewport": "834x1112"
+  },
+  "phone": {
+    "countriesFit": true,
+    "gridScrollWidth": 1088,
+    "gridWidth": 330,
+    "namesFit": true,
+    "overflow": false,
+    "rowCount": 2,
+    "viewport": "390x844",
+    "keyboardScrollLeft": 120
+  },
+  "narrow": {
+    "countriesFit": true,
+    "namesFit": true,
+    "overflow": false,
+    "rowCount": 2,
+    "viewport": "320x740",
+    "homeOverflow": false
+  },
+  "feedbackPhone": {
+    "overflow": false,
+    "track": {
+      "scrollWidth": 870,
+      "width": 330
+    },
+    "videos": [
+      {
+        "aspect": 1.7777777777777777,
+        "controls": true,
+        "inline": true,
+        "label": "Feedback from Viswanathan Anand",
+        "poster": "/images/feedback-anand.webp"
+      },
+      {
+        "aspect": 1.7777777777777777,
+        "controls": true,
+        "inline": true,
+        "label": "Feedback from Players from the Maldives",
+        "poster": "/images/feedback-maldives.webp"
+      },
+      {
+        "aspect": 1.7777777777777777,
+        "controls": true,
+        "inline": true,
+        "label": "Feedback from Aradhya Garg",
+        "poster": "/images/feedback-aradhya-garg.webp"
+      }
+    ],
+    "viewport": "390x844",
+    "keyboardScrollLeft": 295
+  },
+  "partnersPhone": {
+    "animationState": "paused",
+    "duplicatesHidden": true,
+    "focusInside": true,
+    "overflow": false,
+    "unloadedLogos": 8,
+    "viewport": "390x844",
+    "visibleLogos": [
+      {
+        "alt": "Akshayakalpa Organic logo",
+        "loaded": true
+      },
+      {
+        "alt": "Mysore Sandal Soap logo",
+        "loaded": true
+      },
+      {
+        "alt": "Birla A1 Cement logo",
+        "loaded": true
+      }
+    ]
+  },
+  "partnersPage": {
+    "labelsFit": true,
+    "nameOnlyPartners": [],
+    "overflow": false,
+    "narrowOverflow": false
+  },
+  "attendeesPhone": {
+    "countryLabelsFit": true,
+    "expanded": "true",
+    "namesFit": true,
+    "overflow": false,
+    "viewport": "390x844"
+  },
+  "partnersDesktop": {
+    "animationState": "paused",
+    "overflow": false,
+    "supporterLogoTops": [
+      568.765625,
+      568.765625,
+      568.765625,
+      568.765625,
+      568.765625,
+      568.765625,
+      568.765625
+    ]
+  },
+  "consoleErrors": []
+}

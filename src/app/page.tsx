@@ -5,6 +5,7 @@ import { Arrow, ContactBand, EventCard, FocusAreas, Lines, PartnerLogos, PlayerG
 import { PhotoCarousel } from "@/components/photo-carousel";
 import { PartnerMarquee } from "@/components/partner-marquee";
 import { ParticipantFeedback } from "@/components/participant-feedback";
+import { HeroArtwork } from "@/components/hero-3d";
 import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
@@ -21,17 +22,17 @@ export default async function Home() {
     <>
       <section className={styles.hero}>
         <div className={styles.heroBackdrop} aria-hidden="true">
-          <Image
-            src="/images/hero-knight-bg.webp"
+          <HeroArtwork><Image
+            src="/images/hero-tournament-board.webp"
             alt=""
             fill
             priority
-            sizes="100vw"
-            className={styles.heroImage}
-          />
+            sizes="(max-width: 768px) 700px, 900px"
+            className={styles.heroSculptureImage}
+          /></HeroArtwork>
           <div className={styles.heroOverlay} />
         </div>
-        <div className={styles.heroCopy}>
+        <div className={styles.heroCopy} data-hero-copy>
           <span className={styles.heroKicker}>GOLDEN AURA TRUST <span aria-hidden="true">/</span> BENGALURU</span>
           <h1><Lines text={site.heroTitle} /></h1>
           <p>{site.heroIntro}</p>
@@ -53,7 +54,7 @@ export default async function Home() {
           <span className={styles.eyebrowMeta}>ROOTED IN BENGALURU</span>
         </div>
         <div className={styles.introGrid}>
-          <div>
+          <div data-hero-intro>
             <h2>
               A game for everyone.
               <br />
@@ -91,7 +92,7 @@ export default async function Home() {
           </Link>
         </div>
         {featured.length ? (
-          <div className={styles.eventGrid}>
+          <div className={styles.eventGrid} data-reveal-group>
             {featured.map((e) => (
               <EventCard key={e.slug} event={e} featured />
             ))}
@@ -109,11 +110,13 @@ export default async function Home() {
       {firstEdition && firstEditionPlayers.length > 0 && (
         <section id="first-edition" className={`${styles.section} ${styles.playersSection}`}>
           <span className={styles.eyebrow}>THE FIRST INTERNATIONAL EDITION · 2024</span>
-          <div className={styles.sectionHeading}>
-            <h2>Grandmasters &<br /><span>titled players.</span></h2>
+          <div className={`${styles.sectionHeading} ${styles.playersHeading}`}>
+            <div>
+              <h2>Grandmasters &<br /><span>titled players.</span></h2>
+              <p>A look at the Indian and international names featured in the first-edition tournament archive.</p>
+            </div>
             <Link className={styles.textLink} href={`/events/${firstEdition.slug}#attendees`}>Meet the first-edition players <Arrow /></Link>
           </div>
-          <p>A look at the Indian and international names featured in the first-edition tournament archive.</p>
           <PlayerGallery players={firstEditionPlayers} compact />
         </section>
       )}

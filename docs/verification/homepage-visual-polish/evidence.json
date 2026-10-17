@@ -1,0 +1,65 @@
+{
+  "contract": "docs/plans/homepage-visual-polish.md \u2014 visual-only player, feedback and partner refinement; same data, media and controls; two compact player rows.",
+  "targetViewports": [
+    "1440x900",
+    "834x1112",
+    "390x844",
+    "320x740"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Title abbreviations/country text retained; labels fit; focus outlines remain visible. Arrow keys scroll player/video regions and focus pauses the marquee. Duplicate logos remain inert/aria-hidden. Muted labels contrast against charcoal/ivory; country labels remain 11px. Global reduced-motion CSS disables animation/transitions and the new portrait hover scale has an explicit override. Native preference and real-device checks are not claimed."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Rendered all four targets. All 14 players remain in two rows, with no document overflow and no clipped names/countries. Internal tracks retain intended scrolling. Shared partner and event cards also reviewed on narrow widths. Desktop player/partner sections are shorter; video section height differs by about 1px."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "Existing fixed image/video bounds retained. All desktop portraits/flags and visible ribbon logos loaded; distant offscreen logos remain lazy. All three poster images and native controls inspected in desktop/phone captures."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "This visual pass changes no data source or empty-state branch. Existing public collections are populated; empty fixtures were not injected and existing guards remain unchanged."
+    },
+    "error": {
+      "status": "not-applicable",
+      "reason": "No new request/error UI is introduced; image/media sources, alt text and native controls are retained. Deliberate media failures and actual playback were not tested in this visual pass."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "The existing 2024 event attendee gallery renders its collapsed two-player phone row and expands to all 14 through See more. Name-only partner and initials fallbacks were source-reviewed only; those fixtures are not present in current reviewed content."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "All 14 homepage portraits, title badges and countries render; native video presentation is intact; partner labels fit and keyboard focus pauses the ribbon. Raw observations saved in browser-results.json."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "Public content styling only; no uploads, authentication, data entry or permission interactions."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "players-1440.jpg",
+      "observation": "All 14 players in two framed rows on charcoal; gold portrait-corner badges, readable names and aligned flags/country labels."
+    },
+    {
+      "viewport": "834x1112",
+      "artifact": "players-834.jpg",
+      "observation": "Tablet retains two horizontal player rows, compact frames and unclipped names; intended overflow stays inside the track."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "players-390.jpg",
+      "observation": "Phone portrait cards, names and countries fit, with the next column visible as a browsing cue."
+    },
+    {
+      "viewport": "320x740",
+      "artifact": "players-320.jpg",
+      "observation": "Narrow layout with visible track focus outline and long-name wrapping; no document overflow or clipped country labels."
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+[
+  {
+    "opening": [
+      {
+        "scene": "static",
+        "visible": "false"
+      },
+      {
+        "frame": {
+          "calls": "17",
+          "camera": "2.8",
+          "engine": "three.js r186",
+          "frames": "2",
+          "hop": "0",
+          "knight": "-0.21",
+          "triangles": "6636"
+        },
+        "scene": "loading",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "2.8",
+          "engine": "three.js r186",
+          "frames": "4",
+          "hop": "0",
+          "knight": "-0.21",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "2.7904169999999997",
+          "engine": "three.js r186",
+          "frames": "25",
+          "hop": "0.0037356458022009625",
+          "knight": "-0.20687856",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "2.6914849999999997",
+          "engine": "three.js r186",
+          "frames": "50",
+          "hop": "0.11669140788756895",
+          "knight": "-0.1101954",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "2.395965",
+          "engine": "three.js r186",
+          "frames": "75",
+          "hop": "0.3147692930590564",
+          "knight": "0.25841088",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "2.0105359999999997",
+          "engine": "three.js r186",
+          "frames": "99",
+          "hop": "0.08442773978235932",
+          "knight": "0.55861008",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "1.8442729999999998",
+          "engine": "three.js r186",
+          "frames": "122",
+          "hop": "0.0023524033907749127",
+          "knight": "0.6280344",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "1.8007649999999997",
+          "engine": "three.js r186",
+          "frames": "147",
+          "hop": "0",
+          "knight": "0.63",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "1.7999999999999998",
+          "engine": "three.js r186",
+          "frames": "156",
+          "hop": "0",
+          "knight": "0.63",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "1.7999999999999998",
+          "engine": "three.js r186",
+          "frames": "156",
+          "hop": "0",
+          "knight": "0.63",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      },
+      {
+        "frame": {
+          "calls": "18",
+          "camera": "1.7999999999999998",
+          "engine": "three.js r186",
+          "frames": "156",
+          "hop": "0",
+          "knight": "0.63",
+          "triangles": "33262"
+        },
+        "scene": "ready",
+        "visible": "true"
+      }
+    ]
+  },
+  {
+    "canvas": {
+      "calls": "18",
+      "camera": "1.6153847999999997",
+      "engine": "three.js r186",
+      "frames": "302",
+      "hop": "0",
+      "knight": "0.63",
+      "triangles": "33262"
+    },
+    "label": "scroll-settled",
+    "top": -270,
+    "transform": "translate3d(0px, 48px, 0px) scale(1.0185, 1.0185)"
+  },
+  {
+    "canvas": {
+      "calls": "18",
+      "camera": "1.4697039999999997",
+      "engine": "three.js r186",
+      "frames": "310",
+      "hop": "0",
+      "knight": "0.63",
+      "triangles": "33262"
+    },
+    "label": "offscreen",
+    "top": -810,
+    "visible": "false"
+  },
+  {
+    "canvas": {
+      "calls": "18",
+      "camera": "1.7999999999999998",
+      "engine": "three.js r186",
+      "frames": "360",
+      "hop": "0",
+      "knight": "0.63",
+      "triangles": "33262"
+    },
+    "label": "returned-home",
+    "top": 0,
+    "transform": "translate(0px, 0px)"
+  }
+]

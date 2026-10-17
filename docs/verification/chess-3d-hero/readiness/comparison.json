@@ -1,0 +1,39 @@
+{
+  "method": "Local production proxy; identical 1440x900 viewport, native DPR 1, same AMD renderer. Resource cache/network and background load are not controlled; not an internet or fleet benchmark.",
+  "baseline": {
+    "lcpMs": 340,
+    "cls": 0,
+    "sceneReadyMs": 1148.199999988079,
+    "maxTaskMs": 318,
+    "blockingEstimateMs": 320,
+    "flight": {
+      "samples": 229,
+      "medianMs": 13.900000005960464,
+      "p95Ms": 14.599999994039536,
+      "over30ms": 0,
+      "maxMs": 14.900000005960464
+    },
+    "buffer": {
+      "width": 1425,
+      "height": 900
+    }
+  },
+  "after": {
+    "lcpMs": 424,
+    "cls": 0,
+    "sceneReadyMs": 1582.199999988079,
+    "maxTaskMs": 117,
+    "blockingEstimateMs": 109,
+    "flight": {
+      "samples": 229,
+      "medianMs": 13.900000005960464,
+      "p95Ms": 14.5,
+      "over30ms": 0,
+      "maxMs": 14.900000005960464
+    },
+    "buffer": {
+      "width": 1425,
+      "height": 900
+    }
+  }
+}

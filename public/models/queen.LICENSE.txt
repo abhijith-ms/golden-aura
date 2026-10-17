@@ -1,0 +1,15 @@
+Golden Aura wooden queen
+
+Adapted from "Chessboard" by Oleksandr Zymohliad, CC BY 4.0.
+Source: https://sketchfab.com/3d-models/chessboard-3cee8ada5d99468cbc93ded83b3ca70a
+Creator: https://sketchfab.com/oleksandr_zymohliad
+Licence: https://creativecommons.org/licenses/by/4.0/
+
+Changes: isolated source mesh 22 (node 24), normalised scale and base origin,
+converted Z-up to Y-up, applied the source dark-wood material, retained UVs
+and full geometry, and embedded the source wood JPEG re-encoded at quality 90.
+No decimation. The original source download remains outside Git and the site.
+The original creator does not endorse Golden Aura Trust.
+
+Reproduction: scripts/prepare-knight.py. Retain this attribution and the licence
+when sharing this adapted asset, also provided under CC BY 4.0.

@@ -1,0 +1,56 @@
+{
+  "method": "Temporary development-only diagnostics and synthetic 30fps sample intervals; DPR forced to its cap for deterministic transition checks. Not a GPU or FPS benchmark.",
+  "normal": {
+    "canvas": "<canvas data-engine=\"three.js r186\" width=\"1179\" height=\"737\" style=\"display: block; width: 786.344px; height: 491.469px;\" data-quality=\"full\" data-dpr=\"1.5\" data-frames=\"152\" data-moving=\"false\"></canvas>",
+    "scene": "ready",
+    "smoothing": true
+  },
+  "reduced": {
+    "canvas": "<canvas data-engine=\"three.js r186\" width=\"786\" height=\"491\" style=\"display: block; width: 786.344px; height: 491.469px;\" data-quality=\"reduced\" data-dpr=\"1\" data-frames=\"48\" data-moving=\"true\"></canvas>",
+    "scene": "ready"
+  },
+  "reducedIdle": {
+    "frames": "151",
+    "moving": "false",
+    "quality": "reduced"
+  },
+  "reducedIdleLater": {
+    "frames": "151",
+    "moving": "false",
+    "quality": "reduced"
+  },
+  "tablet": {
+    "canvases": 0,
+    "scene": "static",
+    "smoothing": false
+  },
+  "remount": {
+    "canvas": "<canvas data-engine=\"three.js r186\" width=\"786\" height=\"491\" style=\"display: block; width: 786.344px; height: 491.469px;\" data-quality=\"reduced\" data-dpr=\"1\" data-frames=\"8\" data-moving=\"true\"></canvas>",
+    "scene": "ready"
+  },
+  "fallback": {
+    "artworkStyle": null,
+    "canvas": 0,
+    "copyStyle": null,
+    "eligible": "true",
+    "imageLoaded": true,
+    "scene": "static",
+    "smoothing": false
+  },
+  "terminal": {
+    "canvas": 0,
+    "scene": "static"
+  },
+  "newVisit": {
+    "canvas": "<canvas data-engine=\"three.js r186\" width=\"1179\" height=\"737\" style=\"display: block; width: 786.344px; height: 491.469px;\"></canvas>",
+    "scene": "ready"
+  },
+  "production": {
+    "canvases": 1,
+    "cssWidth": 786.34375,
+    "image": "/_next/image?url=%2Fimages%2Fhero-tournament-board.webp&w=3840&q=75",
+    "scene": "ready",
+    "temporaryAttributes": false,
+    "width": 786
+  }
+}

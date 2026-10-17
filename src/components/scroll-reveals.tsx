@@ -1,38 +1,10 @@
 "use client";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { startScrollReveals } from "@/lib/scroll-reveals";
 
 export function ScrollReveals() {
   const pathname = usePathname();
-  useEffect(() => {
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (preference.matches || !("IntersectionObserver" in window)) return;
-    const animations = new Set<Animation>();
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        observer.unobserve(entry.target);
-        const animation = entry.target.animate(
-          [{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "translateY(0)" }],
-          { duration: 550, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
-        );
-        animations.add(animation);
-        animation.onfinish = () => animations.delete(animation);
-      }
-    }, { rootMargin: "0px 0px -24px 0px" });
-    // Content stays visible without JavaScript; only reveal sections below the fold.
-    document.querySelectorAll("main > section").forEach((section) => {
-      if (section.getBoundingClientRect().top >= window.innerHeight) observer.observe(section);
-    });
-    function stop() {
-      observer.disconnect();
-      animations.forEach((animation) => animation.cancel());
-    }
-    preference.addEventListener("change", stop);
-    return () => {
-      stop();
-      preference.removeEventListener("change", stop);
-    };
-  }, [pathname]);
+  useEffect(startScrollReveals, [pathname]);
   return null;
 }

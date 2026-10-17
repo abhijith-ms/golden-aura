@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-15",
+  "branch": "codex/chess-3d-hero",
+  "base": "54d08ae09161f1561ca6b275a028e65e2dafa75b",
+  "stage": "Stationary composition and progressive enhancement; motion pending still review",
+  "checks": {
+    "typecheck": "passed",
+    "unit_tests": {
+      "passed": 20,
+      "failed": 0
+    },
+    "production_build": "passed",
+    "local_http_routes_and_api_boundaries": "passed",
+    "server_html": {
+      "matching_fallback": true,
+      "canvas": false
+    }
+  },
+  "assets": {
+    "knight_glb_bytes": 295208,
+    "triangles": 2662,
+    "material_primitives": 2,
+    "normal_map": "embedded 1K PNG",
+    "fallback_webp_bytes": 22490,
+    "fallback_dimensions": [
+      1003,
+      1003
+    ]
+  },
+  "browser": {
+    "development": {
+      "desktop": [
+        1440,
+        900
+      ],
+      "tablet": [
+        834,
+        1112
+      ],
+      "phones": [
+        [
+          320,
+          740
+        ],
+        [
+          390,
+          844
+        ]
+      ],
+      "horizontal_overflow": false,
+      "narrow_viewports": "static image; zero canvases"
+    },
+    "production": {
+      "desktop": [
+        1280,
+        720
+      ],
+      "scene": "ready",
+      "canvas_count": 1,
+      "tournament_navigation": "works; zero canvas on events",
+      "home_return": "one canvas; scene ready"
+    }
+  },
+  "bundle": {
+    "engine_chunk": "2e55xhkck_zsb.js",
+    "gzip_bytes": 254541,
+    "scope": "engine-related chunk only; total deferred transfer and critical-path impact not yet measured"
+  },
+  "pending": [
+    "Client review of the still composition",
+    "Pointer motion and adaptive DPR",
+    "Reduced-motion changes, Save-Data, slow network and context-loss browser simulations",
+    "Ten navigation cycles with memory/resource instrumentation",
+    "Real-device GPU/startup/LCP/CLS and frame-pacing measurements",
+    "Vercel preview and PR review before merge"
+  ]
+}

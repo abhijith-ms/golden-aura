@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/chess-3d-hero",
+  "stage": "Cinematic opening-move visual experiment",
+  "contract": "README.md: larger procedural chess scene, actual knight hop and camera arc, compact hero and immediate tournament access, static opening fallback and local failure handling.",
+  "targetViewports": ["1440x900", "834x1112", "390x844", "1280x720"],
+  "accessibility": {"status": "pass", "evidence": "Artwork adds no focus targets. Tab reaches Meet the Trust with a 3px outline. Mobile menu Escape restores focus and clears scroll lock. Copy/actions stay readable through motion. Eligibility unit tests cover reduced motion and data restrictions; actual preference switches are explicitly pending."},
+  "responsive": {"status": "pass", "evidence": "Desktop peak and resting knight clear the navbar and actions within the compact hero. Tablet/phone remove the scene and smoothing; client/scroll widths match at 819/819 and 375/375. Fresh production phone is at hero top zero. No extra artwork row or page length."},
+  "contentStates": {
+    "loading": {"status": "pass", "evidence": "Recorded reload progresses from static through loading to ready while the opening image and HTML remain available. The valid full scene precedes the 450ms handoff and one-time move."},
+    "empty": {"status": "not-applicable", "reason": "Bundled public decorative artwork has no empty user collection; missing geometry is an enhancement failure."},
+    "error": {"status": "pass", "evidence": "Local model HTTP 404 / fallback HTTP 200 leaves loaded opening image and actions, zero canvases and no Lenis. Restored model before build."},
+    "partial": {"status": "pass", "evidence": "Static and failure paths retain complete copy, both links, navigation and opening artwork without a live scene."},
+    "success": {"status": "pass", "evidence": "The recording and diagnostics show a 0.32-unit knight hop, landing, camera arc and stable idle frame count. Scroll/reverse, responsive teardown and production navigation succeed."},
+    "permission": {"status": "not-applicable", "reason": "Public decorative geometry requests no account or device permission. Existing CC BY attribution remains; additional geometry is procedural."}
+  },
+  "renderedEvidence": [
+    {"viewport": "1440x900", "artifact": "desktop.jpg", "observation": "Final four-piece arrangement on a larger angled board within the original hero height."},
+    {"viewport": "1440x900", "artifact": "knight-hop.jpg", "observation": "Actual mid-hop frame; knight remains below the floating navbar."},
+    {"viewport": "1440x900", "artifact": "opening-demo.mp4", "observation": "Actual reload/handoff/move/camera arc, captured as a timestamped browser screenshot sequence; not a frame-rate trace."},
+    {"viewport": "1440x900", "artifact": "focus.jpg", "observation": "Keyboard focus on Meet the Trust, outside decorative artwork."},
+    {"viewport": "834x1112", "artifact": "tablet.jpg", "observation": "Static opening composition after live desktop teardown; no canvas or smoothing."},
+    {"viewport": "390x844", "artifact": "phone.jpg", "observation": "Fresh production phone crop with static knight/board behind readable copy and actions."},
+    {"viewport": "1280x720", "artifact": "production.jpg", "observation": "Production one ready canvas and full scene, without temporary diagnostics."},
+    {"viewport": "1440x900", "artifact": "model-failure.jpg", "observation": "Unavailable model keeps matching opening image and full actions."}
+  ],
+  "checks": {"typecheck": "pass", "unitTests": 23, "productionBuild": "pass", "localHttp": "pass; localhost fixture only", "diffCheck": "pass", "captureInstrumentation": "removed", "dprCap": 1.5, "deadlineMs": 8000, "renderedTriangles": 33262, "drawCalls": 18, "fallbackBytes": 65654},
+  "notChecked": ["Client visual approval", "Adaptive DPR", "Representative-device startup/LCP/CLS/frame pacing", "Actual browser preference changes", "Context/shader/renderer failure simulations", "Extended resource profiling", "Production merge"]
+}
