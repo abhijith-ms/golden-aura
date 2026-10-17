@@ -1,0 +1,59 @@
+{
+  "contract": "docs/plans/chess-3d-hero/section-motion.md \u2014 compact, once-only card/photo motion; existing content, controls and hero preserved.",
+  "targetViewports": [
+    "1440x900",
+    "390x844",
+    "320x740"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Keyboard Home/End/arrows, thumbnail and endpoint buttons, Enter/Escape and native dialog focus restoration checked. Exactly one carousel slide exposed. Controls >=44px at narrow widths. Unit tests cover focus and preference cancellation; CSS reduced-motion overrides reviewed. Native preference switching and screen-reader certification remain pending, as recorded in README."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Rendered 1440x900, 390x844 and 320x740. No document horizontal overflow. Long event titles/captions fit; existing image bounds, card sizes and compact carousel retained."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "Observed stable blank enlargement bounds while its image loaded, followed by loaded-image captures at desktop/phone widths. Active carousel images loaded within existing fixed bounds."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "The reviewed surface uses the existing five curated photos and two event cards; this motion change adds no empty-data state. Existing empty guards remain unchanged, source reviewed; an empty fixture was not rendered."
+    },
+    "error": {
+      "status": "not-applicable",
+      "reason": "No new request, failure branch or error UI is introduced by CSS/entrance motion. Existing route/image handling and alt text remain; deliberately broken-image fixtures are outside this pass and were not tested."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "Gallery filtering renders four Chess & Coffee photos from the existing 20-photo collection and opens/closes their enlargement. Single-photo carousel guard is unchanged and was source-reviewed only."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Buttons, rapid keyboard reversals and a horizontal pointer drag update the active photograph/caption. Enter opens the 2024 event and gallery enlargement; Escape restores gallery trigger focus. Raw results saved in browser-results.json."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "Public image/event browsing; no account, data entry, uploads or permission prompt is introduced."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "1440x900",
+      "artifact": "photos-1440.jpg",
+      "observation": "Settled third photograph, editorial story/caption, five thumbnail controls and surrounding section heading remain visible."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "photos-390.jpg",
+      "observation": "Compact single-column photo stack with caption, 44px arrows and five thumbnails; no horizontal document overflow."
+    },
+    {
+      "viewport": "320x740",
+      "artifact": "photos-320.jpg",
+      "observation": "Fifth photo and long prize-presentation caption fit the narrow viewport; all carousel buttons remain >=44px."
+    }
+  ]
+}

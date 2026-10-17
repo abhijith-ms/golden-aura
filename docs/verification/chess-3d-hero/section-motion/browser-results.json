@@ -1,0 +1,118 @@
+{
+  "carouselDesktop": {
+    "keyboard": "Home, End, ArrowRight, ArrowLeft passed",
+    "rapidChanges": "current slide remained singular and matched selection",
+    "buttons": "next/previous/thumbnail selection and endpoints passed"
+  },
+  "desktop": {
+    "activePhotos": 1,
+    "exposedPhotos": 1,
+    "images": [
+      {
+        "alt": "The Chess and Coffee community",
+        "loaded": true
+      }
+    ],
+    "journal": {
+      "height": 512,
+      "width": 1254
+    },
+    "overflow": false,
+    "stageTouchAction": "pan-y pinch-zoom",
+    "viewport": "1440x900"
+  },
+  "galleryDesktop": {
+    "focusRestored": true,
+    "overflow": false,
+    "imageLoaded": true
+  },
+  "phone": {
+    "canvasCount": 0,
+    "controlSizes": [
+      {
+        "height": 44,
+        "label": "Previous photograph",
+        "width": 44
+      },
+      {
+        "height": 44,
+        "label": "Next photograph",
+        "width": 44
+      },
+      {
+        "height": 50.703125,
+        "label": "Show photograph 1: Tournament players concentrating at their boards",
+        "width": 58.479244232177734
+      },
+      {
+        "height": 48.75,
+        "label": "Show photograph 2: A player concentrating at a community gathering",
+        "width": 56.796875
+      },
+      {
+        "height": 48.75,
+        "label": "Show photograph 3: The Chess and Coffee community",
+        "width": 56.796875
+      },
+      {
+        "height": 48.75,
+        "label": "Show photograph 4: The first edition tournament trophy",
+        "width": 56.796875
+      },
+      {
+        "height": 48.75,
+        "label": "Show photograph 5: Championship prize presentation",
+        "width": 56.796875
+      }
+    ],
+    "journal": {
+      "height": 428.25,
+      "width": 330
+    },
+    "overflow": false,
+    "viewport": "390x844",
+    "swipe": "Horizontal pointer drag advanced 2 → 3; vertical pan-y and pinch-zoom remain allowed by CSS. Native device touch remains for teammate review."
+  },
+  "narrow": {
+    "active": "5 of 5",
+    "buttons": [
+      {
+        "height": 44,
+        "width": 44
+      },
+      {
+        "height": 44,
+        "width": 44
+      },
+      {
+        "height": 44,
+        "width": 44.484375
+      },
+      {
+        "height": 44,
+        "width": 44.46875
+      },
+      {
+        "height": 44,
+        "width": 44.484375
+      },
+      {
+        "height": 44,
+        "width": 44.484375
+      },
+      {
+        "height": 44,
+        "width": 44.484375
+      }
+    ],
+    "overflow": false,
+    "viewport": "320x740"
+  },
+  "eventNavigation": "Keyboard activation opened the 2024 tournament with its existing title, dates and venue.",
+  "consoleErrors": [],
+  "galleryPhone": {
+    "imageLoaded": true,
+    "naturalWidth": 370,
+    "dialog": "opened; close control and photo caption remained visible at 390px"
+  }
+}
