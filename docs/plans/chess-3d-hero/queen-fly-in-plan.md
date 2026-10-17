@@ -1,6 +1,6 @@
 # Proposed queen fly-in opening
 
-Date: 2026-10-17. Status: creative/technical proposal; not implemented or deployed.
+Date: 2026-10-17. Status: approved by the user's “Okay proceed” and implemented for branch-preview review. The storyboard below is the initial proposal; the implementation record at the end gives the actual choices and outstanding checks.
 
 ## User intent
 
@@ -62,3 +62,14 @@ The matching initial fallback must keep the queen invisible to avoid an image/ca
 Capture actual rendered frames for: initial queen absence, closest cropped pass, mid-flight depth, landed queen, final board and interrupted flight. Check 1440x900 and 1280x720 desktop compositions, plus a tall desktop viewport; retain tablet/phone static checks. The shot must not change document height, hide working controls behind a modal or leave a viewport overlay after navigation.
 
 A successful prototype has a clear queen silhouette, a smooth depth path and a seamless landing/handoff. Model quality, fullscreen projection continuity, transient GPU cost and motion comfort remain open until those captures and device checks are complete.
+
+## Implementation record — 2026-10-17
+
+- Selected the matching queen from the already licensed Oleksandr set: mesh 22 / node 24, full 57,120-triangle geometry, 1,463,528-byte standalone GLB. Its domed crown/turned collar and wood grain were inspected in a model still and actual foreground rendering. No replacement paid asset or new dependency.
+- One full-viewport, pointer-transparent canvas uses an expanded version of the hero lens. During the flight only the queen renders above page content, while the matching HTML board holds. The same renderer returns to a scissored hero presentation at landing. Tests confirm pixel-coordinate continuity, initial invisibility and whole-bounds near-plane safety at 1440x900, 1280x720 and 1280x1000.
+- Queen scale 0.82; landing [0.21, 0, -0.63]; near plane 0.03. The closest path control is 0.29 units in lens depth, with a lens-facing orientation that straightens toward the board. Perspective creates the near-camera crop without changing physical scale.
+- Actual choreography after readiness: 450ms initial handoff, 1.3s queen flight, 450ms board blend, 1.4s camera/opening travel (supporting moves staggered within it). No extra hero height, scroll length, pinning or input lock.
+- Once-per-tab session marker is written at flight start. Scroll, resize, keyboard navigation and clicks on links/buttons settle the opening. Repeated Home visits show the queen already on the board. Restricted/mobile and failure cases keep the existing four-piece fallback image; no new static composition was needed.
+- Full scene: 90,436 triangles / 21 draws; foreground: 57,122 triangles / 2 draws. Retain the viewport-sized drawing buffer after landing for projection continuity, with demand rendering and hero scissor/mask. This differs from the proposed transient buffer and needs device memory/frame-pacing measurement before production approval.
+- [Verification and actual opening recording](../../verification/chess-3d-hero/queen-flight/README.md): 36 tests, typecheck, production build and local HTTP checks; responsive stills, keyboard/scroll/link interruption, once-per-session, actual WebGL context loss, missing-model fallback and five production route cycles. Temporary pose/session overrides, counters and failure controls are removed.
+- Still pending: representative-device loading/frame pacing and motion-comfort review, actual browser preference transitions, additional shader/renderer failures and extended GPU/resource profiling. Keep draft PR #5 and review deployment; no production merge.

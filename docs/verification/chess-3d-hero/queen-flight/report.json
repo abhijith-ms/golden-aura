@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-17",
+  "branch": "codex/chess-3d-hero",
+  "stage": "Queen foreground-to-board opening prototype",
+  "contract": "README.md: recorded before scene implementation; one cinematic queen arrival with immediate tournament access, compact hero, projection continuity, input interruption and static restricted/failure presentation.",
+  "targetViewports": ["1440x900", "1280x720", "1280x1000", "834x1112", "390x844"],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Tab interrupts the foreground shot and shows the focused Skip to content link. Production Events link works during the shot. Artwork has no focus targets or pointer interception. Phone Menu/Escape restores focus and body overflow. Static views keep readable copy/actions. Reduced-motion/data policy tests pass; actual preference transitions and motion-comfort review remain explicitly pending."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Rendered five target sizes. Desktop/tall foreground and landed views retain the existing hero. Tablet/phone use the loaded image with no canvas or Lenis; client and scroll widths match at 1425, 819 and 375px. Initial and foreground 1280x720 document heights both 5212px; hero 561.47px."
+  },
+  "contentStates": {
+    "loading": { "status": "pass", "evidence": "Actual recording begins with the existing static four-piece image and HTML controls. Scene preparation keeps that image; it remains through the foreground shot, then blends into the landed live board." },
+    "empty": { "status": "not-applicable", "reason": "Bundled decorative geometry has no user collection/empty dataset. Missing assets follow the observed failure path." },
+    "error": { "status": "pass", "evidence": "Actual WebGL context loss and queen-model HTTP 404 both settle to the loaded opening image with zero canvases, pending=false and no Lenis. Asset restored and temporary failure control removed before production build." },
+    "partial": { "status": "pass", "evidence": "Tablet/phone and failed enhancement retain headings, navigation, both hero actions and the complete four-piece image while live decoration is absent." },
+    "success": { "status": "pass", "evidence": "Actual recording and final stills show the queen crossing the foreground, receding and landing before supporting moves. Five production route cycles show one canvas on Home, none on Events and no foreground replay; no production browser errors." },
+    "permission": { "status": "not-applicable", "reason": "Public decorative artwork requires no device/account permission. Existing CC BY 4.0 permission covers extraction with footer/asset attribution; no purchase or new service." }
+  },
+  "renderedEvidence": [
+    { "viewport": "1440x900", "artifact": "queen-fly-in.mp4", "observation": "Timestamped browser screenshot sequence of the opening. Capture cadence is not a hardware FPS trace." },
+    { "viewport": "1440x900", "artifact": "foreground-1440.jpg", "observation": "Intentional near-camera crop across the viewport, with the existing board held underneath." },
+    { "viewport": "1440x900", "artifact": "desktop-final.jpg", "observation": "Queen planted on a distinct square in the completed board composition." },
+    { "viewport": "1440x900", "artifact": "keyboard-interrupted.jpg", "observation": "Tab settles the shot and visibly focuses Skip to content." },
+    { "viewport": "1440x900", "artifact": "context-loss.jpg", "observation": "Actual context loss restores the four-piece static hero and removes canvas/Lenis." },
+    { "viewport": "1280x720", "artifact": "initial.jpg", "observation": "Initial queen is entirely outside the viewport; compact hero and immediate actions." },
+    { "viewport": "1280x720", "artifact": "foreground-1280.jpg", "observation": "Intentional large foreground crop; document height equals initial state." },
+    { "viewport": "1280x720", "artifact": "production.jpg", "observation": "Final production build with one live canvas and no pose/session override or diagnostic control." },
+    { "viewport": "1280x1000", "artifact": "tall-mid-flight.jpg", "observation": "Readable queen silhouette and depth recession at a tall desktop aspect ratio." },
+    { "viewport": "1280x1000", "artifact": "missing-queen.jpg", "observation": "Settled static view after a locally observed queen request 404." },
+    { "viewport": "834x1112", "artifact": "tablet.jpg", "observation": "Static board and existing typography/actions, zero canvases or added horizontal overflow." },
+    { "viewport": "390x844", "artifact": "phone.jpg", "observation": "Production static phone presentation with loaded image and working mobile navigation." }
+  ],
+  "checks": { "typecheck": "pass", "unitTests": 36, "productionBuild": "pass", "localHttp": "pass; localhost only", "diffCheck": "pass", "queenBytes": 1463528, "combinedGlbBytes": 2228988, "fullSceneTriangles": 90436, "fullSceneDraws": 21, "foregroundTriangles": 57122, "foregroundDraws": 2, "runtimeDprCap": 1.5, "deadlineMs": 8000, "instrumentation": "removed before production build" },
+  "notChecked": ["Representative-device loading/frame pacing and Core Web Vitals", "Total GPU memory and full-viewport framebuffer calibration", "Actual browser preference transitions", "Additional shader/renderer failures", "Extended resource profiling", "Client motion-comfort approval", "Production merge"]
+}
