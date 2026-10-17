@@ -4,6 +4,8 @@ Next.js website with Sanity editing, curated event galleries, and a server-side 
 
 The [3D hero handoff and selected knight model](docs/plans/chess-3d-hero/README.md) preserve current decisions and both [Astra's original plan](docs/plans/chess-3d-hero/astra-plan.md) and [revised motion brief](docs/plans/chess-3d-hero/astra-revised-motion-plan.md). Read these before resuming the 3D phase. Three.js/Fiber own the scene; GSAP/ScrollTrigger coordinate hero-to-introduction motion. Lenis provides a light desktop wheel-smoothing trial.
 
+The queen entrance replays on a full homepage load/reload on eligible desktops. Its in-memory document guard prevents scene-remount/resize replays; previous session-storage markers are ignored. [Reload verification](docs/verification/chess-3d-hero/reload-replay/README.md) covers repeated loads, remounts and unchanged interruption/fallback behavior.
+
 ## Local development
 
 Use Node.js 24 (minimum 22.12).

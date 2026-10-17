@@ -1,0 +1,217 @@
+{
+  "date": "2026-10-17",
+  "fixture": "Read-only localhost proxy, production build; qa-storage=seen seeds the legacy session marker before hydration.",
+  "firstLoad": {
+    "url": "http://localhost:3001/?qa-storage=seen",
+    "flightSamples": 229,
+    "artwork": {
+      "scene": "ready",
+      "eligible": "true",
+      "visible": "true",
+      "queenPending": "false"
+    },
+    "layer": {
+      "z": "0",
+      "visibility": "visible"
+    },
+    "contexts": 1,
+    "transitions": [
+      {
+        "time": 278.89999997615814,
+        "state": "static/true/false"
+      },
+      {
+        "time": 372.5,
+        "state": "loading/true/true"
+      },
+      {
+        "time": 1383.5999999940395,
+        "state": "ready/true/true"
+      },
+      {
+        "time": 5037.199999988079,
+        "state": "ready/true/false"
+      }
+    ]
+  },
+  "reload1": {
+    "url": "http://localhost:3001/?qa-storage=seen",
+    "flightSamples": 229,
+    "artwork": {
+      "scene": "ready",
+      "eligible": "true",
+      "visible": "true",
+      "queenPending": "false"
+    },
+    "layer": {
+      "z": "0",
+      "visibility": "visible"
+    },
+    "contexts": 1,
+    "transitions": [
+      {
+        "time": 146.7999999821186,
+        "state": "static/true/false"
+      },
+      {
+        "time": 173.09999999403954,
+        "state": "loading/true/true"
+      },
+      {
+        "time": 1099.0999999940395,
+        "state": "ready/true/true"
+      },
+      {
+        "time": 4753.5,
+        "state": "ready/true/false"
+      }
+    ]
+  },
+  "reload2": {
+    "url": "http://localhost:3001/?qa-storage=seen",
+    "flightSamples": 229,
+    "artwork": {
+      "scene": "ready",
+      "eligible": "true",
+      "visible": "true",
+      "queenPending": "false"
+    },
+    "layer": {
+      "z": "0",
+      "visibility": "visible"
+    },
+    "contexts": 1,
+    "transitions": [
+      {
+        "time": 158.7999999821186,
+        "state": "static/true/false"
+      },
+      {
+        "time": 173.39999997615814,
+        "state": "loading/true/true"
+      },
+      {
+        "time": 1063,
+        "state": "ready/true/true"
+      },
+      {
+        "time": 4715.299999982119,
+        "state": "ready/true/false"
+      }
+    ]
+  },
+  "sameDocumentRemount": {
+    "url": "http://localhost:3001/?qa-storage=seen",
+    "flightSamples": 229,
+    "artwork": {
+      "scene": "ready",
+      "eligible": "true",
+      "visible": "true",
+      "queenPending": "false"
+    },
+    "layer": {
+      "z": "0",
+      "visibility": "visible"
+    },
+    "contexts": 2,
+    "transitions": [
+      {
+        "time": 158.7999999821186,
+        "state": "static/true/false"
+      },
+      {
+        "time": 173.39999997615814,
+        "state": "loading/true/true"
+      },
+      {
+        "time": 1063,
+        "state": "ready/true/true"
+      },
+      {
+        "time": 4715.299999982119,
+        "state": "ready/true/false"
+      },
+      {
+        "time": 20092,
+        "state": "static/false/false"
+      },
+      {
+        "time": 20116.09999999404,
+        "state": "static/true/false"
+      },
+      {
+        "time": 20144.19999998808,
+        "state": "loading/true/false"
+      },
+      {
+        "time": 20585.899999976158,
+        "state": "ready/true/false"
+      }
+    ]
+  },
+  "storageBlockedScrollInterruption": {
+    "url": "http://localhost:3001/?qa-storage=blocked",
+    "flightSamples": 5,
+    "artwork": {
+      "scene": "ready",
+      "eligible": "true",
+      "visible": "true",
+      "queenPending": "false"
+    },
+    "layer": {
+      "z": "0",
+      "visibility": "visible"
+    },
+    "contexts": 1,
+    "transitions": [
+      {
+        "time": 165.69999998807907,
+        "state": "static/true/false"
+      },
+      {
+        "time": 179.59999999403954,
+        "state": "loading/true/true"
+      },
+      {
+        "time": 1142.699999988079,
+        "state": "ready/true/true"
+      },
+      {
+        "time": 1690.699999988079,
+        "state": "ready/true/false"
+      }
+    ]
+  },
+  "controlledReducedMotion": {
+    "url": "http://localhost:3001/?qa-motion=reduce&qa-storage=seen",
+    "flightSamples": 0,
+    "artwork": {
+      "scene": "static",
+      "eligible": "false",
+      "visible": "true",
+      "queenPending": "false"
+    },
+    "layer": null,
+    "contexts": 0,
+    "transitions": []
+  },
+  "phone": {
+    "url": "http://localhost:3001/?qa-storage=seen",
+    "flightSamples": 0,
+    "artwork": {
+      "scene": "static",
+      "eligible": "false",
+      "visible": "true",
+      "queenPending": "false"
+    },
+    "layer": null,
+    "contexts": 0,
+    "transitions": []
+  },
+  "consoleErrors": [],
+  "limits": [
+    "Preference setup is a controlled application double, not native browser/CSS emulation.",
+    "Flight sample counts establish rendered replay, not representative-device performance.",
+    "Production remains unchanged; PR #5 remains draft."
+  ]
+}

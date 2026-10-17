@@ -83,3 +83,7 @@ Queen travel is now **3.2s**, compared with 1.3s. A six-point trajectory starts 
 Queen-mounted warm rim and cooler fill lights follow the movement. The studio/environment dims locally in the queen render to give those edges contrast, then returns smoothly before landing. Accent is bounded, zero at the start/end and fully faded by progress 0.94; interrupted motion also restores the original lighting. No bloom, particles, new texture, postprocessing or dependency.
 
 [Updated recording and review evidence](../../verification/chess-3d-hero/queen-left-pass/README.md) cover this revision. The new path and lighting envelope retain the geometric safety tests and add direction/pacing/accent assertions. Static/failure policy and the remaining device/preference checks are unchanged.
+
+## User review refinement — replay on reload
+
+The user requested that reloading Home show the queen entrance again. This supersedes the initial once-per-tab recommendation above. A module flag now lasts only for the current document and is set at the actual flight start; full reloads reset it. Scene remounts and returning to view in the same document do not replay it. The old session-storage marker is ignored, so existing visitors receive the updated behavior without clearing browser storage. Timing, lighting, interruption, static-device and reduced-motion policy remain unchanged.
