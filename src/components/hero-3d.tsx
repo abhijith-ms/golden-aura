@@ -19,17 +19,26 @@ class SceneBoundary extends Component<{ children: ReactNode; onFailure: () => vo
 export function HeroArtwork({ children }: { children: ReactNode }) {
   const frame = useRef<HTMLDivElement>(null);
   const failed = useRef(false);
+  const queenSeen = useRef(false);
   const [allowed, setAllowed] = useState(false);
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [ready, setReady] = useState(false);
   const [dprCap, setDprCap] = useState(1.5);
+  const [playQueen, setPlayQueen] = useState(false);
+  const [queenPending, setQueenPending] = useState(false);
   const reduceQuality = useCallback(() => setDprCap(1), []);
+  const queenStarted = useCallback(() => {
+    queenSeen.current = true;
+    try { sessionStorage.setItem("golden-aura:queen-intro-v1", "seen"); } catch { /* Page-local guard still prevents replays. */ }
+  }, []);
+  const queenComplete = useCallback(() => { setQueenPending(false); }, []);
 
   const fallback = useCallback(() => {
     failed.current = true;
     setReady(false);
     setMounted(false);
+    setQueenPending(false);
   }, []);
   const reveal = useCallback(() => { if (!failed.current) setReady(true); }, []);
 
@@ -45,6 +54,7 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
       if (!eligible) {
         setMounted(false);
         setReady(false);
+        setQueenPending(false);
       }
     };
     const media = [motion, pointer, hover, wide];
@@ -81,7 +91,15 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
     const schedule = () => {
       if (scheduled || document.readyState !== "complete" || !image?.complete || !image.naturalWidth) return;
       scheduled = true;
-      const start = () => { if (!failed.current) setMounted(true); };
+      const start = () => {
+        if (failed.current) return;
+        let seen = queenSeen.current;
+        try { seen ||= sessionStorage.getItem("golden-aura:queen-intro-v1") === "seen"; } catch { /* Storage is optional. */ }
+        const play = !seen && (frame.current?.closest("section")?.getBoundingClientRect().top ?? -1) >= -2;
+        setPlayQueen(play);
+        setQueenPending(play);
+        setMounted(true);
+      };
       if ("requestIdleCallback" in window) idle = window.requestIdleCallback(start, { timeout: 2000 });
       else timer = setTimeout(start, 200);
     };
@@ -103,8 +121,8 @@ export function HeroArtwork({ children }: { children: ReactNode }) {
   }, [mounted, ready, fallback]);
 
   return (
-    <div ref={frame} className={styles.heroArtwork} aria-hidden="true" data-scene={ready ? "ready" : mounted ? "loading" : "static"} data-eligible={allowed} data-visible={visible}>
-      {mounted && <SceneBoundary onFailure={fallback}><HeroScene frame={frame} active={visible && allowed} dprCap={dprCap} onReduceQuality={reduceQuality} onReady={reveal} onFailure={fallback} /></SceneBoundary>}
+    <div ref={frame} className={styles.heroArtwork} aria-hidden="true" data-scene={ready ? "ready" : mounted ? "loading" : "static"} data-eligible={allowed} data-visible={visible} data-queen-pending={queenPending}>
+      {mounted && <SceneBoundary onFailure={fallback}><HeroScene frame={frame} active={visible && allowed} dprCap={dprCap} playQueen={playQueen} onQueenStart={queenStarted} onQueenComplete={queenComplete} onReduceQuality={reduceQuality} onReady={reveal} onFailure={fallback} /></SceneBoundary>}
       {children}
     </div>
   );

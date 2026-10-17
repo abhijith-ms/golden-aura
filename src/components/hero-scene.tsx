@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { createPortal } from "react-dom";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, PMREMGenerator, type Group, type Material, type MeshStandardMaterial, type Texture } from "three";
+import { ACESFilmicToneMapping, DataTexture, LinearFilter, Mesh, PerspectiveCamera, PMREMGenerator, type Group, type Material, type MeshStandardMaterial, type Texture } from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import gsap from "gsap";
@@ -13,11 +14,13 @@ import { createHeroQuality, dampHeroAngle, heroPointerTarget, openingKnightPosit
 import { HeroPawn, HeroRook } from "./hero-pieces";
 import { HeroBoard } from "./hero-board";
 import { heroPieceScale } from "@/lib/hero-board";
+import { createQueenFlight, queenFlightPose, queenLanding, queenScale } from "@/lib/hero-flight";
+import { renderHeroViewport } from "./hero-viewport";
 import styles from "./site.module.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-type Props = { frame: RefObject<HTMLDivElement | null>; active: boolean; dprCap: number; onReduceQuality: () => void; onReady: () => void; onFailure: () => void };
+type Props = { frame: RefObject<HTMLDivElement | null>; active: boolean; dprCap: number; playQueen: boolean; onQueenStart: () => void; onQueenComplete: () => void; onReduceQuality: () => void; onReady: () => void; onFailure: () => void };
 
 function disposeModel(model: Group) {
   const materials = new Set<Material>();
@@ -34,9 +37,9 @@ function disposeModel(model: Group) {
   textures.forEach((texture) => texture.dispose());
 }
 
-function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props) {
+function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenComplete, onReduceQuality, onReady, onFailure }: Props & { layer: RefObject<HTMLDivElement | null> }) {
   const { gl, scene, camera, invalidate } = useThree();
-  const [model, setModel] = useState<Group>();
+  const [models, setModels] = useState<{ knight: Group; queen: Group }>();
   const [presented, setPresented] = useState(false);
   const [prepared, setPrepared] = useState(false);
   const scrollGroup = useRef<Group>(null);
@@ -45,6 +48,9 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
   const knightShadow = useRef<Group>(null);
   const goldPawn = useRef<Group>(null);
   const ivoryRook = useRef<Group>(null);
+  const queenTravel = useRef<Group>(null);
+  const queenShadow = useRef<Mesh>(null);
+  const flying = useRef(false);
   const landing = useRef<MeshStandardMaterial>(null);
   const entrance = useRef<gsap.core.Timeline | null>(null);
   const scrollMotion = useRef<gsap.core.Timeline | null>(null);
@@ -69,26 +75,33 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
     sampleHeroQuality(quality.current, 0, false);
     target.current = { yaw: 0, pitch: 0 };
     pointerGroup.current?.rotation.set(0, 0, 0);
+    if (!active && flying.current) entrance.current?.progress(1);
     entrance.current?.paused(!active);
     if (active) invalidate();
   }, [active, invalidate]);
   useEffect(() => {
     gl.domElement.addEventListener("webglcontextlost", onFailure);
-    return () => gl.domElement.removeEventListener("webglcontextlost", onFailure);
+    const previous = gl.debug.onShaderError;
+    gl.debug.onShaderError = onFailure;
+    return () => { gl.domElement.removeEventListener("webglcontextlost", onFailure); gl.debug.onShaderError = previous; };
   }, [gl, onFailure]);
 
   useEffect(() => {
     const abort = new AbortController();
     let cancelled = false;
-    let owned: Group | undefined;
+    const owned: Group[] = [];
+    async function piece(name: string) {
+      const response = await fetch(`/models/${name}.glb`, { signal: abort.signal });
+      if (!response.ok) throw new Error("Chess piece unavailable");
+      const result = await new GLTFLoader().parseAsync(await response.arrayBuffer(), "");
+      owned.push(result.scene);
+      if (cancelled) { disposeModel(result.scene); return; }
+      return result.scene;
+    }
     async function load() {
       try {
-        const response = await fetch("/models/knight.glb", { signal: abort.signal });
-        if (!response.ok) throw new Error("Knight unavailable");
-        const result = await new GLTFLoader().parseAsync(await response.arrayBuffer(), "");
-        owned = result.scene;
-        if (cancelled) disposeModel(owned);
-        else setModel(owned);
+        const [knight, queen] = await Promise.all([piece("knight"), piece("queen")]);
+        if (!cancelled && knight && queen) setModels({ knight, queen });
       } catch {
         if (!cancelled) onFailure();
       }
@@ -97,9 +110,14 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
     return () => {
       cancelled = true;
       abort.abort();
-      if (owned) disposeModel(owned);
+      owned.forEach(disposeModel);
     };
   }, [onFailure]);
+
+  useEffect(() => {
+    queenTravel.current?.traverse((object) => object.layers.set(playQueen ? 1 : 0));
+    queenShadow.current?.layers.set(playQueen ? 1 : 0);
+  }, [models, playQueen]);
 
   useEffect(() => {
     const environment = new RoomEnvironment();
@@ -113,14 +131,15 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
   }, [gl, scene]);
 
   useEffect(() => {
-    if (!model || !active || prepared) return;
+    if (!models || !active || prepared || !frame.current || !layer.current) return;
     let cancelled = false;
     camera.lookAt(0.15, 0.35, 0);
     async function prepare() {
       try {
+        camera.layers.enableAll();
         await gl.compileAsync(scene, camera);
         if (cancelled) return;
-        gl.render(scene, camera);
+        renderHeroViewport(gl, scene, camera as PerspectiveCamera, frame.current!, layer.current!, false);
         setPrepared(true);
         invalidate();
         onReady();
@@ -130,7 +149,7 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
     }
     void prepare();
     return () => { cancelled = true; };
-  }, [model, active, prepared, gl, scene, camera, invalidate, onReady, onFailure]);
+  }, [models, active, prepared, gl, scene, camera, frame, layer, invalidate, onReady, onFailure]);
 
   useEffect(() => {
     if (!prepared) return;
@@ -142,9 +161,21 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
     const artwork = frame.current;
     const hero = artwork?.closest("section");
     if (!presented || !artwork || !hero || !scrollGroup.current) return;
-    const motion = { knight: 0, camera: 0, gold: 0, rook: 0, scroll: 0 };
+    const hasFlight = playQueen && hero.getBoundingClientRect().top >= -2;
+    const motion = { queen: hasFlight ? 0 : 1, knight: 0, camera: 0, gold: 0, rook: 0, scroll: 0 };
+    scrollGroup.current.updateWorldMatrix(true, false);
+    const flight = createQueenFlight(camera as PerspectiveCamera, artwork.getBoundingClientRect(), layer.current!.getBoundingClientRect(), scrollGroup.current.matrixWorld);
     const requestFrame = () => { if (activeRef.current) invalidate(); };
     const applyMotion = () => {
+      const queen = queenFlightPose(flight, motion.queen);
+      queenTravel.current?.position.copy(queen.position);
+      queenTravel.current?.quaternion.copy(queen.rotation);
+      const queenLayer = motion.queen < 1 ? 1 : 0;
+      queenTravel.current?.traverse((object) => object.layers.set(queenLayer));
+      if (queenShadow.current) {
+        queenShadow.current.layers.set(queenLayer);
+        (queenShadow.current.material as Material).opacity = Math.max(0, (motion.queen - 0.7) / 0.3);
+      }
       const pose = openingKnightPosition(motion.knight);
       knightTravel.current?.position.set(pose.x, pose.y, pose.z);
       knightShadow.current?.position.set(pose.x, 0, pose.z);
@@ -157,12 +188,16 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
       camera.lookAt(0.15, 0.35, 0);
       requestFrame();
     };
-    requestFrame();
-    entrance.current = gsap.timeline({ paused: !activeRef.current, onUpdate: applyMotion })
-      .to(motion, { camera: 1, duration: 2.1, ease: "power2.inOut" }, 0)
-      .to(motion, { knight: 1, duration: 1.65, ease: "power2.inOut" }, 0.12)
-      .to(motion, { gold: 1, duration: 1.1, ease: "power3.out" }, 0.35)
-      .to(motion, { rook: 1, duration: 1.1, ease: "power3.out" }, 0.65);
+    applyMotion();
+    entrance.current = gsap.timeline({ paused: !activeRef.current, onUpdate: applyMotion });
+    if (hasFlight) entrance.current.to(motion, { queen: 1, duration: 1.3, ease: "none", onStart: () => { flying.current = true; onQueenStart(); }, onComplete: () => { flying.current = false; onQueenComplete(); } }, 0);
+    else onQueenComplete();
+    const opening = hasFlight ? 1.75 : 0;
+    entrance.current
+      .to(motion, { camera: 1, duration: 1.4, ease: "power2.inOut" }, opening)
+      .to(motion, { knight: 1, duration: 1.2, ease: "power2.inOut" }, opening + 0.08)
+      .to(motion, { gold: 1, duration: 0.8, ease: "power3.out" }, opening + 0.2)
+      .to(motion, { rook: 1, duration: 0.8, ease: "power3.out" }, opening + 0.4);
     const timeline = gsap.timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.35 } });
     scrollMotion.current = timeline;
     timeline.to(motion, { scroll: 1, ease: "none", onUpdate: applyMotion }, 0);
@@ -177,7 +212,7 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
       requestFrame();
     }
     function move(event: PointerEvent) {
-      if (!activeRef.current || event.pointerType !== "mouse" || event.buttons || window.getSelection()?.isCollapsed === false || (event.target as Element).closest("[data-hero-copy], a, button")) { reset(); return; }
+      if (flying.current || !activeRef.current || event.pointerType !== "mouse" || event.buttons || window.getSelection()?.isCollapsed === false || (event.target as Element).closest("[data-hero-copy], a, button")) { reset(); return; }
       const rect = artwork!.getBoundingClientRect();
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) { reset(); return; }
       target.current = heroPointerTarget((event.clientX - rect.left) / rect.width * 2 - 1, (event.clientY - rect.top) / rect.height * 2 - 1);
@@ -185,13 +220,32 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
     }
     hero.addEventListener("pointermove", move, { passive: true });
     hero.addEventListener("pointerleave", reset, { passive: true });
+    const finish = () => { if (flying.current) entrance.current?.progress(1); };
+    const key = (event: KeyboardEvent) => { if (["Escape", "Enter", "Tab", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End", " "].includes(event.key)) finish(); };
+    const control = (event: PointerEvent) => { if ((event.target as Element).closest("a,button")) finish(); };
+    window.addEventListener("scroll", finish, { passive: true });
+    window.addEventListener("resize", finish);
+    window.addEventListener("keydown", key);
+    window.addEventListener("pointerdown", control);
     return () => {
       hero.removeEventListener("pointermove", move);
       hero.removeEventListener("pointerleave", reset);
+      window.removeEventListener("scroll", finish);
+      window.removeEventListener("resize", finish);
+      window.removeEventListener("keydown", key);
+      window.removeEventListener("pointerdown", control);
       entrance.current = null;
       scrollMotion.current = null;
     };
-  }, { dependencies: [presented, frame, camera, invalidate], revertOnUpdate: true });
+  }, { dependencies: [presented, frame, camera, invalidate, playQueen, onQueenStart, onQueenComplete, layer], revertOnUpdate: true });
+
+  useFrame(() => {
+    if (!active || !frame.current || !layer.current) return;
+    try {
+      renderHeroViewport(gl, scene, camera as PerspectiveCamera, frame.current, layer.current, flying.current);
+    }
+    catch { onFailure(); }
+  }, 1);
 
   useFrame((_, seconds) => {
     const group = pointerGroup.current;
@@ -208,12 +262,19 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
 
   return (
     <>
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[-3, 4, 4]} color="#fff0d7" intensity={4} />
-      <directionalLight position={[3, 2, -2]} color="#e4d4ab" intensity={3} />
-      <directionalLight position={[2, 1, 3]} color="#dce4e5" intensity={0.7} />
+      <ambientLight intensity={0.35} onUpdate={(light) => light.layers.enableAll()} />
+      <directionalLight position={[-3, 4, 4]} color="#fff0d7" intensity={4} onUpdate={(light) => light.layers.enableAll()} />
+      <directionalLight position={[3, 2, -2]} color="#e4d4ab" intensity={3} onUpdate={(light) => light.layers.enableAll()} />
+      <directionalLight position={[2, 1, 3]} color="#dce4e5" intensity={0.7} onUpdate={(light) => light.layers.enableAll()} />
       <group ref={scrollGroup} rotation={[0, -0.25, 0]}>
         <HeroBoard />
+        <group ref={queenTravel} position={queenLanding} scale={queenScale}>
+          {models && <primitive object={models.queen} dispose={null} />}
+        </group>
+        <mesh ref={queenShadow} position={[queenLanding.x, -0.003, queenLanding.z]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[0.56, 0.56]} />
+          <meshBasicMaterial map={shadow} transparent opacity={playQueen ? 0 : 1} depthWrite={false} toneMapped={false} />
+        </mesh>
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.63, -0.007, 0.21]}>
           <planeGeometry args={[0.41, 0.41]} />
           <meshStandardMaterial ref={landing} color="#c4af78" emissive="#b08c43" emissiveIntensity={0.5} transparent opacity={0.12} depthWrite={false} />
@@ -226,7 +287,7 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
         </group>
         <group ref={knightTravel} position={[-0.21, 0, 0.63]}>
           <group ref={pointerGroup}>
-            {model && <primitive object={model} rotation={[0, 2.2, 0]} scale={heroPieceScale.knight} dispose={null} />}
+            {models && <primitive object={models.knight} rotation={[0, 2.2, 0]} scale={heroPieceScale.knight} dispose={null} />}
           </group>
         </group>
         <group ref={goldPawn} position={[-0.63, 0, 1.05]} scale={heroPieceScale.pawn}>
@@ -247,6 +308,9 @@ function Sculpture({ frame, active, onReduceQuality, onReady, onFailure }: Props
 }
 
 export default function HeroScene(props: Props) {
+  const layer = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
+  const reveal = useCallback(() => { setShown(true); props.onReady(); }, [props.onReady]);
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.12, smoothWheel: true, syncTouch: false, stopInertiaOnNavigate: true, allowNestedScroll: true, prevent: (node) => node.matches("dialog") });
     const tick = (time: number) => lenis.raf(time * 1000);
@@ -271,22 +335,23 @@ export default function HeroScene(props: Props) {
       lenis.destroy();
     };
   }, []);
-  return (
-    <div className={styles.heroCanvas}>
+  // shortcut: keep one viewport buffer for projection continuity; shrink if device traces show framebuffer pressure.
+  return createPortal(
+    <div ref={layer} className={styles.heroViewport} aria-hidden="true" data-ready={shown} style={{ visibility: props.active ? "visible" : "hidden" }}>
       <Canvas
         aria-hidden="true"
         style={{ pointerEvents: "none" }}
         frameloop={props.active ? "demand" : "never"}
         dpr={[1, props.dprCap]}
-        camera={{ position: [2.8, 2.1, 3.8], fov: 27, near: 0.1, far: 20 }}
+        camera={{ position: [2.8, 2.1, 3.8], fov: 27, near: 0.03, far: 20 }}
         gl={{ alpha: true, antialias: true, powerPreference: "low-power", toneMapping: ACESFilmicToneMapping, toneMappingExposure: 1.1 }}
         fallback={null}
         onCreated={({ events }) => {
           events.disconnect?.();
         }}
       >
-        <Sculpture {...props} />
+        <Sculpture {...props} layer={layer} onReady={reveal} />
       </Canvas>
-    </div>
+    </div>, document.body
   );
 }
