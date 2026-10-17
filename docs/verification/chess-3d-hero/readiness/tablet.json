@@ -1,0 +1,302 @@
+{
+  "url": "http://localhost:3001/",
+  "time": 176.2999999821186,
+  "lcp": {
+    "time": 124,
+    "tag": "IMG",
+    "url": "http://localhost:3001/_next/image?url=%2Fimages%2Fhero-tournament-board.webp&w=1080&q=75"
+  },
+  "cls": 0,
+  "capabilities": {
+    "nativeReduced": false,
+    "appReduced": false,
+    "saveData": false,
+    "connectionAvailable": true
+  },
+  "longTasks": [],
+  "events": [],
+  "draws": 0,
+  "shaderInjected": false,
+  "flight": {
+    "samples": 0,
+    "medianMs": null,
+    "p95Ms": null,
+    "over30ms": 0,
+    "maxMs": null
+  },
+  "contexts": [],
+  "artwork": {
+    "scene": "static",
+    "eligible": "false",
+    "visible": "true",
+    "queenPending": "false"
+  },
+  "canvas": null,
+  "layer": null,
+  "lenis": false,
+  "width": 819,
+  "scrollWidth": 819,
+  "height": 5298,
+  "resources": [
+    {
+      "name": "/__hero-qa.js",
+      "type": "script",
+      "bytes": 8744,
+      "encoded": 8444,
+      "duration": 10.5
+    },
+    {
+      "name": "/_next/static/media/manrope_latin-s.p.1p_a2k8qd5zhp.woff2",
+      "type": "link",
+      "bytes": 25136,
+      "encoded": 24836,
+      "duration": 16.099999994039536
+    },
+    {
+      "name": "/_next/image",
+      "type": "link",
+      "bytes": 18607,
+      "encoded": 18307,
+      "duration": 16.400000005960464
+    },
+    {
+      "name": "/_next/image",
+      "type": "link",
+      "bytes": 2566,
+      "encoded": 2266,
+      "duration": 32.5
+    },
+    {
+      "name": "/_next/static/chunks/106f7oj2cu__w.css",
+      "type": "link",
+      "bytes": 2762,
+      "encoded": 2462,
+      "duration": 13.299999982118607
+    },
+    {
+      "name": "/_next/static/chunks/1i356uxk2o5k3.css",
+      "type": "link",
+      "bytes": 63719,
+      "encoded": 63419,
+      "duration": 15
+    },
+    {
+      "name": "/_next/static/chunks/3kgidlob4o0ld.js",
+      "type": "link",
+      "bytes": 0,
+      "encoded": 670,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/chunks/2q4h3vnfy5yu2.js",
+      "type": "script",
+      "bytes": 0,
+      "encoded": 8249,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/chunks/31j3ass0myne_.js",
+      "type": "script",
+      "bytes": 0,
+      "encoded": 45236,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/chunks/2nii411saqstq.js",
+      "type": "script",
+      "bytes": 0,
+      "encoded": 65362,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/chunks/0lhwnnoqnr2-s.js",
+      "type": "script",
+      "bytes": 0,
+      "encoded": 8777,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/chunks/turbopack-2c3mg3r-05n1w.js",
+      "type": "script",
+      "bytes": 0,
+      "encoded": 4390,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/chunks/0l_vb927iror8.js",
+      "type": "script",
+      "bytes": 0,
+      "encoded": 774,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/chunks/23k1thx2x6-2c.js",
+      "type": "script",
+      "bytes": 14120,
+      "encoded": 13820,
+      "duration": 31.400000005960464
+    },
+    {
+      "name": "/_next/static/chunks/1hhkql_r6wbf5.js",
+      "type": "script",
+      "bytes": 9035,
+      "encoded": 8735,
+      "duration": 31.80000001192093
+    },
+    {
+      "name": "/_next/static/chunks/3vxcuxa5dl64z.js",
+      "type": "script",
+      "bytes": 1152,
+      "encoded": 852,
+      "duration": 32
+    },
+    {
+      "name": "/_next/static/chunks/3i3w2zdu0mw-a.js",
+      "type": "script",
+      "bytes": 12341,
+      "encoded": 12041,
+      "duration": 32.30000001192093
+    },
+    {
+      "name": "/_next/static/chunks/0w1pnyyslyafj.js",
+      "type": "script",
+      "bytes": 36932,
+      "encoded": 36632,
+      "duration": 32.30000001192093
+    },
+    {
+      "name": "/images/feedback-anand.webp",
+      "type": "video",
+      "bytes": 26140,
+      "encoded": 25840,
+      "duration": 16
+    },
+    {
+      "name": "/images/feedback-maldives.webp",
+      "type": "video",
+      "bytes": 29192,
+      "encoded": 28892,
+      "duration": 24.700000017881393
+    },
+    {
+      "name": "/images/feedback-aradhya-garg.webp",
+      "type": "video",
+      "bytes": 23540,
+      "encoded": 23240,
+      "duration": 25
+    },
+    {
+      "name": "/_next/static/media/dm-sans-latin-ext-wght-normal.0hiocdn10l05a.woff2",
+      "type": "css",
+      "bytes": 0,
+      "encoded": 18228,
+      "duration": 0
+    },
+    {
+      "name": "/_next/static/media/dm-sans-latin-wght-normal.0tm8u-h63rec8.woff2",
+      "type": "css",
+      "bytes": 0,
+      "encoded": 36932,
+      "duration": 0
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 33977,
+      "encoded": 33677,
+      "duration": 7.899999976158142
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 53973,
+      "encoded": 53673,
+      "duration": 8
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 7060,
+      "encoded": 6760,
+      "duration": 8
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 5980,
+      "encoded": 5680,
+      "duration": 8.699999988079071
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 5830,
+      "encoded": 5530,
+      "duration": 9.099999994039536
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 7484,
+      "encoded": 7184,
+      "duration": 8.900000005960464
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 7271,
+      "encoded": 6971,
+      "duration": 13
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 6518,
+      "encoded": 6218,
+      "duration": 13.900000005960464
+    },
+    {
+      "name": "/_next/image",
+      "type": "img",
+      "bytes": 6019,
+      "encoded": 5719,
+      "duration": 14.099999994039536
+    },
+    {
+      "name": "/events",
+      "type": "fetch",
+      "bytes": 678,
+      "encoded": 378,
+      "duration": 7.699999988079071
+    },
+    {
+      "name": "/about",
+      "type": "fetch",
+      "bytes": 677,
+      "encoded": 377,
+      "duration": 9.599999994039536
+    },
+    {
+      "name": "/events",
+      "type": "fetch",
+      "bytes": 16159,
+      "encoded": 15859,
+      "duration": 6.800000011920929
+    },
+    {
+      "name": "/about",
+      "type": "fetch",
+      "bytes": 16523,
+      "encoded": 16223,
+      "duration": 7
+    },
+    {
+      "name": "/_next/static/chunks/2f4_6g-wm5wno.js",
+      "type": "script",
+      "bytes": 5916,
+      "encoded": 5616,
+      "duration": 4.9000000059604645
+    }
+  ],
+  "transitions": []
+}
