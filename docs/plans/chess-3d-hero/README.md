@@ -1,6 +1,6 @@
 # Chess 3D hero: handoff
 
-Last updated: 2026-10-16. Read this file before resuming 3D hero work.
+Last updated: 2026-10-17. Read this file before resuming 3D hero work.
 
 ## Status and authority
 
@@ -12,6 +12,7 @@ Last updated: 2026-10-16. Read this file before resuming 3D hero work.
 - **Current scope changed on 2026-10-16:** the user requested 3D/parallax and supplied [Astra's revised motion plan](astra-revised-motion-plan.md), saved verbatim (SHA-256 `251f627af8ca614e6ded848748870ef25b4753539539a97de68601b5b58e7111`). Build a reviewable **hero-to-introduction prototype first**. Its shallow board, 12–18-degree scroll turn, viewpoint shift, layered parallax and desktop smoothing trial supersede the original pointer-only/no-board/no-scroll constraints. Keep the technical foundation and compact layout. Hold gallery/card choreography until visual approval.
 - **Latest user direction:** after accepting the cinematic direction and requesting board/proportion polish, the user said “Proceed with next step.” This pass adds adaptive rendering quality. It preserves the board, pieces, motion and layout. Other homepage choreography remains unchanged.
 - Adaptive DPR is implemented and its integration is verified with controlled synthetic frame samples. Representative-device calibration and the remaining resilience/performance checks are still pending; do not report the entire 3D phase complete.
+- **New creative proposal, planning only:** the user suggested a queen entering from the viewer's side, briefly filling the viewport and then receding onto the board. [The saved queen fly-in proposal](queen-fly-in-plan.md) records the storyboard, model gate, fullscreen-to-hero projection problem, input/replay rules and performance checks. No queen asset is selected and no application code was changed for this proposal. The current hero remains the deployed review version until implementation is requested.
 
 ## Current source and licence
 
