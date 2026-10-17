@@ -42,6 +42,8 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
   const [models, setModels] = useState<{ knight: Group; queen: Group }>();
   const [presented, setPresented] = useState(false);
   const [prepared, setPrepared] = useState(false);
+  const [boardReady, setBoardReady] = useState(false);
+  const boardPrepared = useCallback(() => setBoardReady(true), []);
   const scrollGroup = useRef<Group>(null);
   const pointerGroup = useRef<Group>(null);
   const knightTravel = useRef<Group>(null);
@@ -135,7 +137,7 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
   }, [gl, scene]);
 
   useEffect(() => {
-    if (!models || !active || prepared || !frame.current || !layer.current) return;
+    if (!models || !boardReady || !active || prepared || !frame.current || !layer.current) return;
     let cancelled = false;
     camera.lookAt(0.15, 0.35, 0);
     async function prepare() {
@@ -153,7 +155,7 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
     }
     void prepare();
     return () => { cancelled = true; };
-  }, [models, active, prepared, gl, scene, camera, frame, layer, invalidate, onReady, onFailure]);
+  }, [models, boardReady, active, prepared, gl, scene, camera, frame, layer, invalidate, onReady, onFailure]);
 
   useEffect(() => {
     if (!prepared) return;
@@ -277,7 +279,7 @@ function Sculpture({ frame, layer, active, playQueen, onQueenStart, onQueenCompl
       <directionalLight ref={studioBack} position={[3, 2, -2]} color="#e4d4ab" intensity={3} onUpdate={(light) => light.layers.enableAll()} />
       <directionalLight position={[2, 1, 3]} color="#dce4e5" intensity={0.7} onUpdate={(light) => light.layers.enableAll()} />
       <group ref={scrollGroup} rotation={[0, -0.25, 0]}>
-        <HeroBoard />
+        <HeroBoard onReady={boardPrepared} onFailure={onFailure} />
         <group ref={queenTravel} position={queenLanding} scale={queenScale}>
           {models && <primitive object={models.queen} dispose={null} />}
           <pointLight ref={queenRim} position={[-0.7, 1, -0.8]} color="#ffc377" intensity={0} decay={0} />

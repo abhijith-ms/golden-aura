@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { canEnhanceHero, createHeroQuality, dampHeroAngle, heroPointerTarget, openingKnightPosition, sampleHeroQuality, type HeroCapabilities } from "../src/lib/hero-policy.ts";
-import { createBoardTextures, heroPieceScale } from "../src/lib/hero-board.ts";
+import { createBoardTextures, heroPieceScale, prepareBoardTextures } from "../src/lib/hero-board.ts";
+import { createHash } from "node:crypto";
 
 test("the board has eight alternating squares per side with filtered, opaque grain", () => {
   const { map, detail } = createBoardTextures(4);
@@ -26,6 +27,31 @@ test("the board has eight alternating squares per side with filtered, opaque gra
 });
 
 const desktop: HeroCapabilities = { width: 1440, reducedMotion: false, finePointer: true, hover: true };
+
+test("cooperative board preparation preserves every accepted pixel and can be cancelled", async () => {
+  const abort = new AbortController();
+  const accepted = {
+    map: "d0549f6824f97e5b0e1d09525fdd19ee89d011425fff561af028b12569f9f05e",
+    detail: "78c46b915b7e51b068012f1113a59b0ae4ab48f33772e00cf651f6edd997aa6b",
+  };
+  let inputHandled = false;
+  setTimeout(() => { inputHandled = true; }, 0);
+  const prepared = await prepareBoardTextures(4, abort.signal);
+  assert(inputHandled, "Preparation yields to queued browser/input work before finishing");
+  for (const key of ["map", "detail"] as const) {
+    const data = prepared[key].image.data;
+    assert(data);
+    assert.equal(createHash("sha256").update(data).digest("hex"), accepted[key]);
+    assert.equal(prepared[key].anisotropy, 4);
+    prepared[key].dispose();
+  }
+  abort.abort();
+  await assert.rejects(prepareBoardTextures(4, abort.signal), { name: "AbortError" });
+  const during = new AbortController();
+  const pending = prepareBoardTextures(4, during.signal);
+  setTimeout(() => during.abort(), 0);
+  await assert.rejects(pending, { name: "AbortError" });
+});
 
 function sampleFrames(quality: ReturnType<typeof createHeroQuality>, count: number, seconds: number, moving = true) {
   return Array.from({ length: count }, () => sampleHeroQuality(quality, seconds, moving)).filter(Boolean);

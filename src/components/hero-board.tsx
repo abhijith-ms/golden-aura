@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { Path, Shape } from "three";
-import { createBoardTextures } from "@/lib/hero-board";
+import { prepareBoardTextures } from "@/lib/hero-board";
 
 function square(half: number) {
   const shape = new Shape();
@@ -15,9 +15,9 @@ function square(half: number) {
   return shape;
 }
 
-export function HeroBoard() {
+export function HeroBoard({ onReady, onFailure }: { onReady: () => void; onFailure: () => void }) {
   const { gl } = useThree();
-  const textures = useMemo(() => createBoardTextures(gl.capabilities.getMaxAnisotropy()), [gl]);
+  const [textures, setTextures] = useState<Awaited<ReturnType<typeof prepareBoardTextures>>>();
   const shapes = useMemo(() => {
     const base = square(1.79);
     const trim = square(1.785);
@@ -26,7 +26,18 @@ export function HeroBoard() {
     inlay.holes.push(new Path(square(1.685).getPoints()));
     return { base, trim, inlay };
   }, []);
-  useEffect(() => () => { textures.map.dispose(); textures.detail.dispose(); }, [textures]);
+  useEffect(() => {
+    const abort = new AbortController();
+    let owned: Awaited<ReturnType<typeof prepareBoardTextures>> | undefined;
+    void prepareBoardTextures(gl.capabilities.getMaxAnisotropy(), abort.signal).then((result) => {
+      owned = result;
+      if (abort.signal.aborted) { result.map.dispose(); result.detail.dispose(); return; }
+      setTextures(result);
+      onReady();
+    }).catch(() => { if (!abort.signal.aborted) onFailure(); });
+    return () => { abort.abort(); owned?.map.dispose(); owned?.detail.dispose(); };
+  }, [gl, onReady, onFailure]);
+  if (!textures) return null;
   return <group rotation={[-Math.PI / 2, 0, 0]}>
     <mesh position={[0, 0, -0.15]}>
       <extrudeGeometry args={[shapes.base, { depth: 0.11, bevelEnabled: true, bevelThickness: 0.025, bevelSize: 0.025, bevelSegments: 3, steps: 1 }]} />
