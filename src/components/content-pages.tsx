@@ -213,7 +213,7 @@ export async function CommitteePage() {
         </article>
       </section>
 
-      <div className={styles.committeeIntro}><PageIntro copy={copy(content, "committee")} /></div>
+      <PageIntro copy={copy(content, "committee")} />
       {committee.length ? (
         <>
           <nav className={`${styles.sectionCompact} ${styles.committeeNav}`} aria-label="Committee groups">
@@ -258,7 +258,7 @@ export async function EventsPage() {
   const past = orderEvents(content.events.filter((e) => e.status !== "upcoming"));
   return (
     <>
-      <div className={styles.archiveIntro}><PageIntro copy={copy(content, "events")} /></div>
+      <PageIntro copy={copy(content, "events")} />
       {upcoming.length > 0 && <section className={styles.sectionCompact}>
         <div className={styles.sectionLabel}>THE NEXT MOVE</div>
           <div className={styles.eventGrid}>
