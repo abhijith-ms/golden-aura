@@ -1,0 +1,44 @@
+{
+  "contract": "docs/plans/gallery-contact-visual-polish.md — compact photographic Gallery, Contact and shared interior/footer presentation.",
+  "targetViewports": ["1440x900", "834x1112", "390x844", "320x740"],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Album controls and footer contact links are at least 44px; form fields are at least 48px with 16px text. Explicit labels, consent and live feedback semantics remain. Enter/Escape photograph viewing and focus return were exercised; name-to-email Tab focus has a visible 3px outline. Empty form validation focuses the required name. Existing reduced-motion overrides remain unchanged; native preference and assistive-technology certification are not claimed."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "12 cases cover Gallery, Contact and the shared Partners form at four target widths. No document overflow or clipped visible headings/captions/labels. Eight Gallery/Contact text comparisons match the previous preview. Fourteen further route/viewport geometry spot checks pass. Tablet Contact label cascade and wide footer attribution alignment were corrected; final phone dialog is compact."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "Existing fixed photo aspect ratios and dialog bounds are preserved; loaded grid and enlarged photographs are captured. No new asynchronous loading behavior or hidden content was introduced."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "No changed empty-state styling or collection logic. The Gallery empty branch and its existing emptyState rules remain unchanged; empty CMS collections were not injected in this presentation pass."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Keyboard activation of an empty form leaves the native required fields invalid and focuses the name; no sending feedback or enquiry occurs. Existing service error messages/alert and handling are unchanged. Delivery failures were not induced and this observation does not certify service error rendering."
+    },
+    "partial": {
+      "status": "not-applicable",
+      "reason": "No new partial-data path or changed fallback styling. All supplied albums are present; filtering shows a real four-photo album. Missing media/data was not injected and no claim of failure-fallback verification is made."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "The populated Gallery retains all 20 photographs, filters to four and restores 20. The dialog opens and closes with focus restored. Contact content is unchanged; Partners retains its default topic. Live enquiry success is outside this visual-only verification and was not tested."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "Public styling only; no account, upload, access change or permission request."
+    }
+  },
+  "renderedEvidence": [
+    { "viewport": "1440x900", "artifact": "gallery-1440.jpg", "observation": "Natural-case compact introduction, squared album selection, smaller album heading and framed photographs with complete captions." },
+    { "viewport": "834x1112", "artifact": "contact-834.jpg", "observation": "Two-column Contact layout with corrected small method labels, 24px form heading and readable fields." },
+    { "viewport": "390x844", "artifact": "contact-form-390.jpg", "observation": "Single-column enquiry form, readable 16px controls and visible email keyboard focus; consent and action fit." },
+    { "viewport": "320x740", "artifact": "partners-form-320.jpg", "observation": "Shared Partnership form fits the narrow viewport, with full labels and no horizontal overflow; remaining controls continue vertically." }
+  ]
+}

@@ -1,0 +1,654 @@
+{
+  "date": "2026-10-17",
+  "baseline": {
+    "gallery": {
+      "mainTextSha256": "2394ec7dd9d9ca75842578f362cbbfdd537880e3a773414be21ceb51ef7b4463",
+      "mainHeight": 4281.9375
+    },
+    "contact": {
+      "mainTextSha256": "b0698ef6d3247a7793247a35d101a28b56861e261ccf049fec17f131c01f6111",
+      "mainHeight": 922.578125
+    }
+  },
+  "cases": [
+    {
+      "route": "/gallery",
+      "fields": [],
+      "filterMinHeight": 44,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 4226.59375,
+      "overflow": false,
+      "photoCount": 20,
+      "textOverflow": [],
+      "titleSize": "48px",
+      "titleTransform": "none",
+      "viewport": "1440x900",
+      "artifact": "gallery-1440.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "2394ec7dd9d9ca75842578f362cbbfdd537880e3a773414be21ceb51ef7b4463"
+    },
+    {
+      "route": "/contact",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 282.859375
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 282.859375
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 581.71875
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 581.71875
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 848.0625,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "48px",
+      "titleTransform": "none",
+      "viewport": "1440x900",
+      "artifact": "contact-1440.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "b0698ef6d3247a7793247a35d101a28b56861e261ccf049fec17f131c01f6111"
+    },
+    {
+      "route": "/gallery",
+      "fields": [],
+      "filterMinHeight": 44,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 3356.90625,
+      "overflow": false,
+      "photoCount": 20,
+      "textOverflow": [],
+      "titleSize": "34px",
+      "titleTransform": "none",
+      "viewport": "834x1112",
+      "artifact": "gallery-834.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "2394ec7dd9d9ca75842578f362cbbfdd537880e3a773414be21ceb51ef7b4463"
+    },
+    {
+      "route": "/contact",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 147.390625
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 147.390625
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 310.78125
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 310.78125
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 849.640625,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "34px",
+      "titleTransform": "none",
+      "viewport": "834x1112",
+      "artifact": "contact-834.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "b0698ef6d3247a7793247a35d101a28b56861e261ccf049fec17f131c01f6111"
+    },
+    {
+      "route": "/gallery",
+      "fields": [],
+      "filterMinHeight": 44,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 3375.46875,
+      "overflow": false,
+      "photoCount": 20,
+      "textOverflow": [],
+      "titleSize": "32px",
+      "titleTransform": "none",
+      "viewport": "390x844",
+      "artifact": "gallery-390.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "2394ec7dd9d9ca75842578f362cbbfdd537880e3a773414be21ceb51ef7b4463"
+    },
+    {
+      "route": "/contact",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 288
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 288
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 288
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 288
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 1468.515625,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "32px",
+      "titleTransform": "none",
+      "viewport": "390x844",
+      "artifact": "contact-390.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "b0698ef6d3247a7793247a35d101a28b56861e261ccf049fec17f131c01f6111"
+    },
+    {
+      "route": "/gallery",
+      "fields": [],
+      "filterMinHeight": 44,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 6606.546875,
+      "overflow": false,
+      "photoCount": 20,
+      "textOverflow": [],
+      "titleSize": "30px",
+      "titleTransform": "none",
+      "viewport": "320x740",
+      "artifact": "gallery-320.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "2394ec7dd9d9ca75842578f362cbbfdd537880e3a773414be21ceb51ef7b4463"
+    },
+    {
+      "route": "/contact",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 226.40625
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 226.40625
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 226.40625
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 226.40625
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 1510.8125,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "30px",
+      "titleTransform": "none",
+      "viewport": "320x740",
+      "artifact": "contact-320.jpg",
+      "textUnchanged": true,
+      "mainTextSha256": "b0698ef6d3247a7793247a35d101a28b56861e261ccf049fec17f131c01f6111"
+    },
+    {
+      "route": "/partners",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 282.859375
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 282.859375
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 581.71875
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 581.71875
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 3138.171875,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "48px",
+      "titleTransform": "none",
+      "viewport": "1440x900",
+      "artifact": "partners-1440.jpg",
+      "mainTextSha256": "e70f067d0cfff53c0c1971b1e9727deb97230c8b9ca06b1fc9d5bcc9dcc4f2a0"
+    },
+    {
+      "route": "/partners",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 147.390625
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 147.390625
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 310.78125
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 310.78125
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 3421.734375,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "34px",
+      "titleTransform": "none",
+      "viewport": "834x1112",
+      "artifact": "partners-834.jpg",
+      "mainTextSha256": "e70f067d0cfff53c0c1971b1e9727deb97230c8b9ca06b1fc9d5bcc9dcc4f2a0"
+    },
+    {
+      "route": "/partners",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 288
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 288
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 288
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 288
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 5164.796875,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "32px",
+      "titleTransform": "none",
+      "viewport": "390x844",
+      "artifact": "partners-390.jpg",
+      "mainTextSha256": "e70f067d0cfff53c0c1971b1e9727deb97230c8b9ca06b1fc9d5bcc9dcc4f2a0"
+    },
+    {
+      "route": "/partners",
+      "fields": [
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-name",
+          "width": 226.40625
+        },
+        {
+          "font": "16px",
+          "height": 48,
+          "id": "enquiry-email",
+          "width": 226.40625
+        },
+        {
+          "font": "16px",
+          "height": 49,
+          "id": "enquiry-topic",
+          "width": 226.40625
+        },
+        {
+          "font": "16px",
+          "height": 131,
+          "id": "enquiry-message",
+          "width": 226.40625
+        }
+      ],
+      "filterMinHeight": null,
+      "footerContactTargets": [
+        44,
+        44,
+        44
+      ],
+      "h1Count": 1,
+      "height": 5648.28125,
+      "overflow": false,
+      "photoCount": 0,
+      "textOverflow": [],
+      "titleSize": "30px",
+      "titleTransform": "none",
+      "viewport": "320x740",
+      "artifact": "partners-320.jpg",
+      "mainTextSha256": "e70f067d0cfff53c0c1971b1e9727deb97230c8b9ca06b1fc9d5bcc9dcc4f2a0"
+    }
+  ],
+  "spotChecks": [
+    {
+      "route": "/",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Chess foreveryone.",
+      "viewport": "1440x900"
+    },
+    {
+      "route": "/about",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "The Golden Aura Trust.",
+      "viewport": "1440x900"
+    },
+    {
+      "route": "/committee",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "The committee.",
+      "viewport": "1440x900"
+    },
+    {
+      "route": "/events",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Tournaments.",
+      "viewport": "1440x900"
+    },
+    {
+      "route": "/events/namma-bengaluru-open-2024",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Namma Bengaluru International Grandmasters Open Chess Tournament 2024",
+      "viewport": "1440x900"
+    },
+    {
+      "route": "/events/namma-bengaluru-open-2025",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Namma Bengaluru International Grandmasters Open Chess Tournament 2025",
+      "viewport": "1440x900"
+    },
+    {
+      "route": "/privacy",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Privacy notice",
+      "viewport": "1440x900"
+    },
+    {
+      "route": "/",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Chess foreveryone.",
+      "viewport": "320x740"
+    },
+    {
+      "route": "/about",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "The Golden Aura Trust.",
+      "viewport": "320x740"
+    },
+    {
+      "route": "/committee",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "The committee.",
+      "viewport": "320x740"
+    },
+    {
+      "route": "/events",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Tournaments.",
+      "viewport": "320x740"
+    },
+    {
+      "route": "/events/namma-bengaluru-open-2024",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Namma Bengaluru International Grandmasters Open Chess Tournament 2024",
+      "viewport": "320x740"
+    },
+    {
+      "route": "/events/namma-bengaluru-open-2025",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Namma Bengaluru International Grandmasters Open Chess Tournament 2025",
+      "viewport": "320x740"
+    },
+    {
+      "route": "/privacy",
+      "footerOverflow": false,
+      "h1Count": 1,
+      "overflow": false,
+      "title": "Privacy notice",
+      "viewport": "320x740"
+    }
+  ],
+  "interactions": {
+    "gallery": {
+      "live": "4 photographs shown",
+      "photos": 4,
+      "pressed": "Chess & Coffee",
+      "dialogOpened": true,
+      "escapeClosed": true,
+      "focusRestored": "Enlarge: The Chess and Coffee community",
+      "focusOutline": "3px",
+      "allRestored": 20
+    },
+    "form": {
+      "activeId": "enquiry-name",
+      "feedback": "",
+      "invalid": [
+        "enquiry-name",
+        "enquiry-email",
+        "enquiry-message",
+        "consent"
+      ],
+      "labels": [
+        {
+          "id": "enquiry-name",
+          "targetExists": true,
+          "text": "Your name"
+        },
+        {
+          "id": "enquiry-email",
+          "targetExists": true,
+          "text": "Email address"
+        },
+        {
+          "id": "enquiry-topic",
+          "targetExists": true,
+          "text": "What brings you here?"
+        },
+        {
+          "id": "enquiry-message",
+          "targetExists": true,
+          "text": "Your message"
+        },
+        {
+          "id": "enquiry-website",
+          "targetExists": true,
+          "text": "Leave this field empty"
+        }
+      ],
+      "nextFocus": {
+        "id": "enquiry-email",
+        "outline": "3px"
+      }
+    },
+    "wideFooter": {
+      "overflow": false,
+      "sections": [
+        {
+          "left": 312.5,
+          "width": 1280
+        },
+        {
+          "left": 312.5,
+          "width": 1280
+        },
+        {
+          "left": 312.5,
+          "width": 1280
+        }
+      ],
+      "viewport": "1920x1080"
+    }
+  },
+  "consoleErrors": [],
+  "limits": [
+    "No live enquiry delivery or backend requests were tested.",
+    "Native reduced-motion changes, screen readers and real devices were not certified; existing motion overrides remain unchanged.",
+    "The photograph dialog and wide footer were checked again after the final CSS-only corrections; the other captured layouts are unaffected."
+  ]
+}
