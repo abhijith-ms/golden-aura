@@ -67,15 +67,17 @@ export function PlayerGallery({
         className={`${styles.peopleGrid} ${compact ? styles.compactPlayers : ""} ${!expanded && canExpand ? styles.peopleGridCollapsed : ""}`}
       >
         {players.map((player) => (
-          <article key={player.name} className={styles.personCard}>
+          <article key={player.name} className={`${styles.personCard} ${styles.playerCard}`}>
             <Portrait name={player.name} photo={player.photo} compact={compact} />
-            <h3>{player.name}</h3>
-            <p>
-              <abbr title={titles[player.title] ?? player.title}>
-                {player.title}
-              </abbr>{" "}
-              · <CountryName country={player.country} />
-            </p>
+            <div className={styles.playerDetails}>
+              <h3>{player.name}</h3>
+              <p className={styles.playerMeta}>
+                <abbr title={titles[player.title] ?? player.title}>
+                  {player.title}
+                </abbr>
+                <CountryName country={player.country} />
+              </p>
+            </div>
           </article>
         ))}
       </div>

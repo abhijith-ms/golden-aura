@@ -110,11 +110,13 @@ export default async function Home() {
       {firstEdition && firstEditionPlayers.length > 0 && (
         <section id="first-edition" className={`${styles.section} ${styles.playersSection}`}>
           <span className={styles.eyebrow}>THE FIRST INTERNATIONAL EDITION · 2024</span>
-          <div className={styles.sectionHeading}>
-            <h2>Grandmasters &<br /><span>titled players.</span></h2>
+          <div className={`${styles.sectionHeading} ${styles.playersHeading}`}>
+            <div>
+              <h2>Grandmasters &<br /><span>titled players.</span></h2>
+              <p>A look at the Indian and international names featured in the first-edition tournament archive.</p>
+            </div>
             <Link className={styles.textLink} href={`/events/${firstEdition.slug}#attendees`}>Meet the first-edition players <Arrow /></Link>
           </div>
-          <p>A look at the Indian and international names featured in the first-edition tournament archive.</p>
           <PlayerGallery players={firstEditionPlayers} compact />
         </section>
       )}
