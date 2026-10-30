@@ -246,11 +246,14 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
           className={`${styles.heroPosterFallback} ${hasEnded ? styles.posterActive : ""}`}
         />
 
-        {/* Cinematic Lighting Overlays Aligned with the Video */}
-        <div className={styles.heroTopVignette} />
-        <div className={styles.heroBottomVignette} />
-        <div className={styles.heroRadialAtmosphere} />
-        <div className={styles.heroGlowGold} />
+        {/* Cinematic Lighting Overlays Aligned with the Video: Theatrical atmosphere active from frame 0 */}
+        <div className={styles.vignettesWrap} aria-hidden="true">
+          <div className={styles.heroLeftVignette} />
+          <div className={styles.heroRightVignette} />
+          <div className={styles.heroTopVignette} />
+          <div className={styles.heroBottomVignette} />
+          <div className={styles.heroGlowGold} />
+        </div>
       </div>
 
       {/* Floating Skip Controller during video playback */}

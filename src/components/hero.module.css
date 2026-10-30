@@ -2,7 +2,7 @@
   position: relative;
   min-height: 100dvh;
   margin-top: -84px;
-  padding: 120px 24px 48px;
+  padding: 110px 0 36px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,7 +31,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.92) contrast(1.08);
+  filter: brightness(0.9) contrast(1.08);
 }
 
 .heroPosterFallback {
@@ -50,57 +50,99 @@
   opacity: 1;
 }
 
-/* Cinematic Lighting Overlays Aligned with the Video */
+/* Animated Vignettes Container: Fully transparent during playback, fades in smoothly at the end */
+.vignettesWrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cinematic Atmospheric Vignettes Aligned with the Video */
+/* Left side: creates a rich obsidian bed for typography while letting the center chessboard shine */
+.heroLeftVignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: clamp(520px, 56vw, 920px);
+  background: linear-gradient(
+    90deg,
+    #09090b 0%,
+    rgba(9, 9, 11, 0.94) 30%,
+    rgba(9, 9, 11, 0.8) 52%,
+    rgba(9, 9, 11, 0.42) 75%,
+    rgba(9, 9, 11, 0.1) 90%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Right side: soft atmospheric shading for the tournament HUD card */
+.heroRightVignette {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: clamp(380px, 42vw, 680px);
+  background: linear-gradient(
+    270deg,
+    #09090b 0%,
+    rgba(9, 9, 11, 0.88) 25%,
+    rgba(9, 9, 11, 0.55) 55%,
+    rgba(9, 9, 11, 0.18) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Top: integrates the floating header into the dark ambient room */
 .heroTopVignette {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 28%;
+  height: 24%;
   background: linear-gradient(
     180deg,
-    rgba(9, 9, 11, 0.85) 0%,
-    rgba(9, 9, 11, 0.45) 50%,
+    #09090b 0%,
+    rgba(9, 9, 11, 0.72) 40%,
     transparent 100%
   );
   pointer-events: none;
+  z-index: 1;
 }
 
+/* Bottom: seamlessly blends into the next section */
 .heroBottomVignette {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 32%;
+  height: 28%;
   background: linear-gradient(
     0deg,
     #09090b 0%,
-    rgba(9, 9, 11, 0.8) 45%,
+    rgba(9, 9, 11, 0.88) 45%,
     transparent 100%
   );
   pointer-events: none;
+  z-index: 1;
 }
 
-.heroRadialAtmosphere {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at 50% 50%,
-    transparent 45%,
-    rgba(9, 9, 11, 0.45) 100%
-  );
-  pointer-events: none;
-}
-
+/* Warm golden sunlight beam enhancement from top-left */
 .heroGlowGold {
   position: absolute;
-  top: 8%;
-  left: 6%;
-  width: 580px;
-  height: 580px;
-  background: radial-gradient(circle, rgba(245, 186, 66, 0.12) 0%, transparent 68%);
-  filter: blur(70px);
+  top: 4%;
+  left: 8%;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle, rgba(245, 186, 66, 0.14) 0%, transparent 68%);
+  filter: blur(80px);
   pointer-events: none;
+  z-index: 1;
 }
 
 /* Floating Skip & Sound Controller during video playback */
@@ -119,7 +161,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px 18px 8px 12px;
-  background: rgba(18, 18, 22, 0.78);
+  background: rgba(18, 18, 22, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(245, 186, 66, 0.35);
@@ -134,7 +176,7 @@
 }
 
 .skipButton:hover {
-  background: rgba(26, 26, 32, 0.9);
+  background: rgba(26, 26, 32, 0.95);
   border-color: var(--accent-gold);
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 28px rgba(245, 186, 66, 0.3);
@@ -185,7 +227,7 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: rgba(18, 18, 22, 0.78);
+  background: rgba(18, 18, 22, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -198,23 +240,25 @@
 }
 
 .soundButton:hover {
-  background: rgba(26, 26, 32, 0.9);
+  background: rgba(26, 26, 32, 0.95);
   border-color: var(--accent-gold);
   color: var(--accent-gold);
   transform: translateY(-2px);
 }
 
-/* Content layout */
+/* Wide Architectural HUD Layout */
 .heroInner {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1360px;
+  max-width: 1680px;
   margin: auto;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 56px;
+  grid-template-columns: minmax(440px, 1.15fr) minmax(360px, 0.85fr);
+  justify-content: space-between;
+  gap: clamp(36px, 5vw, 120px);
   align-items: center;
+  padding: 0 clamp(24px, 4.5vw, 72px);
 }
 
 .heroContent {
@@ -222,6 +266,7 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  max-width: 580px;
 }
 
 /* Kicker Badge */
@@ -230,13 +275,13 @@
   align-items: center;
   gap: 12px;
   padding: 8px 18px;
-  background: rgba(18, 18, 24, 0.8);
+  background: rgba(18, 18, 24, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(245, 186, 66, 0.25);
   border-radius: 999px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  margin-bottom: 22px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
 }
 
 .statusPulse {
@@ -292,16 +337,16 @@
 /* Kinetic Title */
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 5.8vw, 5.25rem);
+  font-size: clamp(2.85rem, 5.4vw, 5rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.04;
   letter-spacing: -0.035em;
   text-transform: uppercase;
-  margin: 0 0 24px;
+  margin: 0 0 20px;
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95);
 }
 
 .titleLine {
@@ -309,27 +354,20 @@
 }
 
 .goldGlowText {
-  background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 60%, #eab308 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 55%, #eab308 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 45px rgba(245, 186, 66, 0.4);
+  text-shadow: 0 0 45px rgba(245, 186, 66, 0.45);
 }
 
 .heroDescription {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 1.15vw, 1.15rem);
-  line-height: 1.7;
-  color: var(--text-primary);
-  max-width: 540px;
-  margin: 0 0 36px;
-  background: rgba(9, 9, 12, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+  font-size: clamp(1.05rem, 1.18vw, 1.2rem);
+  line-height: 1.68;
+  color: #e4e4e7;
+  max-width: 520px;
+  margin: 0 0 32px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.95);
 }
 
 /* Call to Actions */
@@ -349,7 +387,7 @@
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  padding: 12px 24px;
+  padding: 12px 26px;
   min-height: 54px;
   background: linear-gradient(135deg, var(--accent-gold) 0%, #d97706 100%);
   color: #09090b;
@@ -411,19 +449,19 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 24px;
+  padding: 12px 26px;
   min-height: 54px;
-  background: rgba(22, 22, 28, 0.72);
+  background: rgba(22, 22, 28, 0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: var(--text-primary);
   font-weight: 600;
   font-size: 14.5px;
   border-radius: 999px;
   transition: all 200ms ease;
   white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .secondaryButton:hover {
@@ -435,7 +473,7 @@
 /* 3D Floating Interactive Tournament Card */
 .heroVisualCol {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -443,29 +481,29 @@
   position: relative;
   width: 100%;
   max-width: 380px;
-  padding: 32px 28px;
+  padding: 28px 24px;
   background: linear-gradient(
     145deg,
-    rgba(22, 22, 28, 0.74) 0%,
-    rgba(12, 12, 16, 0.88) 100%
+    rgba(18, 18, 24, 0.8) 0%,
+    rgba(10, 10, 14, 0.92) 100%
   );
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(245, 186, 66, 0.26);
-  border-radius: 24px;
+  border: 1px solid rgba(245, 186, 66, 0.22);
+  border-radius: 20px;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    0 24px 60px -12px rgba(0, 0, 0, 0.7),
-    0 0 35px -5px rgba(245, 186, 66, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 24px 60px -12px rgba(0, 0, 0, 0.8),
+    0 0 30px -5px rgba(245, 186, 66, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .cardGlowBorder {
   position: absolute;
   inset: -1px;
-  border-radius: 24px;
+  border-radius: 20px;
   background: radial-gradient(
     circle at 50% 0%,
     rgba(245, 186, 66, 0.4) 0%,
@@ -483,9 +521,9 @@
 }
 
 .trophyIconWrap {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   background: rgba(245, 186, 66, 0.12);
   border: 1px solid rgba(245, 186, 66, 0.3);
   display: grid;
@@ -517,17 +555,17 @@
 .cardStatsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
 .statPill {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 10px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border-radius: 12px;
 }
 
 .statIcon {
@@ -537,7 +575,7 @@
 
 .statNumber {
   display: block;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -546,7 +584,7 @@
 
 .statLabel {
   display: block;
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -556,14 +594,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 18px;
-  background: rgba(245, 186, 66, 0.1);
-  border: 1px solid rgba(245, 186, 66, 0.25);
-  border-radius: 14px;
+  padding: 12px 16px;
+  background: rgba(245, 186, 66, 0.08);
+  border: 1px solid rgba(245, 186, 66, 0.2);
+  border-radius: 12px;
 }
 
 .prizeLabel {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--accent-gold);
@@ -572,7 +610,7 @@
 
 .prizeAmount {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 800;
   letter-spacing: -0.01em;
   color: #ffffff;
@@ -582,7 +620,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -621,20 +659,20 @@
   bottom: 24px;
   left: 24px;
   right: 24px;
-  max-width: 1360px;
+  max-width: 1680px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
-  background: rgba(18, 18, 22, 0.72);
+  background: rgba(14, 14, 18, 0.78);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
   font-size: 12px;
   color: var(--text-muted);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 .bottomBarLeft {
@@ -728,20 +766,33 @@
 }
 
 /* Mobile & Tablet Responsiveness */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .heroInner {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 48px;
     padding-top: 40px;
   }
 
   .heroVisualCol {
-    order: -1;
     justify-content: flex-start;
   }
 
   .floatingCard {
     max-width: 440px;
+  }
+
+  .heroLeftVignette {
+    width: 100%;
+    background: linear-gradient(
+      180deg,
+      rgba(9, 9, 11, 0.9) 0%,
+      rgba(9, 9, 11, 0.94) 40%,
+      rgba(9, 9, 11, 0.85) 100%
+    );
+  }
+
+  .heroRightVignette {
+    display: none;
   }
 }
 
