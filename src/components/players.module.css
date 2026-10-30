@@ -1,0 +1,481 @@
+.playersSection {
+  position: relative;
+  padding: 100px 6% 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Ambient Radial Mesh Lighting */
+.ambientNebulaGold {
+  position: absolute;
+  top: 15%;
+  left: -100px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(245, 186, 66, 0.06) 0%, transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambientNebulaAmber {
+  position: absolute;
+  bottom: 10%;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.05) 0%, transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header & Eyebrow HUD */
+.headerRow {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 20px;
+}
+
+.eyebrowRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.glowingDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-gold, #f5ba42);
+  box-shadow: 0 0 10px rgba(245, 186, 66, 0.8), 0 0 20px rgba(245, 186, 66, 0.4);
+  animation: dotPulse 3s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+    box-shadow: 0 0 14px rgba(245, 186, 66, 1), 0 0 24px rgba(245, 186, 66, 0.6);
+  }
+}
+
+.eyebrowText {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-gold, #f5ba42);
+  text-transform: uppercase;
+}
+
+.headlineFlex {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  font-size: clamp(34px, 4.2vw, 56px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Liquid Gold Gradient Shimmer */
+.goldShimmerText {
+  background: linear-gradient(
+    135deg,
+    #f5ba42 0%,
+    #fffbeb 25%,
+    #f5ba42 50%,
+    #d97706 75%,
+    #f5ba42 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: goldShimmer 6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes goldShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Archive Action Link */
+.archiveHeaderLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e4e7;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.archiveHeaderLink:hover {
+  background: rgba(245, 186, 66, 0.08);
+  border-color: rgba(245, 186, 66, 0.4);
+  color: #fde68a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -6px rgba(245, 186, 66, 0.2);
+}
+
+.archiveLinkArrow {
+  color: var(--accent-gold, #f5ba42);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.archiveHeaderLink:hover .archiveLinkArrow {
+  transform: translate(3px, -3px);
+}
+
+.subtitle {
+  font-size: clamp(15px, 1.2vw, 17px);
+  color: #a1a1aa;
+  max-width: 680px;
+  line-height: 1.6;
+  margin: 16px 0 44px;
+}
+
+/* 14-Player Collector Cards Grid */
+.playersGrid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Grid Focus Spotlight: Dim non-hovered cards when hovering the grid */
+.playersGrid:hover .playerCard {
+  opacity: 0.6;
+  filter: saturate(0.85);
+}
+
+.playersGrid:hover .playerCard:hover {
+  opacity: 1 !important;
+  filter: none !important;
+  z-index: 10;
+}
+
+/* Individual Grandmaster Collector Card */
+.playerCard {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0e1017;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.35s ease,
+    filter 0.35s ease;
+  will-change: transform;
+}
+
+.playerCard:hover {
+  transform: translateY(-8px);
+  border-color: rgba(245, 186, 66, 0.5);
+  box-shadow:
+    0 16px 36px -10px rgba(245, 186, 66, 0.25),
+    0 0 20px rgba(245, 186, 66, 0.12);
+}
+
+.playerCard:focus-visible {
+  outline: 2px solid var(--accent-gold, #f5ba42);
+  outline-offset: 4px;
+}
+
+/* Photo Wrapper & Filter Grade */
+.photoWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.playerImage {
+  object-fit: cover;
+  object-position: center 20%;
+  filter: grayscale(100%) contrast(125%) brightness(0.9);
+  transform: scale(1);
+  transition:
+    filter 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+}
+
+.playerCard:hover .playerImage {
+  filter: grayscale(0%) contrast(105%) brightness(1.05) saturate(1.1);
+  transform: scale(1.08);
+}
+
+/* Warm Gold / Obsidian Tint Overlay */
+.tintOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(69, 26, 3, 0.22);
+  mix-blend-mode: multiply;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.playerCard:hover .tintOverlay {
+  opacity: 0.1;
+}
+
+/* Diagonal Metallic Light-Sheen Sweep */
+.lightSheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 80%
+  );
+  transform: translateX(-120%) skewX(-20deg);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 6;
+}
+
+.playerCard:hover .lightSheen {
+  transform: translateX(220%) skewX(-20deg);
+}
+
+/* Floating Prestige Title Badge (Top-Left) */
+.titleBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  background: rgba(14, 16, 23, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 186, 66, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  color: #f5ba42;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.35s ease;
+}
+
+.playerCard:hover .titleBadge {
+  border-color: rgba(245, 186, 66, 0.8);
+  box-shadow: 0 0 12px rgba(245, 186, 66, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: #fde68a;
+  transform: scale(1.04);
+}
+
+.titleAbbr {
+  text-decoration: none;
+  cursor: help;
+}
+
+/* Deep Bottom Gradient Scrim */
+.bottomScrim {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 65%;
+  background: linear-gradient(
+    to top,
+    #06070b 0%,
+    rgba(6, 7, 11, 0.92) 45%,
+    rgba(6, 7, 11, 0.5) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Card Content / Typography Overlay */
+.cardInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 14px 16px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.playerName {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  margin: 0;
+  overflow-wrap: break-word;
+  transition: color 0.3s ease;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.playerCard:hover .playerName {
+  color: #fde68a;
+}
+
+.playerCountry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.countryFlag {
+  width: 16px;
+  height: 11px;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.countryLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fallback Initials when photo is absent */
+.fallbackPortrait {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, #1a1c23 0%, #0e1017 100%);
+  color: #f5ba42;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.05em;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1180px) {
+  .playersGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 820px) {
+  .playersSection {
+    padding: 80px 5% 100px;
+  }
+
+  .playersGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .headlineFlex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .playersSection {
+    padding: 60px 4% 80px;
+  }
+
+  .playersGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .cardInfo {
+    padding: 12px 10px 14px;
+  }
+
+  .playerName {
+    font-size: 13px;
+  }
+
+  .playerCountry {
+    font-size: 10.5px;
+  }
+
+  .titleBadge {
+    top: 10px;
+    left: 10px;
+    padding: 2px 7px;
+    font-size: 9.5px;
+  }
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .glowingDot,
+  .goldShimmerText,
+  .lightSheen {
+    animation: none;
+    transition: none;
+  }
+
+  .playerCard,
+  .playerImage,
+  .titleBadge,
+  .tintOverlay {
+    transition: none;
+  }
+
+  .playerCard:hover {
+    transform: none;
+  }
+}
