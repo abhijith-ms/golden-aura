@@ -1,10 +1,27 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Trophy, Users, Globe, CaretDown } from "@phosphor-icons/react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useReducedMotion,
+} from "motion/react";
+import {
+  ArrowUpRight,
+  Trophy,
+  Users,
+  Globe,
+  CaretDown,
+  SpeakerSimpleHigh,
+  SpeakerSimpleSlash,
+  ArrowClockwise,
+  SkipForward,
+} from "@phosphor-icons/react";
 import styles from "./hero.module.css";
 
 interface HeroSectionProps {
@@ -14,7 +31,14 @@ interface HeroSectionProps {
 
 export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  // Video playback & reveal states
+  const [isRevealed, setIsRevealed] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [hasEnded, setHasEnded] = useState(false);
 
   // Mouse coordinate tracking for 3D parallax depth
   const mouseX = useMotionValue(0);
@@ -25,12 +49,10 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
   const smoothMouseY = useSpring(mouseY, springConfig);
 
   // Parallax transforms for floating elements
-  const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [10, -10]);
-  const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-12, 12]);
-  const cardTranslateX = useTransform(smoothMouseX, [-0.5, 0.5], [-18, 18]);
-  const cardTranslateY = useTransform(smoothMouseY, [-0.5, 0.5], [-18, 18]);
-  const bgTranslateX = useTransform(smoothMouseX, [-0.5, 0.5], [12, -12]);
-  const bgTranslateY = useTransform(smoothMouseY, [-0.5, 0.5], [12, -12]);
+  const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [8, -8]);
+  const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-10, 10]);
+  const cardTranslateX = useTransform(smoothMouseX, [-0.5, 0.5], [-14, 14]);
+  const cardTranslateY = useTransform(smoothMouseY, [-0.5, 0.5], [-14, 14]);
 
   // Magnetic button physics
   const btnX = useMotionValue(0);
@@ -66,6 +88,100 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     btnY.set(0);
   }
 
+  // Handle immediate reveal on reduced motion
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      setIsRevealed(true);
+      setHasEnded(true);
+      if (videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 7.95;
+      }
+    }
+  }, [shouldReduceMotion]);
+
+  // Handle video autoplay with fallback
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || shouldReduceMotion) return;
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay policy prevented playback; reveal contents immediately
+        setIsRevealed(true);
+      });
+    }
+  }, [shouldReduceMotion]);
+
+  // Auto-reveal if the user scrolls down
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 40 && !isRevealed) {
+        setIsRevealed(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isRevealed]);
+
+  // Video time update: triggers reveal as the camera pulls back revealing the full chessboard (~6.8s)
+  const handleTimeUpdate = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const current = video.currentTime;
+    const dur = video.duration || 8;
+    setVideoProgress(Math.min(1, current / dur));
+
+    // When chessboard is fully revealed (~6.8s into 8.0s video)
+    if (current >= 6.8 && !isRevealed) {
+      setIsRevealed(true);
+    }
+  }, [isRevealed]);
+
+  // Video end: freeze on the final frame (full chessboard revealed)
+  const handleEnded = useCallback(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      video.currentTime = video.duration || 7.95;
+    }
+    setHasEnded(true);
+    setIsRevealed(true);
+  }, []);
+
+  // Skip video directly to full chessboard reveal
+  const handleSkip = useCallback(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.currentTime = 7.95;
+      video.pause();
+    }
+    setHasEnded(true);
+    setIsRevealed(true);
+  }, []);
+
+  // Replay video sequence
+  const handleReplay = useCallback(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+    setHasEnded(false);
+    setIsRevealed(false);
+  }, []);
+
+  // Toggle sound
+  const toggleSound = useCallback(() => {
+    const video = videoRef.current;
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+    if (video) {
+      video.muted = nextMuted;
+    }
+  }, [isMuted]);
+
   // Kinetic typography variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -81,8 +197,8 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
   const itemVariants = {
     hidden: {
       opacity: 0,
-      y: shouldReduceMotion ? 0 : 36,
-      filter: shouldReduceMotion ? "none" : "blur(10px)",
+      y: shouldReduceMotion ? 0 : 32,
+      filter: shouldReduceMotion ? "none" : "blur(8px)",
     },
     visible: {
       opacity: 1,
@@ -95,7 +211,6 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     },
   };
 
-  // Splitting hero lines
   const lines = heroTitle.split("\n");
 
   return (
@@ -106,34 +221,94 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
       onMouseLeave={handleMouseLeave}
       aria-label="Golden Aura Trust Hero"
     >
-      {/* Dynamic Background Mesh & Parallax Layer */}
-      <motion.div
-        className={styles.heroBackdrop}
-        style={shouldReduceMotion ? {} : { x: bgTranslateX, y: bgTranslateY }}
-        aria-hidden="true"
-      >
+      {/* Full-Height Cinematic Video Canvas */}
+      <div className={styles.heroVideoWrap} aria-hidden="true">
+        <video
+          ref={videoRef}
+          className={styles.heroVideo}
+          src="/video/hero_video.mp4"
+          poster="/images/hero-board-final.jpg"
+          autoPlay
+          muted={isMuted}
+          playsInline
+          preload="auto"
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleEnded}
+        />
+
+        {/* Fallback & freeze-frame backplate to eliminate any transition flicker */}
         <Image
-          src="/images/hero-knight-bg.webp"
+          src="/images/hero-board-final.jpg"
           alt=""
           fill
           priority
           sizes="100vw"
-          className={styles.heroImage}
+          className={`${styles.heroPosterFallback} ${hasEnded ? styles.posterActive : ""}`}
         />
-        {/* Layered Obsidian Vignettes */}
-        <div className={styles.heroVignetteRight} />
-        <div className={styles.heroVignetteBottom} />
-        <div className={styles.heroGlowGold} />
-        <div className={styles.heroGlowCyan} />
-      </motion.div>
 
-      {/* Main Content Container with Asymmetrical Split */}
+        {/* Cinematic Lighting Overlays Aligned with the Video */}
+        <div className={styles.heroTopVignette} />
+        <div className={styles.heroBottomVignette} />
+        <div className={styles.heroRadialAtmosphere} />
+        <div className={styles.heroGlowGold} />
+      </div>
+
+      {/* Floating Skip Controller during video playback */}
+      <AnimatePresence>
+        {!isRevealed && !shouldReduceMotion && (
+          <motion.div
+            className={styles.skipControllerWrap}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.4 }}
+          >
+            <button
+              type="button"
+              onClick={handleSkip}
+              className={styles.skipButton}
+              aria-label="Skip to revealed board"
+            >
+              <span className={styles.skipProgressRing}>
+                <svg viewBox="0 0 36 36" className={styles.skipSvg}>
+                  <path
+                    className={styles.skipCircleBg}
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    className={styles.skipCircleProgress}
+                    strokeDasharray={`${videoProgress * 100}, 100`}
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <SkipForward size={14} weight="fill" className={styles.skipIcon} />
+              </span>
+              <span className={styles.skipLabel}>Skip to Board</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleSound}
+              className={styles.soundButton}
+              aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
+            >
+              {isMuted ? (
+                <SpeakerSimpleSlash size={16} weight="bold" />
+              ) : (
+                <SpeakerSimpleHigh size={16} weight="bold" />
+              )}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content: Revealed after Video Ends / Chessboard Emerges */}
       <div className={styles.heroInner}>
         <motion.div
           className={styles.heroContent}
           variants={containerVariants}
           initial="hidden"
-          animate="visible"
+          animate={isRevealed ? "visible" : "hidden"}
         >
           {/* Kicker Badge */}
           <motion.div variants={itemVariants} className={styles.kickerBadge}>
@@ -209,9 +384,13 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
                   transformPerspective: 1200,
                 }
           }
-          initial={{ opacity: 0, scale: 0.9, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, scale: 0.92, y: 30 }}
+          animate={
+            isRevealed
+              ? { opacity: 1, scale: 1, y: 0 }
+              : { opacity: 0, scale: 0.92, y: 30 }
+          }
+          transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className={styles.floatingCard}>
             <div className={styles.cardGlowBorder} />
@@ -259,12 +438,12 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
         </motion.div>
       </div>
 
-      {/* Hero Bottom Momentum Bar */}
+      {/* Hero Bottom Momentum Bar & Video Controls */}
       <motion.div
         className={styles.heroBottomBar}
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.7 }}
+        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.8, delay: 0.45 }}
       >
         <div className={styles.bottomBarLeft}>
           <span className={styles.taglineSegment}>ONE BOARD. EVERY POSSIBILITY.</span>
@@ -274,10 +453,39 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
           <span className={styles.taglineSub}>EQUALITY ON 64 SQUARES</span>
         </div>
 
-        <a href="#about" className={styles.scrollIndicator} aria-label="Scroll to discover">
-          <span>Discover the Vision</span>
-          <CaretDown size={14} weight="bold" className={styles.bounceIcon} />
-        </a>
+        <div className={styles.bottomBarRight}>
+          <a href="#about" className={styles.scrollIndicator} aria-label="Scroll to discover">
+            <span>Discover the Vision</span>
+            <CaretDown size={14} weight="bold" className={styles.bounceIcon} />
+          </a>
+
+          <div className={styles.videoControlsCluster}>
+            <button
+              type="button"
+              onClick={handleReplay}
+              className={styles.miniControlButton}
+              title="Replay chessboard reveal video"
+              aria-label="Replay chessboard reveal video"
+            >
+              <ArrowClockwise size={15} weight="bold" />
+              <span className={styles.controlText}>Replay Reveal</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleSound}
+              className={styles.miniControlButton}
+              title={isMuted ? "Unmute audio" : "Mute audio"}
+              aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+            >
+              {isMuted ? (
+                <SpeakerSimpleSlash size={15} weight="bold" />
+              ) : (
+                <SpeakerSimpleHigh size={15} weight="bold" />
+              )}
+            </button>
+          </div>
+        </div>
       </motion.div>
     </section>
   );

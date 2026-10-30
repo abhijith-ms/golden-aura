@@ -2,13 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { getContent } from "@/lib/content";
 import { Arrow, ContactBand, Lines, PartnerLogos } from "@/components/shared";
-import { PhotoCarousel } from "@/components/photo-carousel";
 import { PartnerMarquee } from "@/components/partner-marquee";
 import { ParticipantFeedback } from "@/components/participant-feedback";
 import { HeroSection } from "@/components/hero-section";
 import { VisionSection } from "@/components/vision-section";
 import { TournamentsSection } from "@/components/tournaments-section";
 import { PlayersSection } from "@/components/players-section";
+import { CommunityMomentsSection } from "@/components/community-moments-section";
 import { orderEvents } from "@/lib/events";
 import styles from "@/components/site.module.css";
 
@@ -32,23 +32,7 @@ export default async function Home() {
           firstEditionSlug={firstEdition.slug}
         />
       )}
-      <section id="moments" className={styles.section}>
-        <div className={styles.sectionLabel}>
-          <span>03 / THE PEOPLE MAKE THE GAME</span>
-          <span>COMMUNITY MOMENTS</span>
-        </div>
-        <div className={styles.sectionHeading}>
-          <div>
-            <h2>
-              Life around <span>the board.</span>
-            </h2>
-          </div>
-          <Link href="/gallery" className={styles.textLink}>
-            All moments <Arrow />
-          </Link>
-        </div>
-        <PhotoCarousel photos={photos} />
-      </section>
+      <CommunityMomentsSection photos={photos} />
       <ParticipantFeedback />
       {featuredPartners.length > 0 && (
         <section id="partners" className={styles.sectionCompact}>

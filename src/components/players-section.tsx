@@ -1,9 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+  type MotionValue,
+} from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import type { EventAttendee } from "@/lib/types";
 import { countryFlags } from "@/lib/countries";
@@ -24,23 +30,67 @@ interface PlayersSectionProps {
 
 /**
  * Individual Grandmaster Collector Card
- * Features editorial monochrome-to-color transition, floating prestige badge,
+ * Features scroll-driven 3D unroll, opposing row parallax drift,
+ * editorial monochrome-to-color transition, floating prestige badge,
  * diagonal metallic sheen, and deep typography scrim.
  */
 export function PlayerCollectorCard({
   player,
-  variants,
+  index,
+  scrollProgress,
+  sectionProgress,
+  shouldReduceMotion,
 }: {
   player: EventAttendee;
-  variants?: any;
+  index: number;
+  scrollProgress: MotionValue<number>;
+  sectionProgress: MotionValue<number>;
+  shouldReduceMotion: boolean | null;
 }) {
   const flagSrc = countryFlags[player.country];
   const fullTitle = titles[player.title] ?? player.title;
 
+  const colIndex = index % 7;
+  const rowIndex = Math.floor(index / 7);
+
+  // Staggered reveal window mapped to scroll progression into section
+  const revealStart = 0.04 + colIndex * 0.08 + rowIndex * 0.04;
+  const revealEnd = Math.min(revealStart + 0.22, 1);
+
+  const cardY = useTransform(scrollProgress, [revealStart, revealEnd], [80, 0]);
+  const cardOpacity = useTransform(scrollProgress, [revealStart, revealEnd], [0, 1]);
+  const cardScale = useTransform(scrollProgress, [revealStart, revealEnd], [0.92, 1]);
+  const cardRotateX = useTransform(scrollProgress, [revealStart, revealEnd], [20, 0]);
+  const cardBlur = useTransform(
+    scrollProgress,
+    [revealStart, revealEnd],
+    ["blur(8px)", "blur(0px)"]
+  );
+
+  // Continuous opposing horizontal parallax drift while scrolling past section
+  const driftX = useTransform(
+    sectionProgress,
+    [0, 1],
+    rowIndex === 0 ? [32, -32] : [-32, 32]
+  );
+
+  const motionStyle = shouldReduceMotion
+    ? {}
+    : {
+        y: cardY,
+        opacity: cardOpacity,
+        scale: cardScale,
+        rotateX: cardRotateX,
+        filter: cardBlur,
+        x: driftX,
+        transformPerspective: 1000,
+      };
+
   return (
     <motion.article
       className={styles.playerCard}
-      variants={variants}
+      style={motionStyle}
+      whileHover={shouldReduceMotion ? undefined : { scale: 1.04, zIndex: 20 }}
       tabIndex={0}
       aria-label={`${fullTitle} ${player.name}, ${player.country}`}
     >
@@ -105,38 +155,29 @@ export function PlayerCollectorCard({
 
 /**
  * 03 / THE FIRST INTERNATIONAL EDITION Showcase
- * Awwwards-level interactive player showcase preserving all 14 players, titles, and countries.
+ * Awwwards-level interactive scroll-driven player showcase preserving all 14 players, titles, and countries.
  */
 export function PlayersSection({
   players,
   firstEditionSlug = "namma-bengaluru-open-2024",
 }: PlayersSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
+  // Scroll Progress 1: Entry Window for Card Reveal Wave
+  const { scrollYProgress: revealProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 85%", "center 45%"],
+  });
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.96 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  };
+  // Scroll Progress 2: Full Section Window for Opposing Parallax Drift
+  const { scrollYProgress: sectionProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
 
   return (
-    <section id="first-edition" className={styles.playersSection}>
+    <section ref={sectionRef} id="first-edition" className={styles.playersSection}>
       {/* Ambient Lighting Nebulas */}
       <div className={styles.ambientNebulaGold} aria-hidden="true" />
       <div className={styles.ambientNebulaAmber} aria-hidden="true" />
@@ -168,22 +209,19 @@ export function PlayersSection({
         </p>
       </div>
 
-      {/* 14 Collector Cards Grid */}
-      <motion.div
-        className={styles.playersGrid}
-        variants={containerVariants}
-        initial={shouldReduceMotion ? false : "hidden"}
-        whileInView={shouldReduceMotion ? undefined : "visible"}
-        viewport={{ once: true, amount: 0.08 }}
-      >
-        {players.map((player) => (
+      {/* 14 Collector Cards Grid with Scroll-Driven Reveal */}
+      <div className={styles.playersGrid}>
+        {players.map((player, index) => (
           <PlayerCollectorCard
             key={player.name}
             player={player}
-            variants={cardVariants}
+            index={index}
+            scrollProgress={revealProgress}
+            sectionProgress={sectionProgress}
+            shouldReduceMotion={shouldReduceMotion}
           />
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 }
