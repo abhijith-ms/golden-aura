@@ -1,0 +1,725 @@
+.visionSection {
+  position: relative;
+  padding: 100px 6% 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Ambient Radial Nebula Background Lighting */
+.ambientNebulaGold {
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(245, 186, 66, 0.09) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambientNebulaCyan {
+  position: absolute;
+  bottom: 10%;
+  left: 0%;
+  width: 540px;
+  height: 540px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.07) 0%, transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Perspective Chessboard Grid Fade at Bottom */
+.perspectiveChessboardGrid {
+  position: absolute;
+  bottom: -40px;
+  left: 5%;
+  right: 5%;
+  height: 220px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(to right, rgba(245, 186, 66, 0.35) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 186, 66, 0.35) 1px, transparent 1px);
+  background-size: 44px 44px;
+  transform: perspective(600px) rotateX(62deg);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 80%);
+}
+
+/* Header Row */
+.visionHeaderRow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  gap: 20px;
+}
+
+.visionPillBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(24, 24, 30, 0.85);
+  border: 1px solid rgba(245, 186, 66, 0.28);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.radarRadarWrap {
+  position: relative;
+  display: inline-flex;
+  width: 9px;
+  height: 9px;
+  align-items: center;
+  justify-content: center;
+}
+
+.radarCoreDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981, 0 0 4px #f5ba42;
+  z-index: 2;
+}
+
+.radarPulseWave {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.55);
+  animation: radarWave 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  z-index: 1;
+}
+
+@keyframes radarWave {
+  75%, 100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.badgeLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+}
+
+.locationKicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Editorial Split Grid */
+.editorialSplitGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: start;
+  margin-bottom: 56px;
+}
+
+.headlineCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainHeadline {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4.4vw, 56px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.whiteHeadlineLine {
+  color: #ffffff;
+  display: block;
+}
+
+/* Liquid Metallic Gold Moving Gradient */
+.liquidGoldLine {
+  display: block;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f5ba42 22%,
+    #fef08a 48%,
+    #d97706 72%,
+    #ffffff 100%
+  );
+  background-size: 240% 240%;
+  animation: liquidGoldFlow 8s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 35px rgba(245, 186, 66, 0.25);
+}
+
+@keyframes liquidGoldFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Story Column with Scroll-Linked Scrub */
+.storyCol {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.quoteBlockWrap {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Laser Progress Line */
+.laserTrackWrap {
+  position: relative;
+  width: 3.5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.laserFillBar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #f5ba42 0%, #fbbf24 60%, #ffffff 100%);
+  transform-origin: top;
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(245, 186, 66, 0.65);
+}
+
+.scrubBlockquote {
+  margin: 0;
+  padding: 2px 0;
+  font-size: clamp(18px, 1.6vw, 21.5px);
+  font-weight: 500;
+  line-height: 1.55;
+  font-style: normal;
+}
+
+.quoteWord {
+  display: inline-block;
+  margin-right: 0.28em;
+  transition: opacity 150ms ease, text-shadow 150ms ease;
+}
+
+.staticQuoteText {
+  color: #ffffff;
+  text-shadow: 0 0 16px rgba(245, 186, 66, 0.4);
+}
+
+.storyNarrativeText {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  max-width: 580px;
+}
+
+/* CRITICAL BUG FIX: High-Visibility Glassmorphic Pill Button */
+.ctaWrapper {
+  margin-top: 10px;
+}
+
+.highVisibilityCtaBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  color: #fef3c7;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.highVisibilityCtaBtn:hover {
+  background: #f59e0b;
+  color: #020617;
+  border-color: #fbbf24;
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(245, 158, 11, 0.55), 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.highVisibilityCtaBtn:active {
+  transform: translateY(1px);
+}
+
+.btnTextGlow {
+  position: relative;
+  z-index: 2;
+  transition: color 200ms ease;
+}
+
+.arrowIconBubble {
+  position: relative;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: grid;
+  place-items: center;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.diagonalArrow {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.highVisibilityCtaBtn:hover .diagonalArrow {
+  transform: translate(3px, -3px);
+}
+
+.highVisibilityCtaBtn:hover .arrowIconBubble {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ctaAuraGlow {
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 50%, rgba(245, 186, 66, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.highVisibilityCtaBtn:hover .ctaAuraGlow {
+  opacity: 1;
+}
+
+/* 3D Spotlight Pillars of Impact Grid */
+.pillars3DGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 16px;
+  perspective: 1200px;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+/* Spotlight Card Architecture - Unified Glassmorphic Surface */
+.pillarSpotlightCard {
+  position: relative;
+  padding: 32px 30px 28px;
+  min-height: 340px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  ), #0b0c10;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 16px 40px rgba(0, 0, 0, 0.55);
+  transform-style: preserve-3d;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.pillarSpotlightCard:hover {
+  border-color: rgba(245, 186, 66, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 24px 60px -10px rgba(0, 0, 0, 0.75),
+    0 0 35px -4px rgba(245, 186, 66, 0.18);
+}
+
+/* Spotlight Surface Illumination */
+.cardSpotlightSurface {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(245, 186, 66, 0.12) 0%,
+    rgba(16, 185, 129, 0.05) 45%,
+    transparent 80%
+  );
+  transition: opacity 300ms ease;
+  z-index: 0;
+}
+
+.pillars3DGrid:hover .cardSpotlightSurface {
+  opacity: 1;
+}
+
+.cardBorderGlow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 28px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    360px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(245, 186, 66, 0.35) 0%,
+    rgba(16, 185, 129, 0.15) 40%,
+    transparent 70%
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+  transition: opacity 300ms ease;
+  z-index: 0;
+}
+
+.pillars3DGrid:hover .cardBorderGlow {
+  opacity: 1;
+}
+
+/* Ambient Corner Spotlight Glow behind Top-Right Icon */
+.cardCornerSpotlight {
+  position: absolute;
+  top: -24px;
+  right: -24px;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(245, 186, 66, 0.14) 0%,
+    rgba(245, 186, 66, 0.04) 50%,
+    transparent 75%
+  );
+  pointer-events: none;
+  filter: blur(32px);
+  z-index: 0;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 600ms ease;
+  opacity: 0.7;
+}
+
+.pillarSpotlightCard:hover .cardCornerSpotlight {
+  transform: scale(1.35);
+  opacity: 1;
+}
+
+/* Minimalist Architectural Ghost Numeral Watermark (z-index: 0) */
+.ghostNumeralWrap {
+  position: absolute;
+  right: 14px;
+  bottom: 44px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  overflow: visible;
+  opacity: 0.045;
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pillarSpotlightCard:hover .ghostNumeralWrap {
+  opacity: 0.12;
+  transform: scale(1.05) translate(-4px, -4px);
+}
+
+.ghostNumeralText {
+  font-family: var(--font-display);
+  font-size: 145px;
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  background: linear-gradient(180deg, #f5ba42 0%, #ffffff 45%, transparent 95%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+/* Unified Card Content Layout (z-index: 10) */
+.cardContentWrapper {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 280px;
+  flex: 1;
+}
+
+.cardTopRow {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.pillarTagBadge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fef3c7;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  padding: 7px 15px;
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.iconContainer {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  place-items: center;
+  color: var(--accent-gold);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 250ms ease, border-color 250ms ease;
+}
+
+.pillarSpotlightCard:hover .iconContainer {
+  transform: scale(1.1);
+  border-color: rgba(245, 186, 66, 0.4);
+  box-shadow: 0 0 16px rgba(245, 186, 66, 0.25);
+}
+
+.pillarIconGlyph {
+  position: relative;
+  z-index: 2;
+}
+
+.radarRippleRing {
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  border: 1px solid rgba(245, 186, 66, 0.4);
+  opacity: 0;
+  animation: iconPulse 2.5s infinite;
+}
+
+@keyframes iconPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.shimmerEffect {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(245, 186, 66, 0.25) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.pillarSpotlightCard:hover .shimmerEffect {
+  opacity: 1;
+}
+
+/* Bottom Group: Headline, Paragraph & Footer */
+.cardBottomGroup {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+/* Fixed min-height ensures all headlines align on the exact same horizontal baseline */
+.cardTextBlock {
+  display: flex;
+  flex-direction: column;
+  min-height: 140px;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.cardHeadline {
+  font-family: var(--font-display);
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0 0 12px;
+  color: #ffffff;
+}
+
+.cardParagraph {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 95%;
+}
+
+/* Bottom Progress Bar & Explore Micro-Label */
+.cardBottomBar {
+  position: relative;
+  z-index: 10;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pillarNumberGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pillarIndexCode {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: rgba(252, 211, 77, 0.85); /* text-amber-300/80 - warm muted gold */
+  text-transform: uppercase;
+}
+
+.exploreRevealPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.02em;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 2.5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+}
+
+/* Responsive Collapses */
+@media (max-width: 1024px) {
+  .editorialSplitGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .pillars3DGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .visionSection {
+    padding: 70px 16px 80px;
+  }
+
+  .visionHeaderRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .mainHeadline {
+    font-size: 32px;
+  }
+
+  .quoteBlockWrap {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .laserTrackWrap {
+    width: 100%;
+    height: 3px;
+  }
+
+  .laserFillBar {
+    width: 100%;
+    height: 100%;
+    transform-origin: left;
+  }
+
+  .ghostNumeralWrap {
+    right: 8px;
+    bottom: 30px;
+  }
+
+  .ghostNumeralText {
+    font-size: 110px;
+  }
+
+  .cardTextBlock {
+    min-height: auto;
+  }
+
+  .cardContentWrapper {
+    min-height: 260px;
+  }
+}

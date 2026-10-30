@@ -13,8 +13,11 @@ export function ScrollReveals() {
         if (!entry.isIntersecting) continue;
         observer.unobserve(entry.target);
         const animation = entry.target.animate(
-          [{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "translateY(0)" }],
-          { duration: 550, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+          [
+            { opacity: 0, transform: "translateY(24px)", filter: "blur(6px)" },
+            { opacity: 1, transform: "translateY(0)", filter: "blur(0px)" },
+          ],
+          { duration: 700, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" },
         );
         animations.add(animation);
         animation.onfinish = () => animations.delete(animation);
