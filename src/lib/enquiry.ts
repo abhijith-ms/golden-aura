@@ -138,7 +138,10 @@ export async function handleEnquiry(
     Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
   try {
     const origin = request.headers.get("origin");
-    const expectedOrigin = new URL(process.env.SITE_URL || request.url).origin;
+    const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
+    const expectedOrigin = new URL(
+      process.env.SITE_URL || (host ? `${request.url.startsWith("https") ? "https" : "http"}://${host}` : request.url),
+    ).origin;
     if (origin !== expectedOrigin)
       throw new EnquiryError(
         "Your enquiry could not be processed from this page.",

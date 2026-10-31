@@ -796,18 +796,245 @@
 .contactDetails p { max-width: 350px; margin: 0 0 12px; }
 .contactDetails .textLink { display: inline-flex; font-size: 13px; }
 .formTitle { font-size: 30px !important; margin-bottom: 24px !important; }
-.enquiryForm { padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: #fffdf8; }
-.enquiryForm label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 9px; }
-.enquiryForm input:not([type="checkbox"]), .enquiryForm select, .enquiryForm textarea { display: block; width: 100%; min-height: 49px; border: 1px solid #c9c3b6; background: var(--paper); color: var(--ink); border-radius: 8px; padding: 14px; margin-bottom: 22px; font-size: 14px; }
-.enquiryForm textarea { resize: vertical; }
-.formRow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.formRow > div { min-width: 0; }
-.consent { display: flex !important; align-items: flex-start; gap: 12px; margin: 4px 0 24px !important; font-size: 12px !important; font-weight: 400 !important; line-height: 1.6; }
-.consent input { flex-shrink: 0; width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--night); }
-.consent a, .formNote a { text-decoration: underline; text-underline-offset: 3px; }
-.enquiryForm .formFeedback, .enquiryForm .formError { font-size: 14px; margin: 18px 0 0; line-height: 1.6; }
-.enquiryForm .formError { color: #923422; }
-.enquiryForm .formNote { font-size: 12px; margin-top: 18px; overflow-wrap: anywhere; }
+
+/* Partnership Section Overhaul */
+.partnershipSection {
+  position: relative;
+  background: radial-gradient(circle at 10% 20%, rgba(245, 186, 66, 0.04) 0%, transparent 50%), var(--surface-zinc);
+}
+
+.partnershipGrid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.partnershipInfoCol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.formCol {
+  min-width: 0;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(245, 186, 66, 0.08);
+  border: 1px solid rgba(245, 186, 66, 0.25);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold, #f5ba42);
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(245, 186, 66, 0.08);
+}
+
+.pulseDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-gold, #f5ba42);
+  box-shadow: 0 0 10px var(--accent-gold, #f5ba42);
+  animation: pulseDotAnim 2s infinite ease-in-out;
+}
+
+@keyframes pulseDotAnim {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+}
+
+.partnershipHeading {
+  font-size: clamp(34px, 4.2vw, 52px) !important;
+  font-weight: 700;
+  line-height: 1.1 !important;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin: 0 0 20px 0 !important;
+}
+
+.goldTextShimmer {
+  display: inline-block;
+  background: linear-gradient(135deg, #f5ba42 0%, #fef3c7 45%, #d97706 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 5s ease-in-out infinite;
+}
+
+@keyframes goldShimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.partnershipLead {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #a1a1aa;
+  margin: 0 0 32px 0;
+  max-width: 520px;
+}
+
+/* Trust Pillars */
+.trustPillars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.trustPillarItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s ease;
+}
+
+.trustPillarItem:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(245, 186, 66, 0.25);
+  transform: translateX(4px);
+}
+
+.pillarIconWrap {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(245, 186, 66, 0.12);
+  border: 1px solid rgba(245, 186, 66, 0.25);
+  color: var(--accent-gold, #f5ba42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pillarTitle {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+}
+
+.pillarDesc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.trustBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #a1a1aa;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  width: fit-content;
+}
+
+.trustBadgeIcon {
+  color: var(--accent-gold, #f5ba42);
+  flex-shrink: 0;
+}
+
+/* Contact Page Details Overhaul */
+.contactDetailsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.contactCard {
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.contactCard:hover {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(245, 186, 66, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.4);
+}
+
+.contactCardIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(245, 186, 66, 0.1);
+  border: 1px solid rgba(245, 186, 66, 0.2);
+  color: var(--accent-gold, #f5ba42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactCardTitle {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin: 0 0 6px 0;
+}
+
+.contactCardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  transition: color 0.2s ease;
+  overflow-wrap: anywhere;
+}
+
+.contactCardLink:hover {
+  color: var(--accent-gold, #f5ba42);
+}
+
+.contactCardText {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #d4d4d8;
+  margin: 0 0 8px 0;
+}
+
+/* Legacy overrides removed - EnquiryForm has dedicated enquiry-form.module.css */
 .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .visuallyHidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .eventDetailHero { position: relative; height: 460px; margin: 0 6%; border-radius: 20px; overflow: hidden; }
@@ -2056,9 +2283,7 @@
   .lightbox { padding: 12px; width: 94vw; }
   .lightboxImage { height: 65vh; }
   .contactDetails h2 { font-size: 14px; }
-  .enquiryForm { padding: 22px; }
-  .formRow { grid-template-columns: 1fr; gap: 0; }
-  .enquiryForm .buttonDark { width: 100%; }
+  .partnershipGrid { grid-template-columns: 1fr; gap: 36px; }
   .eventDetailHero { height: 280px; border-radius: 16px; }
   .eventDetailGrid { gap: 36px; }
   .detailPanel { padding: 24px; }

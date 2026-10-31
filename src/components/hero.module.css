@@ -28,6 +28,7 @@
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  perspective: 1200px;
 }
 
 .videoDriftWrap {
@@ -37,6 +38,19 @@
   height: 100%;
   will-change: transform;
   transform-origin: center center;
+  transform-style: preserve-3d;
+}
+
+.cursorSpecularSheen {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+  will-change: background;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .heroVideo {

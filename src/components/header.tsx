@@ -30,9 +30,6 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Hero synchronization state (hidden during 0.0s–5.2s on homepage, slides down at 5.3s)
-  const [isRevealed, setIsRevealed] = useState(!isHome || Boolean(shouldReduceMotion));
-
   // Magnetic hover physics for Primary Navbar CTA
   const ctaX = useMotionValue(0);
   const ctaY = useMotionValue(0);
@@ -56,47 +53,12 @@ export function Header() {
   // Dynamic scroll condensation
   useEffect(() => {
     const onScroll = () => {
-      const isPast = window.scrollY > 40;
-      setScrolled(isPast);
-      if (isPast && !isRevealed) {
-        setIsRevealed(true);
-      }
+      setScrolled(window.scrollY > 40);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isRevealed]);
-
-  // Synchronize with Hero section video reveal and inspect events
-  useEffect(() => {
-    if (!isHome || shouldReduceMotion) {
-      setIsRevealed(true);
-      return;
-    }
-
-    // Fallback safeguard: guarantee navbar reveals even if video autoplay is blocked
-    const fallbackTimer = setTimeout(() => {
-      setIsRevealed(true);
-    }, 6500);
-
-    const handleHeroState = (e: Event) => {
-      const custom = e as CustomEvent<{ state: string }>;
-      if (custom.detail) {
-        if (custom.detail.state === "PLAYING_INTRO") {
-          setIsRevealed(false);
-        } else {
-          // Slide down at 5.3s
-          setIsRevealed(true);
-        }
-      }
-    };
-
-    window.addEventListener("hero-state", handleHeroState);
-    return () => {
-      clearTimeout(fallbackTimer);
-      window.removeEventListener("hero-state", handleHeroState);
-    };
-  }, [isHome, shouldReduceMotion]);
+  }, []);
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -126,9 +88,7 @@ export function Header() {
       className={`${styles.headerWrapper} ${isHome ? styles.headerFixed : ""}`}
     >
       <header
-        className={`${styles.header} ${scrolled ? styles.headerScrolled : ""} ${
-          !isRevealed ? styles.headerHidden : ""
-        }`}
+        className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
       >
         <Link
           href="/#top"

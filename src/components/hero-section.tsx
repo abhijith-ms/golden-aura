@@ -8,6 +8,8 @@ import {
   AnimatePresence,
   useMotionValue,
   useSpring,
+  useTransform,
+  useMotionTemplate,
   useReducedMotion,
 } from "motion/react";
 import {
@@ -90,7 +92,12 @@ function AnimatedCounter({
  * Matches the warm champagne ambiance and light rays from the overhead video
  */
 function DustMotesCanvas({ active }: { active: boolean }) {
+  const [mounted, setMounted] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -165,6 +172,8 @@ function DustMotesCanvas({ active }: { active: boolean }) {
     };
   }, [active]);
 
+  if (!mounted) return null;
+
   return (
     <canvas
       ref={canvasRef}
@@ -228,6 +237,87 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     btnY.set(0);
   }
 
+  // Cursor Parallax & 3D Tilt Physics for the Settled Chessboard
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Smooth springs for camera tilt & shift (cinematic weighted physics)
+  const tiltX = useSpring(useTransform(mouseY, [-0.5, 0.5], [3.5, -3.5]), {
+    damping: 24,
+    stiffness: 90,
+    mass: 0.8,
+  });
+  const tiltY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-3.5, 3.5]), {
+    damping: 24,
+    stiffness: 90,
+    mass: 0.8,
+  });
+  const shiftX = useSpring(useTransform(mouseX, [-0.5, 0.5], [10, -10]), {
+    damping: 24,
+    stiffness: 90,
+    mass: 0.8,
+  });
+  const shiftY = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), {
+    damping: 24,
+    stiffness: 90,
+    mass: 0.8,
+  });
+
+  // Dynamic Specular Light Glint: follows cursor over marble and gold tiles
+  const sheenX = useMotionValue(50);
+  const sheenY = useMotionValue(50);
+  const smoothSheenX = useSpring(sheenX, { damping: 20, stiffness: 100 });
+  const smoothSheenY = useSpring(sheenY, { damping: 20, stiffness: 100 });
+  const sheenBackground = useMotionTemplate`radial-gradient(circle 500px at ${smoothSheenX}% ${smoothSheenY}%, rgba(255, 235, 195, 0.12) 0%, rgba(212, 175, 106, 0.04) 40%, transparent 75%)`;
+
+  // Track mouse coordinates over the hero section when settled
+  useEffect(() => {
+    if (!hasEnded || shouldReduceMotion) {
+      mouseX.set(0);
+      mouseY.set(0);
+      return;
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const container = containerRef.current;
+      if (!container) return;
+      const rect = container.getBoundingClientRect();
+
+      // Only track if cursor is within or directly near the hero section
+      if (e.clientY < rect.top || e.clientY > rect.bottom) {
+        mouseX.set(0);
+        mouseY.set(0);
+        return;
+      }
+
+      const normX = (e.clientX - rect.left) / rect.width - 0.5;
+      const normY = (e.clientY - rect.top) / rect.height - 0.5;
+
+      mouseX.set(normX);
+      mouseY.set(normY);
+
+      const pctX = ((e.clientX - rect.left) / rect.width) * 100;
+      const pctY = ((e.clientY - rect.top) / rect.height) * 100;
+      sheenX.set(pctX);
+      sheenY.set(pctY);
+    };
+
+    const handleMouseLeave = () => {
+      mouseX.set(0);
+      mouseY.set(0);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("blur", handleMouseLeave);
+    document.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("blur", handleMouseLeave);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [hasEnded, shouldReduceMotion, mouseX, mouseY, sheenX, sheenY]);
+
   // Handle immediate reveal on reduced motion
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -288,6 +378,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     }
     if (current >= 7.0 && heroState === "REVEALING_UI") {
       setHeroState("SETTLED");
+      setHasEnded(true);
     }
   }, [heroState]);
 
@@ -451,29 +542,16 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
       <div className={styles.heroVideoWrap} aria-hidden="true">
         <motion.div
           className={styles.videoDriftWrap}
-          animate={
-            hasEnded && !shouldReduceMotion
-              ? {
-                  scale: [1.02, 1.04, 1.02],
-                  rotate: [0, 0.2, 0],
-                }
-              : {
-                  scale: isRevealed ? 1.02 : 1,
-                  rotate: 0,
-                }
-          }
-          transition={
-            hasEnded && !shouldReduceMotion
-              ? {
-                  duration: 20,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                }
-              : {
-                  duration: 2.2,
-                  ease: [0.16, 1, 0.3, 1],
-                }
-          }
+          style={{
+            rotateX: hasEnded && !shouldReduceMotion ? tiltX : 0,
+            rotateY: hasEnded && !shouldReduceMotion ? tiltY : 0,
+            x: hasEnded && !shouldReduceMotion ? shiftX : 0,
+            y: hasEnded && !shouldReduceMotion ? shiftY : 0,
+            scale: isRevealed ? 1.05 : 1,
+          }}
+          transition={{
+            scale: { duration: 2.2, ease: [0.16, 1, 0.3, 1] },
+          }}
         >
           <video
             ref={videoRef}
@@ -485,14 +563,16 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
               transform: isRevealed ? "scale(1.02)" : "scale(1)",
             }}
             src="/video/hero_video.mp4"
-            poster="/images/hero-board-final.jpg"
+            poster="/images/hero-intro-poster.webp"
             autoPlay
             muted={isMuted}
             playsInline
             preload="auto"
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleEnded}
-          />
+          >
+            <img src="/images/hero-knight-bg.webp" alt="Golden Aura Chess" />
+          </video>
 
           {/* Crisp freeze-frame backplate to eliminate transition flicker */}
           <Image
@@ -510,6 +590,20 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
             }}
           />
         </motion.div>
+
+        {/* Interactive Specular Light Glint: Reacts to cursor over the luxury marble & gold pieces */}
+        {hasEnded && !shouldReduceMotion && (
+          <motion.div
+            className={styles.cursorSpecularSheen}
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
+            style={{
+              background: sheenBackground,
+            }}
+          />
+        )}
 
         {/* Base Cinema Perimeter Vignette: Active from 0.0s from the start to frame the 3D lens */}
         <div className={styles.baseCinemaVignette} aria-hidden="true" />
