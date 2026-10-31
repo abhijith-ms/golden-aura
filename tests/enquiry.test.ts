@@ -113,3 +113,19 @@ test("untrusted forwarded hosts cannot bypass enquiry origin validation", async 
   assert.equal((await handleEnquiry(forged, async () => { sent = true; })).status, 403);
   assert.equal(sent, false);
 });
+
+
+test("accepts the requested host when Next uses an internal listen address", async () => {
+  const local = new Request("http://127.0.0.1:3000/api/enquiry", {
+    method: "POST",
+    headers: {
+      host: "localhost:3000",
+      origin: "http://localhost:3000",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ ...valid, email: "host-check@example.com" }),
+  });
+  let sent = false;
+  assert.equal((await handleEnquiry(local, async () => { sent = true; })).status, 200);
+  assert.equal(sent, true);
+});
