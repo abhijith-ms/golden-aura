@@ -115,7 +115,7 @@ function TournamentCard({
             alt={event.image.alt}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
-            quality={92}
+            quality={90}
             className={styles.photoImage}
           />
         </div>
@@ -255,7 +255,7 @@ export function TournamentsSection({ featured }: TournamentsSectionProps) {
           ref={gridRef}
           className={styles.dossierGrid}
           onMouseMove={handleGridMouseMove}
-          initial="hidden"
+          initial={shouldReduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
           variants={{

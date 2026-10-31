@@ -339,7 +339,7 @@ export function VisionSection({ aboutIntro, focusAreas }: VisionSectionProps) {
         ref={gridRef}
         className={styles.pillars3DGrid}
         onMouseMove={handleGridMouseMove}
-        initial="hidden"
+        initial={shouldReduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
         variants={{

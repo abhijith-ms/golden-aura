@@ -40,6 +40,7 @@ function MagneticButton({
   ariaLabel: string;
   className?: string;
 }) {
+  const shouldReduceMotion = useReducedMotion();
   const ref = useRef<HTMLButtonElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -47,7 +48,7 @@ function MagneticButton({
   const springY = useSpring(y, { damping: 15, stiffness: 180 });
 
   function handleMouseMove(e: React.MouseEvent) {
-    if (disabled || !ref.current) return;
+    if (shouldReduceMotion || disabled || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -70,8 +71,8 @@ function MagneticButton({
       className={className}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
-      whileTap={{ scale: 0.9 }}
+      style={shouldReduceMotion ? {} : { x: springX, y: springY }}
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
     >
       {children}
     </motion.button>
@@ -90,6 +91,7 @@ function MagneticLink({
   children: React.ReactNode;
   className?: string;
 }) {
+  const shouldReduceMotion = useReducedMotion();
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -97,7 +99,7 @@ function MagneticLink({
   const springY = useSpring(y, { damping: 18, stiffness: 160 });
 
   function handleMouseMove(e: React.MouseEvent) {
-    if (!ref.current) return;
+    if (shouldReduceMotion || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -112,7 +114,7 @@ function MagneticLink({
 
   return (
     <motion.div
-      style={{ x: springX, y: springY }}
+      style={shouldReduceMotion ? {} : { x: springX, y: springY }}
       className={styles.magneticWrapper}
     >
       <Link
@@ -135,8 +137,6 @@ function MagneticLink({
  */
 export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps) {
   const [active, setActive] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [isStageHovered, setIsStageHovered] = useState(false);
 
   const shouldReduceMotion = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
@@ -158,10 +158,9 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
   const select = useCallback(
     (index: number) => {
       const next = (index + total) % total;
-      setDirection(next >= active ? 1 : -1);
       setActive(next);
     },
-    [active, total]
+    [total]
   );
 
   // 3D Tilt handlers
@@ -251,7 +250,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
 
       {/* Main Gallery Stage Card */}
       <div
-        className={`${styles.galleryCard} ${isStageHovered ? styles.stagePaused : ""}`}
+        className={styles.galleryCard}
       >
         {/* 1. Ambient Dynamic Backlight (Living Background) */}
         <div className={styles.livingBacklightWrapper} aria-hidden="true">
@@ -276,11 +275,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
             tabIndex={0}
             aria-label="Featured photograph. Use left and right arrow keys to explore."
             onMouseMove={handleStageMouseMove}
-            onMouseEnter={() => setIsStageHovered(true)}
-            onMouseLeave={() => {
-              handleStageMouseLeave();
-              setIsStageHovered(false);
-            }}
+            onMouseLeave={handleStageMouseLeave}
             style={
               shouldReduceMotion
                 ? {}
@@ -374,7 +369,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
                     sizes="(max-width: 760px) 92vw, (max-width: 1400px) 58vw, 840px"
                     className={styles.stageImage}
                     priority
-                    quality={92}
+                    quality={90}
                   />
                 </motion.div>
               </motion.div>
@@ -460,7 +455,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
                     }}
                     className={styles.captionWord}
                   >
-                    {word}
+                    {word}{" "}
                   </motion.span>
                 ))}
               </motion.p>
@@ -489,29 +484,19 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
 
             <div className={styles.timerIndicator} aria-hidden="true">
               <span className={styles.timerLabel}>Choose a moment</span>
-              <div className={styles.timerTrack}>
-                {!shouldReduceMotion && (
-                  <div
-                    key={active}
-                    className={styles.timerBarFill}
-                    onAnimationEnd={() => select(active + 1)}
-                  />
-                )}
-              </div>
             </div>
           </div>
         </div>
 
         {/* 5. Interactive Filmstrip Dock (Bottom 5 Thumbnails 01–05) */}
-        <div className={styles.dockGrid} role="tablist" aria-label="Choose a photograph">
+        <div className={styles.dockGrid} role="group" aria-label="Choose a photograph">
           {photos.map((photo, i) => {
             const isSelected = i === active;
             return (
               <motion.button
                 key={photo.src}
                 type="button"
-                role="tab"
-                aria-selected={isSelected}
+                aria-pressed={isSelected}
                 aria-label={`Show photograph ${i + 1}: ${photo.alt}`}
                 onClick={() => select(i)}
                 className={styles.dockItem}
@@ -544,16 +529,6 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
                   >
                     <div className={styles.activeSpotlightTop} />
                   </motion.div>
-                )}
-
-                {/* Micro Progress Bar inside Active Thumbnail */}
-                {isSelected && !shouldReduceMotion && (
-                  <div className={styles.dockMicroProgress} aria-hidden="true">
-                    <div
-                      key={active}
-                      className={styles.dockMicroFill}
-                    />
-                  </div>
                 )}
               </motion.button>
             );

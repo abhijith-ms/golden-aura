@@ -11,6 +11,7 @@ import {
   useTransform,
   useMotionTemplate,
   useReducedMotion,
+  useInView,
 } from "motion/react";
 import {
   ArrowUpRight,
@@ -21,10 +22,13 @@ import {
   SkipForward,
 } from "@phosphor-icons/react";
 import styles from "./hero.module.css";
+import type { Event } from "@/lib/types";
+import { eventStatus } from "@/lib/events";
 
 interface HeroSectionProps {
   heroTitle: string;
   heroIntro: string;
+  archiveEvent?: Event;
 }
 
 type HeroPlaybackState = "PLAYING_INTRO" | "REVEALING_UI" | "SETTLED";
@@ -47,11 +51,17 @@ function AnimatedCounter({
   formatIndian?: boolean;
   start: boolean;
 }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(target);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!start) {
       setCount(0);
+      return;
+    }
+
+    if (shouldReduceMotion) {
+      setCount(target);
       return;
     }
 
@@ -72,7 +82,7 @@ function AnimatedCounter({
 
     animationFrame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animationFrame);
-  }, [target, duration, start]);
+  }, [target, duration, start, shouldReduceMotion]);
 
   const formatted = formatIndian
     ? count.toLocaleString("en-IN")
@@ -92,16 +102,12 @@ function AnimatedCounter({
  * Matches the warm champagne ambiance and light rays from the overhead video
  */
 function DustMotesCanvas({ active }: { active: boolean }) {
-  const [mounted, setMounted] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const inView = useInView(canvasRef);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !active) return;
+    if (!canvas || !active || !inView) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -170,9 +176,7 @@ function DustMotesCanvas({ active }: { active: boolean }) {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", handleResize);
     };
-  }, [active]);
-
-  if (!mounted) return null;
+  }, [active, inView]);
 
   return (
     <canvas
@@ -187,7 +191,7 @@ function DustMotesCanvas({ active }: { active: boolean }) {
   );
 }
 
-export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
+export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -570,6 +574,10 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
             preload="auto"
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleEnded}
+            onError={() => {
+              setHeroState("SETTLED");
+              setHasEnded(true);
+            }}
           >
             <img src="/images/hero-knight-bg.webp" alt="Golden Aura Chess" />
           </video>
@@ -669,7 +677,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
         {/* Bottom-Anchored Split Dock: Bottom-Left Editorial Stage & Bottom-Right Tournament Bento Dock */}
         <div className={styles.bottomDockWrapper}>
           {/* Bottom-Left Editorial Stage (z-20) */}
-          <div className={styles.editorialStage}>
+          <div className={styles.editorialStage} inert={!isRevealed}>
             {/* 3.1 Eyebrow Badge (Reveals at 5.4s) */}
             <motion.div
               variants={eyebrowVariants}
@@ -760,6 +768,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
           {/* 4. Bottom-Right Tournament Bento Dock (Reveals at 5.8s, z-20) */}
           <motion.div
             className={styles.telemetryDock}
+            inert={!isRevealed}
             variants={bentoDockVariants}
             initial="hidden"
             animate={isRevealed ? "visible" : "hidden"}
@@ -783,7 +792,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
                 <Trophy size={20} weight="fill" className={styles.trophyIcon} />
               </div>
               <div className={styles.eventInfo}>
-                <span className={styles.eventKicker}>NEXT EDITION</span>
+                <span className={styles.eventKicker}>{archiveEvent ? `${archiveEvent.year} ${eventStatus(archiveEvent) === "upcoming" ? "EDITION" : "ARCHIVE"}` : "OUR TOURNAMENTS"}</span>
                 <h3 className={styles.eventTitle}>Namma Bengaluru Open</h3>
                 <span className={styles.eventLocation}>
                   <span className={styles.liveDot} /> Bengaluru, Karnataka
@@ -797,13 +806,12 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
             <div className={styles.telemetryColStat}>
               <strong className={styles.statNumber}>
                 <AnimatedCounter
-                  target={600}
-                  suffix="+"
+                  target={2}
                   start={isRevealed}
                   duration={1.2}
                 />
               </strong>
-              <span className={styles.statLabel}>CONTENDERS</span>
+              <span className={styles.statLabel}>INTERNATIONAL EDITIONS</span>
             </div>
 
             <div className={styles.telemetryDivider} aria-hidden="true" />
@@ -812,12 +820,12 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
             <div className={styles.telemetryColStat}>
               <strong className={styles.statNumber}>
                 <AnimatedCounter
-                  target={17}
+                  target={64}
                   start={isRevealed}
                   duration={1.2}
                 />
               </strong>
-              <span className={styles.statLabel}>NATIONS</span>
+              <span className={styles.statLabel}>SQUARES. ONE GAME.</span>
             </div>
 
             <div className={styles.telemetryDivider} aria-hidden="true" />
@@ -827,7 +835,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
               <div className={styles.prizeTopRow}>
                 <span className={styles.prizeLabel}>TOTAL PRIZE POOL</span>
                 <Link
-                  href="/events/namma-bengaluru-open-2025"
+                  href={archiveEvent ? `/events/${archiveEvent.slug}` : "/events"}
                   className={styles.archiveMicroBtn}
                   title="View tournament archive"
                 >
@@ -836,13 +844,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
                 </Link>
               </div>
               <span className={styles.prizeAmount}>
-                <AnimatedCounter
-                  target={3500000}
-                  prefix="₹"
-                  formatIndian
-                  start={isRevealed}
-                  duration={1.2}
-                />
+                {archiveEvent?.prizeFund || "See archive"}
               </span>
             </div>
           </motion.div>

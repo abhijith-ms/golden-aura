@@ -17,7 +17,7 @@ export function ScrollReveals() {
             { opacity: 0, transform: "translateY(24px)", filter: "blur(6px)" },
             { opacity: 1, transform: "translateY(0)", filter: "blur(0px)" },
           ],
-          { duration: 700, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" },
+          { duration: 700, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" },
         );
         animations.add(animation);
         animation.onfinish = () => animations.delete(animation);

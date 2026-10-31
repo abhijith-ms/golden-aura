@@ -23,7 +23,7 @@ export default async function Home() {
   const photos = [albums[0]?.photos[1], community?.photos[3], community?.photos[0], albums.find((a) => a.slug === "open-2024")?.photos[1], albums.find((a) => a.slug === "amateurs")?.photos[0]].filter((p) => p !== undefined);
   return (
     <>
-      <HeroSection heroTitle={site.heroTitle} heroIntro={site.heroIntro} />
+      <HeroSection heroTitle={site.heroTitle} heroIntro={site.heroIntro} archiveEvent={events.find((event) => event.slug === "namma-bengaluru-open-2025")} />
       <VisionSection aboutIntro={site.aboutIntro} focusAreas={site.focusAreas} />
       <TournamentsSection featured={featured} />
       {firstEdition && firstEditionPlayers.length > 0 && (
