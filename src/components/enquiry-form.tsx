@@ -62,7 +62,7 @@ export function EnquiryForm({
           <span className={styles.formLiveDot} aria-hidden="true" />
           <span>{partner ? "PARTNERSHIP INTAKE" : "DIRECT ENQUIRY"}</span>
         </div>
-        <span className={styles.responseTime}>⚡ 24–48h response</span>
+        <span className={styles.responseTime}>Contact the Trust</span>
       </div>
       <form
         className={styles.formContent}

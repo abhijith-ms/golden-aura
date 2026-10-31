@@ -97,3 +97,19 @@ test("unconfigured SMTP never reports success", async () => {
     if (old !== undefined) process.env.SMTP_HOST = old;
   }
 });
+
+
+test("untrusted forwarded hosts cannot bypass enquiry origin validation", async () => {
+  let sent = false;
+  const forged = new Request("https://goldenaura.example/api/enquiry", {
+    method: "POST",
+    headers: {
+      origin: "https://attacker.example",
+      "x-forwarded-host": "attacker.example",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(valid),
+  });
+  assert.equal((await handleEnquiry(forged, async () => { sent = true; })).status, 403);
+  assert.equal(sent, false);
+});

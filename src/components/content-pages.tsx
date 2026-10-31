@@ -418,7 +418,7 @@ export async function PartnersPage() {
                   <ClockCountdown size={20} weight="duotone" />
                 </div>
                 <div>
-                  <h3 className={styles.pillarTitle}>Direct Trustee Dialogue (24–48h)</h3>
+                  <h3 className={styles.pillarTitle}>Talk with the Trust</h3>
                   <p className={styles.pillarDesc}>
                     Swift consultation with Trust leadership to tailor CSR programs, tournament sponsorships, or player support.
                   </p>
@@ -428,7 +428,7 @@ export async function PartnersPage() {
 
             <div className={styles.trustBadge}>
               <ShieldCheck size={18} weight="fill" className={styles.trustBadgeIcon} />
-              <span>Registered Non-Profit Trust · 100% Directed Toward Chess Growth</span>
+              <span>The Golden Aura Trust (R) · Supporting chess and community</span>
             </div>
           </div>
           <div className={styles.formCol}>
