@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import localFont from "next/font/local";
+import "@fontsource-variable/archivo";
 import "@fontsource-variable/dm-sans";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { ScrollReveals } from "@/components/scroll-reveals";
 import { Footer } from "@/components/shared";
+import { LenisProvider } from "@/components/lenis-provider";
 import { getContent } from "@/lib/content";
 import { siteUrl as origin, preventIndexing } from "@/lib/site-config";
 
@@ -69,10 +71,12 @@ export default async function RootLayout({
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <Header />
-        <main id="main">{children}</main>
-        <ScrollReveals />
-        <Footer site={site} />
+        <LenisProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <ScrollReveals />
+          <Footer site={site} />
+        </LenisProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

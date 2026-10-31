@@ -7,6 +7,16 @@ import { Arrow, ContactBand, EventCard, PageIntro, PartnerLogos, Portrait } from
 import { partnerGroups } from "@/lib/partners";
 import { Gallery } from "./gallery";
 import { EnquiryForm } from "./enquiry-form";
+import {
+  UsersThree,
+  Trophy,
+  ClockCountdown,
+  ShieldCheck,
+  EnvelopeSimple,
+  Phone,
+  MapPin,
+  InstagramLogo,
+} from "@phosphor-icons/react/dist/ssr";
 import styles from "./site.module.css";
 import type { Content } from "@/lib/types";
 import { committeeGroups } from "@/lib/types";
@@ -361,21 +371,69 @@ export async function PartnersPage() {
           ))}
         </div>
       </section>
-      <section className={`${styles.section} ${styles.softSection}`}>
-        <div className={styles.contactGrid}>
-          <div>
-            <span className={styles.eyebrow}>START A CONVERSATION</span>
-            <h2>
+      <section className={`${styles.section} ${styles.softSection} ${styles.partnershipSection}`}>
+        <div className={styles.partnershipGrid}>
+          <div className={styles.partnershipInfoCol}>
+            <div className={styles.statusBadge}>
+              <span className={styles.pulseDot} aria-hidden="true" />
+              <span>START A CONVERSATION · PARTNERSHIP DESK</span>
+            </div>
+            <h2 className={styles.partnershipHeading}>
               A partnership
               <br />
-              <span>with purpose.</span>
+              <span className={styles.goldTextShimmer}>with purpose.</span>
             </h2>
-            <p>
+            <p className={styles.partnershipLead}>
               Tell us about your organisation and what you would like to
               support. We will help you find a meaningful way to get involved.
             </p>
+
+            <div className={styles.trustPillars}>
+              <div className={styles.trustPillarItem}>
+                <div className={styles.pillarIconWrap}>
+                  <UsersThree size={20} weight="duotone" />
+                </div>
+                <div>
+                  <h3 className={styles.pillarTitle}>Grassroots & Youth Development</h3>
+                  <p className={styles.pillarDesc}>
+                    Directly fund chess kits, coaching camps, and tournament entries for young minds and women across Karnataka.
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.trustPillarItem}>
+                <div className={styles.pillarIconWrap}>
+                  <Trophy size={20} weight="duotone" />
+                </div>
+                <div>
+                  <h3 className={styles.pillarTitle}>International Showcase Arena</h3>
+                  <p className={styles.pillarDesc}>
+                    Gain prominent brand visibility across grandmaster stages, live streaming boards, and national press coverage.
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.trustPillarItem}>
+                <div className={styles.pillarIconWrap}>
+                  <ClockCountdown size={20} weight="duotone" />
+                </div>
+                <div>
+                  <h3 className={styles.pillarTitle}>Talk with the Trust</h3>
+                  <p className={styles.pillarDesc}>
+                    Swift consultation with Trust leadership to tailor CSR programs, tournament sponsorships, or player support.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.trustBadge}>
+              <ShieldCheck size={18} weight="fill" className={styles.trustBadgeIcon} />
+              <span>The Golden Aura Trust (R) · Supporting chess and community</span>
+            </div>
           </div>
-          <EnquiryForm partner email={content.site.email} />
+          <div className={styles.formCol}>
+            <EnquiryForm partner email={content.site.email} />
+          </div>
         </div>
       </section>
     </>
@@ -390,41 +448,67 @@ export async function ContactPage() {
       <PageIntro copy={copy(content, "contact")} />
       <section className={`${styles.sectionCompact} ${styles.contactGrid}`}>
         <div>
-          <span className={styles.eyebrow}>LET’S TALK CHESS</span>
-          <div className={styles.contactDetails}>
-            <div>
-              <h2>Email us</h2>
-              <a href={`mailto:${site.email}`}>{site.email} ↗</a>
-            </div>
-            <div>
-              <h2>Call us</h2>
-              {site.phones.map((phone) => (
-                <a key={phone} href={`tel:${phone.replace(/\s/g, "")}`}>
-                  {phone}
+          <div className={styles.statusBadge}>
+            <span className={styles.pulseDot} aria-hidden="true" />
+            <span>LET’S TALK CHESS</span>
+          </div>
+          <div className={styles.contactDetailsGrid}>
+            <div className={styles.contactCard}>
+              <div className={styles.contactCardIcon}>
+                <EnvelopeSimple size={20} weight="duotone" />
+              </div>
+              <div>
+                <h3 className={styles.contactCardTitle}>Email us</h3>
+                <a href={`mailto:${site.email}`} className={styles.contactCardLink}>
+                  {site.email} ↗
                 </a>
-              ))}
+              </div>
             </div>
-            <div>
-              <h2>Find us</h2>
-              <p>{site.address}</p>
-              <a
-                className={styles.textLink}
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View on Google Maps <Arrow />
-              </a>
+            <div className={styles.contactCard}>
+              <div className={styles.contactCardIcon}>
+                <Phone size={20} weight="duotone" />
+              </div>
+              <div>
+                <h3 className={styles.contactCardTitle}>Call us</h3>
+                {site.phones.map((phone) => (
+                  <a key={phone} href={`tel:${phone.replace(/\s/g, "")}`} className={styles.contactCardLink}>
+                    {phone}
+                  </a>
+                ))}
+              </div>
             </div>
-            <div>
-              <h2>Follow the community</h2>
-              <a
-                href={safeLink(site.instagram)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                @goldenaura_chess ↗
-              </a>
+            <div className={styles.contactCard}>
+              <div className={styles.contactCardIcon}>
+                <MapPin size={20} weight="duotone" />
+              </div>
+              <div>
+                <h3 className={styles.contactCardTitle}>Find us</h3>
+                <p className={styles.contactCardText}>{site.address}</p>
+                <a
+                  className={styles.textLink}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on Google Maps <Arrow />
+                </a>
+              </div>
+            </div>
+            <div className={styles.contactCard}>
+              <div className={styles.contactCardIcon}>
+                <InstagramLogo size={20} weight="duotone" />
+              </div>
+              <div>
+                <h3 className={styles.contactCardTitle}>Follow the community</h3>
+                <a
+                  href={safeLink(site.instagram)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.contactCardLink}
+                >
+                  @goldenaura_chess ↗
+                </a>
+              </div>
             </div>
           </div>
         </div>

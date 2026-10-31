@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight, Trophy, UsersThree, Sparkle, ArrowUp } from "@phosphor-icons/react/dist/ssr";
 import type { Event, EventAttendee, PageCopy, Partner, Photo, SiteSettings } from "@/lib/types";
 import styles from "./site.module.css";
 
 export function Arrow() {
-  return <span aria-hidden="true">↗</span>;
+  return <ArrowUpRight size={14} weight="bold" style={{ display: "inline-block", verticalAlign: "middle" }} />;
 }
 export function Lines({ text }: { text: string }) {
   return (
@@ -67,7 +68,11 @@ export function FocusAreas({
   variant?: "cards" | "values" | "pillars";
 }) {
   if (variant === "pillars") {
-    const symbols = ["♟", "♞", "♛"];
+    const icons = [
+      <UsersThree key="users" size={28} weight="duotone" />,
+      <Trophy key="trophy" size={28} weight="duotone" />,
+      <Sparkle key="sparkle" size={28} weight="duotone" />,
+    ];
     return (
       <div className={styles.pillarGrid} id="mission">
         {site.focusAreas.map((area, i) => (
@@ -75,7 +80,7 @@ export function FocusAreas({
             <div className={styles.pillarCardTop}>
               <span className={styles.pillarBadge}>{area.label}</span>
               <span className={styles.pillarIcon} aria-hidden="true">
-                {symbols[i] ?? "♞"}
+                {icons[i] ?? <Trophy size={28} weight="duotone" />}
               </span>
             </div>
             <h3>{area.title}</h3>
@@ -222,13 +227,15 @@ export function Footer({ site }: { site: SiteSettings }) {
           © {new Date().getFullYear()} {site.name}
         </span>
         <div>
-          <a href={site.instagram} target="_blank" rel="noopener noreferrer">
-            Instagram ↗
+          <a href={site.instagram} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+            Instagram <ArrowUpRight size={12} weight="bold" />
           </a>
           <Link href="/privacy">Privacy</Link>
           <Link href="/contact">Contact</Link>
         </div>
-        <a href="#top">Back to top ↑</a>
+        <a href="#top" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+          Back to top <ArrowUp size={12} weight="bold" />
+        </a>
       </div>
     </footer>
   );

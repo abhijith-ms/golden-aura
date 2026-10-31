@@ -138,8 +138,11 @@ export async function handleEnquiry(
     Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
   try {
     const origin = request.headers.get("origin");
-    const expectedOrigin = new URL(process.env.SITE_URL || request.url).origin;
-    if (origin !== expectedOrigin)
+    const expected = new URL(process.env.SITE_URL || request.url);
+    // Next may put the internal listen address in request.url; Host retains the requested authority.
+    const host = request.headers.get("host");
+    if (!process.env.SITE_URL && host) expected.host = host;
+    if (origin !== expected.origin)
       throw new EnquiryError(
         "Your enquiry could not be processed from this page.",
         403,
