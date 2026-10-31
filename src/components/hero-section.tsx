@@ -265,6 +265,15 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [heroState]);
 
+  // Fallback safeguard: guarantee reveal if video stalls or takes too long to load
+  useEffect(() => {
+    if (heroState !== "PLAYING_INTRO" || shouldReduceMotion) return;
+    const timer = setTimeout(() => {
+      setHeroState("REVEALING_UI");
+    }, 7000);
+    return () => clearTimeout(timer);
+  }, [heroState, shouldReduceMotion]);
+
   // Time-Synced Camera Choreography:
   // 0.0s – 5.2s: PLAYING_INTRO (unobstructed cinematic intro)
   // At 5.2s: REVEALING_UI (crane pull-up triggers multi-layer scrim and UI reveal)

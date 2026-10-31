@@ -74,6 +74,11 @@ export function Header() {
       return;
     }
 
+    // Fallback safeguard: guarantee navbar reveals even if video autoplay is blocked
+    const fallbackTimer = setTimeout(() => {
+      setIsRevealed(true);
+    }, 6500);
+
     const handleHeroState = (e: Event) => {
       const custom = e as CustomEvent<{ state: string }>;
       if (custom.detail) {
@@ -87,7 +92,10 @@ export function Header() {
     };
 
     window.addEventListener("hero-state", handleHeroState);
-    return () => window.removeEventListener("hero-state", handleHeroState);
+    return () => {
+      clearTimeout(fallbackTimer);
+      window.removeEventListener("hero-state", handleHeroState);
+    };
   }, [isHome, shouldReduceMotion]);
 
   useEffect(() => setOpen(false), [pathname]);
@@ -128,13 +136,17 @@ export function Header() {
           aria-label="Golden Aura Trust home"
         >
           <Image
-            src="/images/golden-aura-logo.webp"
-            alt="Golden Aura Trust"
-            width={84}
-            height={64}
+            src="/images/golden-aura-crest.webp"
+            alt="Golden Aura Trust crest"
+            width={40}
+            height={38}
             priority
             className={styles.brandLogo}
           />
+          <div className={styles.brandTextWrap}>
+            <span className={styles.brandTitle}>THE GOLDEN AURA</span>
+            <span className={styles.brandSub}>TRUST (R)</span>
+          </div>
         </Link>
 
         <nav className={styles.desktopNav} aria-label="Main navigation">
@@ -213,12 +225,19 @@ export function Header() {
           }}
         >
           <div className={styles.drawerHeader}>
-            <Image
-              src="/images/golden-aura-logo.webp"
-              alt="Golden Aura Trust"
-              width={72}
-              height={56}
-            />
+            <div className={styles.brand}>
+              <Image
+                src="/images/golden-aura-crest.webp"
+                alt="Golden Aura Trust"
+                width={40}
+                height={38}
+                className={styles.brandLogo}
+              />
+              <div className={styles.brandTextWrap}>
+                <span className={styles.brandTitle}>THE GOLDEN AURA</span>
+                <span className={styles.brandSub}>TRUST (R)</span>
+              </div>
+            </div>
             <button
               className={styles.drawerClose}
               type="button"
