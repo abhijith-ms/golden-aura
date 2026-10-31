@@ -1,19 +1,25 @@
+/* ==========================================================================
+   Golden Aura Trust — Luxury Cinema Frame Hero Section
+   Cinematic 3D Marble & Obsidian Chessboard with Time-Synced Choreography
+   ========================================================================== */
+
 .heroSection {
   position: relative;
   min-height: 100dvh;
-  margin-top: -84px;
-  padding: 110px 0 36px;
+  height: 100dvh;
+  margin-top: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: var(--bg-obsidian);
-  color: var(--text-primary);
+  background: #080705;
+  color: #FAF8F5;
   overflow: hidden;
   isolation: isolate;
 }
 
-/* Full-Height Video Background Canvas */
+/* --------------------------------------------------------------------------
+   1. Video Layer & Dynamic Post-Processing
+   -------------------------------------------------------------------------- */
 .heroVideoWrap {
   position: absolute;
   inset: 0;
@@ -24,6 +30,15 @@
   pointer-events: none;
 }
 
+.videoDriftWrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transform-origin: center center;
+}
+
 .heroVideo {
   position: absolute;
   inset: 0;
@@ -31,7 +46,9 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.9) contrast(1.08);
+  will-change: filter, transform;
+  transition: filter 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .heroPosterFallback {
@@ -43,245 +60,237 @@
   object-position: center;
   z-index: -1;
   opacity: 0;
-  transition: opacity 600ms ease;
+  transition: opacity 800ms ease,
+              filter 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: filter, opacity, transform;
 }
 
 .posterActive {
   opacity: 1;
 }
 
-/* Animated Vignettes Container: Fully transparent during playback, fades in smoothly at the end */
-.vignettesWrap {
+/* Base Cinema Perimeter Vignette: Active from 0.0s from the start to boldly frame the 3D lens into obsidian */
+.baseCinemaVignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
+  background:
+    radial-gradient(
+      ellipse 72% 68% at 50% 50%,
+      transparent 24%,
+      rgba(8, 7, 5, 0.5) 52%,
+      rgba(8, 7, 5, 0.88) 74%,
+      rgba(8, 7, 5, 0.98) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(8, 7, 5, 0.55) 0%,
+      transparent 16%,
+      transparent 84%,
+      rgba(8, 7, 5, 0.65) 100%
+    );
+  transition: opacity 400ms ease;
 }
 
-/* Cinematic Atmospheric Vignettes Aligned with the Video */
-/* Left side: creates a rich obsidian bed for typography while letting the center chessboard shine */
-.heroLeftVignette {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: clamp(520px, 56vw, 920px);
-  background: linear-gradient(
-    90deg,
-    #09090b 0%,
-    rgba(9, 9, 11, 0.94) 30%,
-    rgba(9, 9, 11, 0.8) 52%,
-    rgba(9, 9, 11, 0.42) 75%,
-    rgba(9, 9, 11, 0.1) 90%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Right side: soft atmospheric shading for the tournament HUD card */
-.heroRightVignette {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: clamp(380px, 42vw, 680px);
-  background: linear-gradient(
-    270deg,
-    #09090b 0%,
-    rgba(9, 9, 11, 0.88) 25%,
-    rgba(9, 9, 11, 0.55) 55%,
-    rgba(9, 9, 11, 0.18) 80%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Top: integrates the floating header into the dark ambient room */
-.heroTopVignette {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 24%;
-  background: linear-gradient(
-    180deg,
-    #09090b 0%,
-    rgba(9, 9, 11, 0.72) 40%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Bottom: seamlessly blends into the next section */
-.heroBottomVignette {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 28%;
-  background: linear-gradient(
-    0deg,
-    #09090b 0%,
-    rgba(9, 9, 11, 0.88) 45%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Warm golden sunlight beam enhancement from top-left */
-.heroGlowGold {
-  position: absolute;
-  top: 4%;
-  left: 8%;
-  width: 620px;
-  height: 620px;
-  background: radial-gradient(circle, rgba(245, 186, 66, 0.14) 0%, transparent 68%);
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Floating Skip & Sound Controller during video playback */
-.skipControllerWrap {
-  position: absolute;
-  bottom: 32px;
-  right: 32px;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.skipButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 18px 8px 12px;
-  background: rgba(18, 18, 22, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(245, 186, 66, 0.35);
-  border-radius: 999px;
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 186, 66, 0.15);
-  transition: all 200ms ease;
-}
-
-.skipButton:hover {
-  background: rgba(26, 26, 32, 0.95);
-  border-color: var(--accent-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 28px rgba(245, 186, 66, 0.3);
-}
-
-.skipProgressRing {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  display: grid;
-  place-items: center;
-}
-
-.skipSvg {
+/* Lightweight Golden Dust Motes Particle Canvas */
+.dustCanvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  transform: rotate(-90deg);
+  pointer-events: none;
+  z-index: 2;
 }
 
-.skipCircleBg {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.15);
-  stroke-width: 3;
+/* --------------------------------------------------------------------------
+   Multi-Layer Atmospheric Scrim (Overlay Divs)
+   Preserves bright center-top chessboard while ensuring WCAG AA foreground contrast
+   -------------------------------------------------------------------------- */
+.scrimContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.skipCircleProgress {
-  fill: none;
-  stroke: var(--accent-gold);
-  stroke-width: 3;
-  stroke-linecap: round;
-  transition: stroke-dasharray 200ms linear;
+/* 1. Left Text Shield: Protects bottom-left typography & badge against white marble tiles */
+.scrimLeftTextShield {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    85% 90% at 15% 80%,
+    rgba(8, 7, 5, 0.92) 0%,
+    rgba(8, 7, 5, 0.65) 45%,
+    rgba(8, 7, 5, 0) 100%
+  );
+  pointer-events: none;
 }
 
-.skipIcon {
-  color: var(--accent-gold);
-  z-index: 1;
+/* 2. Bottom-to-Top Vignette: Anchors utility bar and Bento dock into obsidian ground */
+.scrimBottomVignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 9, 7, 0.45) 0%,
+    rgba(10, 9, 7, 0) 25%,
+    rgba(10, 9, 7, 0.25) 65%,
+    rgba(8, 7, 5, 0.95) 100%
+  );
+  pointer-events: none;
 }
 
-.skipLabel {
-  text-transform: uppercase;
-  font-size: 11.5px;
-  letter-spacing: 0.08em;
+/* 3. Ambient Gold Dust Glow: Subtle radial glow behind bottom-left CTA area */
+.scrimGoldDustGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    40% 40% at 18% 82%,
+    rgba(212, 175, 106, 0.12) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
-.soundButton {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(18, 18, 22, 0.85);
+/* Top Vignette: Provides contrast grounding for the floating top navbar */
+.scrimTopGrounding {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 7, 5, 0.75) 0%,
+    rgba(8, 7, 5, 0.35) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Cinema Mode Floating Skip & Sound Controller (0.0s – 5.0s)
+   -------------------------------------------------------------------------- */
+.introControlsWrap {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skipPillBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: var(--text-primary);
-  display: grid;
-  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   transition: all 200ms ease;
 }
 
-.soundButton:hover {
-  background: rgba(26, 26, 32, 0.95);
-  border-color: var(--accent-gold);
-  color: var(--accent-gold);
-  transform: translateY(-2px);
+.skipPillBtn:hover {
+  background: rgba(18, 16, 11, 0.85);
+  border-color: rgba(212, 175, 106, 0.5);
+  color: #FAF8F5;
+  transform: translateY(-1px);
 }
 
-/* Wide Architectural HUD Layout */
-.heroInner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 1680px;
-  margin: auto;
+.introSoundBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.75);
   display: grid;
-  grid-template-columns: minmax(440px, 1.15fr) minmax(360px, 0.85fr);
-  justify-content: space-between;
-  gap: clamp(36px, 5vw, 120px);
-  align-items: center;
-  padding: 0 clamp(24px, 4.5vw, 72px);
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: all 200ms ease;
 }
 
-.heroContent {
+.introSoundBtn:hover {
+  background: rgba(18, 16, 11, 0.85);
+  border-color: rgba(212, 175, 106, 0.5);
+  color: #D4AF6A;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Open-Center Cinema Frame Container (Bottom-Anchored Split Dock)
+   -------------------------------------------------------------------------- */
+.heroLayoutContainer {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(80px, 11vh, 100px) clamp(24px, 4.5vw, 64px) 0;
+  box-sizing: border-box;
+}
+
+/* Middle Cleared Zone: leaves the center chessboard 100% open and visible */
+.openCenterZone {
+  flex: 1;
+  min-height: 48px;
+  pointer-events: none;
+}
+
+/* Bottom Split Dock Row: Editorial Stage on Left + Horizontal Telemetry Bento on Right */
+.bottomDockWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: clamp(24px, 3.5vw, 48px);
+  width: 100%;
+  margin-bottom: clamp(16px, 2.5vh, 26px);
+}
+
+/* --------------------------------------------------------------------------
+   3. Bottom-Left Hero Typography & CTA Cluster
+   -------------------------------------------------------------------------- */
+.editorialStage {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  text-align: left;
   max-width: 580px;
+  flex-shrink: 0;
 }
 
-/* Kicker Badge */
+/* Eyebrow Badge: Refined frosted micro-pill (Reveals at 5.4s) */
 .kickerBadge {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 18px;
-  background: rgba(18, 18, 24, 0.85);
+  gap: 10px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(18, 16, 11, 0.8);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(245, 186, 66, 0.25);
-  border-radius: 999px;
-  margin-bottom: 22px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(212, 175, 106, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  margin-bottom: 14px;
 }
 
 .statusPulse {
@@ -295,87 +304,104 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--accent-gold);
+  background: #E5C158;
+  box-shadow: 0 0 8px #E5C158;
 }
 
 .statusPing {
   position: absolute;
   inset: -2px;
   border-radius: 50%;
-  background: var(--accent-gold);
+  background: #E5C158;
   opacity: 0.75;
-  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation: goldPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-@keyframes ping {
+@keyframes goldPing {
   75%, 100% {
-    transform: scale(2.2);
+    transform: scale(2.4);
     opacity: 0;
   }
 }
 
 .kickerText {
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--text-primary);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: #E6DEC8;
   text-transform: uppercase;
 }
 
-.kickerSeparator {
-  color: rgba(255, 255, 255, 0.25);
-  font-size: 12px;
+.kickerDivider {
+  height: 12px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .kickerSub {
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--accent-gold);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #D4AF6A;
+  text-transform: uppercase;
 }
 
-/* Kinetic Title */
+/* Main Display Headline (Reveals at 5.55s via masked line-by-line slide-up) */
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(2.85rem, 5.4vw, 5rem);
+  font-size: clamp(2.6rem, 5vw, 4.6rem);
   font-weight: 800;
-  line-height: 1.04;
+  line-height: 0.98;
   letter-spacing: -0.035em;
   text-transform: uppercase;
-  margin: 0 0 20px;
-  color: #ffffff;
+  margin: 0 0 16px 0;
   display: flex;
   flex-direction: column;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95);
 }
 
-.titleLine {
+.headlineMask {
+  overflow: hidden;
   display: block;
+  padding-bottom: 4px;
 }
 
-.goldGlowText {
-  background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 55%, #eab308 100%);
+.titleLineIvory {
+  display: block;
+  color: #FAF8F5;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.titleLineGold {
+  display: block;
+  background: linear-gradient(135deg, #F5E1A4 0%, #D4AF6A 45%, #AA8239 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 45px rgba(245, 186, 66, 0.45);
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.85)) drop-shadow(0 2px 10px rgba(212, 175, 106, 0.3));
+}
+
+/* Subheadline Paragraph (Reveals at 5.75s) */
+.editorialSubWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .heroDescription {
-  font-family: var(--font-body);
-  font-size: clamp(1.05rem, 1.18vw, 1.2rem);
-  line-height: 1.68;
-  color: #e4e4e7;
-  max-width: 520px;
-  margin: 0 0 32px;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.95);
+  color: #B8B2A6;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.65;
+  max-width: 460px;
+  margin: 0 0 20px 0;
+  font-weight: 400;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
 }
 
-/* Call to Actions */
+/* Dual CTA Row (Reveals at 5.9s) */
 .heroActions {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
 }
 
 .magneticWrap {
@@ -387,23 +413,25 @@
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  padding: 12px 26px;
-  min-height: 54px;
-  background: linear-gradient(135deg, var(--accent-gold) 0%, #d97706 100%);
-  color: #09090b;
+  padding: 13px 28px;
+  min-height: 48px;
+  background: linear-gradient(135deg, #DFB973 0%, #F1D592 50%, #C89D54 100%);
+  color: #0A0907;
   font-weight: 700;
-  font-size: 14.5px;
+  font-size: 14px;
   letter-spacing: -0.01em;
-  border-radius: 999px;
-  box-shadow: 0 8px 30px rgba(245, 186, 66, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  border-radius: 9999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 8px 30px rgba(212, 175, 106, 0.35);
+  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
   overflow: hidden;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .primaryButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 36px rgba(245, 186, 66, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 12px 36px rgba(212, 175, 106, 0.5);
+  filter: brightness(1.04);
 }
 
 .primaryButton:active {
@@ -411,18 +439,18 @@
 }
 
 .btnIconCircle {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: rgba(9, 9, 11, 0.2);
+  background: rgba(10, 9, 7, 0.15);
   display: grid;
   place-items: center;
-  color: #09090b;
-  transition: transform 200ms ease;
+  color: #0A0907;
+  transition: transform 250ms ease;
 }
 
 .primaryButton:hover .btnIconCircle {
-  transform: translate(2px, -2px);
+  transform: translate(2px, -2px) rotate(45deg);
 }
 
 .buttonShine {
@@ -434,7 +462,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.4),
     transparent
   );
   transform: skewX(-20deg);
@@ -448,397 +476,412 @@
 .secondaryButton {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 26px;
-  min-height: 54px;
-  background: rgba(22, 22, 28, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  gap: 10px;
+  padding: 13px 28px;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--text-primary);
+  color: #F4F0EA;
   font-weight: 600;
-  font-size: 14.5px;
-  border-radius: 999px;
-  transition: all 200ms ease;
+  font-size: 14px;
+  border-radius: 9999px;
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 .secondaryButton:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(245, 186, 66, 0.45);
+  border-color: rgba(212, 175, 106, 0.5);
   transform: translateY(-2px);
+  color: #FAF8F5;
 }
 
-/* 3D Floating Interactive Tournament Card */
-.heroVisualCol {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.floatingCard {
+/* --------------------------------------------------------------------------
+   4. Bottom-Right Tournament Bento Dock
+   -------------------------------------------------------------------------- */
+.telemetryDock {
   position: relative;
-  width: 100%;
-  max-width: 380px;
-  padding: 28px 24px;
-  background: linear-gradient(
-    145deg,
-    rgba(18, 18, 24, 0.8) 0%,
-    rgba(10, 10, 14, 0.92) 100%
-  );
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(245, 186, 66, 0.22);
-  border-radius: 20px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 24px 60px -12px rgba(0, 0, 0, 0.8),
-    0 0 30px -5px rgba(245, 186, 66, 0.15);
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: clamp(16px, 1.8vw, 24px);
+  padding: 16px 24px;
+  background: rgba(13, 12, 9, 0.8);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 190, 0.15),
+    0 24px 60px rgba(0, 0, 0, 0.75);
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
-.cardGlowBorder {
+/* Top border gradient highlight */
+.telemetryDock::before {
+  content: "";
   position: absolute;
-  inset: -1px;
-  border-radius: 20px;
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(245, 186, 66, 0.4) 0%,
-    transparent 70%
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 175, 106, 0.45) 50%,
+    transparent 100%
   );
   pointer-events: none;
-  z-index: -1;
-  opacity: 0.65;
 }
 
-.cardHeader {
+/* Perimeter Gold Border Beam SVG */
+.borderBeamSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 18px;
+  z-index: 1;
+}
+
+.borderBeamRect {
+  fill: none;
+  stroke: #D4AF6A;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 24 76;
+  stroke-dashoffset: 100;
+  opacity: 0;
+}
+
+.borderBeamActive {
+  animation: traceBorderBeam 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+@keyframes traceBorderBeam {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+/* Column 1: Next Edition Block */
+.telemetryColEvent {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
-.trophyIconWrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: rgba(245, 186, 66, 0.12);
-  border: 1px solid rgba(245, 186, 66, 0.3);
+.trophyBadge {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(212, 175, 106, 0.1);
+  border: 1px solid rgba(212, 175, 106, 0.25);
   display: grid;
   place-items: center;
   flex-shrink: 0;
 }
 
 .trophyIcon {
-  color: var(--accent-gold);
+  color: #D4AF6A;
 }
 
-.cardKicker {
-  display: block;
+.eventInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.eventKicker {
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--accent-gold);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
+  line-height: 1.2;
 }
 
-.cardTitle {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: var(--text-primary);
-  margin: 4px 0 0;
-}
-
-.cardStatsGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.statPill {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-}
-
-.statIcon {
-  color: var(--accent-cyan);
-  flex-shrink: 0;
-}
-
-.statNumber {
-  display: block;
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  line-height: 1.1;
-}
-
-.statLabel {
-  display: block;
-  font-size: 10.5px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.prizeStrip {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: rgba(245, 186, 66, 0.08);
-  border: 1px solid rgba(245, 186, 66, 0.2);
-  border-radius: 12px;
-}
-
-.prizeLabel {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent-gold);
-  text-transform: uppercase;
-}
-
-.prizeAmount {
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 800;
+.eventTitle {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 2px 0;
+  white-space: nowrap;
   letter-spacing: -0.01em;
-  color: #ffffff;
 }
 
-.cardFooter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.liveIndicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+.eventLocation {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: #D4AF6A;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
 }
 
-.miniDot {
+.liveDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent-cyan);
+  background: #E5C158;
+  box-shadow: 0 0 8px #E5C158;
 }
 
-.cardLink {
+/* 1px Vertical Dividers between columns */
+.telemetryDivider {
+  width: 1px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+/* Column 2 & 3: Stat Columns */
+.telemetryColStat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 90px;
+}
+
+.statNumber {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.statLabel {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 3px;
+}
+
+/* Column 4: Prize Pool & Action */
+.telemetryColPrize {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.prizeTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.prizeLabel {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.archiveMicroBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 180ms ease;
+  white-space: nowrap;
+}
+
+.archiveMicroBtn:hover {
+  background: #D4AF6A;
+  border-color: #D4AF6A;
+  color: #0A0907;
+}
+
+.prizeAmount {
+  font-family: var(--font-heading);
+  font-size: 20px;
   font-weight: 700;
-  color: var(--accent-gold);
-  transition: transform 180ms ease;
+  line-height: 1.1;
+  color: #E5C158;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
 }
 
-.cardLink:hover {
-  transform: translateX(2px);
-}
-
-/* Hero Bottom Ribbon */
-.heroBottomBar {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  right: 24px;
-  max-width: 1680px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 24px;
-  background: rgba(14, 14, 18, 0.78);
+/* --------------------------------------------------------------------------
+   5. Bottom Utility & Interactive Cinema Bar
+   -------------------------------------------------------------------------- */
+.bottomStatusStrip {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 7, 5, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
+  padding: 12px clamp(24px, 4.5vw, 64px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 12px;
-  color: var(--text-muted);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  margin-top: auto;
 }
 
-.bottomBarLeft {
+.statusStripLeft {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.bottomBarRight {
-  display: flex;
-  align-items: center;
-  gap: 24px;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
 .taglineSegment {
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
 }
 
 .taglineDivider {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .taglineSub {
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: rgba(212, 175, 106, 0.8);
+  font-weight: 600;
+}
+
+.statusStripRight {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .scrollIndicator {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--accent-gold);
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
   transition: color 180ms ease;
 }
 
 .scrollIndicator:hover {
-  color: #ffffff;
+  color: #FAF8F5;
 }
 
 .bounceIcon {
-  animation: bounce 2s infinite;
+  animation: chevronBounce 2s infinite;
 }
 
-@keyframes bounce {
+@keyframes chevronBounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
   }
   40% {
-    transform: translateY(4px);
+    transform: translateY(3px);
   }
   60% {
-    transform: translateY(2px);
+    transform: translateY(1.5px);
   }
 }
 
-/* Bottom Bar Video Controls */
-.videoControlsCluster {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-  padding-left: 16px;
-}
-
-.miniControlButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  color: var(--text-primary);
-  font-size: 11.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 180ms ease;
-}
-
-.miniControlButton:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--accent-gold);
-  color: var(--accent-gold);
-}
-
-.controlText {
-  letter-spacing: 0.03em;
-}
-
-/* Mobile & Tablet Responsiveness */
-@media (max-width: 1180px) {
-  .heroInner {
-    grid-template-columns: 1fr;
-    gap: 48px;
-    padding-top: 40px;
+/* --------------------------------------------------------------------------
+   Responsive Layout & Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 1280px) {
+  .bottomDockWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
   }
 
-  .heroVisualCol {
-    justify-content: flex-start;
+  .editorialStage {
+    max-width: 100%;
   }
 
-  .floatingCard {
-    max-width: 440px;
-  }
-
-  .heroLeftVignette {
+  .telemetryDock {
     width: 100%;
-    background: linear-gradient(
-      180deg,
-      rgba(9, 9, 11, 0.9) 0%,
-      rgba(9, 9, 11, 0.94) 40%,
-      rgba(9, 9, 11, 0.85) 100%
-    );
-  }
-
-  .heroRightVignette {
-    display: none;
+    justify-content: space-between;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .heroSection {
-    padding: 100px 16px 80px;
-    min-height: auto;
+    height: auto;
+    min-height: 100dvh;
   }
 
-  .skipControllerWrap {
-    bottom: 20px;
-    right: 16px;
+  .heroLayoutContainer {
+    padding-top: 96px;
+    height: auto;
+    min-height: 100dvh;
   }
 
-  .heroBottomBar {
-    position: static;
-    margin-top: 40px;
-    border-radius: 16px;
+  .openCenterZone {
+    min-height: 80px;
+  }
+
+  .telemetryDock {
     flex-direction: column;
-    gap: 16px;
-    text-align: center;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
   }
 
-  .bottomBarLeft {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .taglineDivider {
+  .telemetryDivider {
     display: none;
   }
 
-  .bottomBarRight {
+  .telemetryColStat {
+    min-width: unset;
+  }
+
+  .telemetryColPrize {
+    min-width: unset;
+  }
+
+  .bottomStatusStrip {
     flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
+  }
+
+  .statusStripRight {
     width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
   }
+}
 
-  .videoControlsCluster {
-    border-left: none;
-    padding-left: 0;
-    justify-content: center;
-  }
-
+@media (max-width: 560px) {
   .heroTitle {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   .heroActions {
@@ -846,12 +889,19 @@
     width: 100%;
   }
 
-  .primaryButton, .secondaryButton {
+  .primaryButton,
+  .secondaryButton {
     width: 100%;
     justify-content: center;
   }
 
-  .floatingCard {
-    max-width: 100%;
+  .statusStripLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .taglineDivider {
+    display: none;
   }
 }

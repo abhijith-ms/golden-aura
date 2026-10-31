@@ -8,18 +8,14 @@ import {
   AnimatePresence,
   useMotionValue,
   useSpring,
-  useTransform,
   useReducedMotion,
 } from "motion/react";
 import {
   ArrowUpRight,
   Trophy,
-  Users,
-  Globe,
   CaretDown,
   SpeakerSimpleHigh,
   SpeakerSimpleSlash,
-  ArrowClockwise,
   SkipForward,
 } from "@phosphor-icons/react";
 import styles from "./hero.module.css";
@@ -29,50 +25,194 @@ interface HeroSectionProps {
   heroIntro: string;
 }
 
+type HeroPlaybackState = "PLAYING_INTRO" | "REVEALING_UI" | "SETTLED";
+
+/**
+ * High-performance animated counter for tournament statistics
+ */
+function AnimatedCounter({
+  target,
+  duration = 1.2,
+  prefix = "",
+  suffix = "",
+  formatIndian = false,
+  start = false,
+}: {
+  target: number;
+  duration?: number;
+  prefix?: string;
+  suffix?: string;
+  formatIndian?: boolean;
+  start: boolean;
+}) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!start) {
+      setCount(0);
+      return;
+    }
+
+    let startTime: number | null = null;
+    let animationFrame: number;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      // Custom easeOutExpo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setCount(Math.round(eased * target));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(step);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [target, duration, start]);
+
+  const formatted = formatIndian
+    ? count.toLocaleString("en-IN")
+    : count.toLocaleString("en-US");
+
+  return (
+    <span>
+      {prefix}
+      {formatted}
+      {suffix}
+    </span>
+  );
+}
+
+/**
+ * Lightweight volumetric golden dust motes particle overlay
+ * Matches the warm champagne ambiance and light rays from the overhead video
+ */
+function DustMotesCanvas({ active }: { active: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !active) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    let width = (canvas.width = canvas.offsetWidth);
+    let height = (canvas.height = canvas.offsetHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const particleCount = 28;
+    const particles = Array.from({ length: particleCount }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: 0.8 + Math.random() * 1.5,
+      vx: (Math.random() - 0.45) * 0.18,
+      vy: -(0.12 + Math.random() * 0.28),
+      alpha: 0.1 + Math.random() * 0.4,
+      alphaSpeed: 0.004 + Math.random() * 0.008,
+      alphaDirection: Math.random() > 0.5 ? 1 : -1,
+      color: Math.random() > 0.35 ? "212, 175, 106" : "250, 248, 245",
+    }));
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particleCount; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        p.alpha += p.alphaSpeed * p.alphaDirection;
+        if (p.alpha >= 0.45) {
+          p.alpha = 0.45;
+          p.alphaDirection = -1;
+        } else if (p.alpha <= 0.08) {
+          p.alpha = 0.08;
+          p.alphaDirection = 1;
+        }
+
+        if (p.y < -10) {
+          p.y = height + 10;
+          p.x = Math.random() * width;
+        }
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = `rgba(${p.color}, 0.35)`;
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [active]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={styles.dustCanvas}
+      style={{
+        opacity: active ? 1 : 0,
+        transition: "opacity 1.8s ease-out",
+      }}
+      aria-hidden="true"
+    />
+  );
+}
+
 export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  // Video playback & reveal states
-  const [isRevealed, setIsRevealed] = useState(false);
+  // Playback State Management: PLAYING_INTRO (0.0s–5.2s), REVEALING_UI (5.2s–7.0s), SETTLED (7.0s+)
+  const [heroState, setHeroState] = useState<HeroPlaybackState>("PLAYING_INTRO");
   const [isMuted, setIsMuted] = useState(true);
-  const [videoProgress, setVideoProgress] = useState(0);
   const [hasEnded, setHasEnded] = useState(false);
 
-  // Mouse coordinate tracking for 3D parallax depth
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const isRevealed = heroState !== "PLAYING_INTRO";
 
-  const springConfig = { damping: 25, stiffness: 120, mass: 0.8 };
-  const smoothMouseX = useSpring(mouseX, springConfig);
-  const smoothMouseY = useSpring(mouseY, springConfig);
+  // Dispatch state change events to synchronize the top floating navbar and external observers
+  const broadcastHeroState = useCallback(
+    (state: HeroPlaybackState) => {
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("hero-state", {
+            detail: { state, inspecting: false },
+          })
+        );
+      }
+    },
+    []
+  );
 
-  // Parallax transforms for floating elements
-  const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [8, -8]);
-  const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-10, 10]);
-  const cardTranslateX = useTransform(smoothMouseX, [-0.5, 0.5], [-14, 14]);
-  const cardTranslateY = useTransform(smoothMouseY, [-0.5, 0.5], [-14, 14]);
+  useEffect(() => {
+    broadcastHeroState(heroState);
+  }, [heroState, broadcastHeroState]);
 
-  // Magnetic button physics
+  // Magnetic button physics for the primary CTA
   const btnX = useMotionValue(0);
   const btnY = useMotionValue(0);
   const smoothBtnX = useSpring(btnX, { damping: 15, stiffness: 150 });
   const smoothBtnY = useSpring(btnY, { damping: 15, stiffness: 150 });
-
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (shouldReduceMotion || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(x);
-    mouseY.set(y);
-  }
-
-  function handleMouseLeave() {
-    mouseX.set(0);
-    mouseY.set(0);
-  }
 
   function handleBtnMove(e: React.MouseEvent<HTMLAnchorElement>) {
     if (shouldReduceMotion) return;
@@ -91,7 +231,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
   // Handle immediate reveal on reduced motion
   useEffect(() => {
     if (shouldReduceMotion) {
-      setIsRevealed(true);
+      setHeroState("SETTLED");
       setHasEnded(true);
       if (videoRef.current) {
         videoRef.current.pause();
@@ -100,7 +240,7 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     }
   }, [shouldReduceMotion]);
 
-  // Handle video autoplay with fallback
+  // Handle video autoplay with graceful fallback
   useEffect(() => {
     const video = videoRef.current;
     if (!video || shouldReduceMotion) return;
@@ -108,8 +248,8 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     const playPromise = video.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        // Autoplay policy prevented playback; reveal contents immediately
-        setIsRevealed(true);
+        setHeroState("SETTLED");
+        setHasEnded(true);
       });
     }
   }, [shouldReduceMotion]);
@@ -117,29 +257,32 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
   // Auto-reveal if the user scrolls down
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40 && !isRevealed) {
-        setIsRevealed(true);
+      if (window.scrollY > 40 && heroState === "PLAYING_INTRO") {
+        setHeroState("REVEALING_UI");
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isRevealed]);
+  }, [heroState]);
 
-  // Video time update: triggers reveal as the camera pulls back revealing the full chessboard (~6.8s)
+  // Time-Synced Camera Choreography:
+  // 0.0s – 5.2s: PLAYING_INTRO (unobstructed cinematic intro)
+  // At 5.2s: REVEALING_UI (crane pull-up triggers multi-layer scrim and UI reveal)
+  // At 7.0s+: SETTLED (high-angle top-down chessboard view settles into place)
   const handleTimeUpdate = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
     const current = video.currentTime;
-    const dur = video.duration || 8;
-    setVideoProgress(Math.min(1, current / dur));
 
-    // When chessboard is fully revealed (~6.8s into 8.0s video)
-    if (current >= 6.8 && !isRevealed) {
-      setIsRevealed(true);
+    if (current >= 5.2 && heroState === "PLAYING_INTRO") {
+      setHeroState("REVEALING_UI");
     }
-  }, [isRevealed]);
+    if (current >= 7.0 && heroState === "REVEALING_UI") {
+      setHeroState("SETTLED");
+    }
+  }, [heroState]);
 
-  // Video end: freeze on the final frame (full chessboard revealed)
+  // Video end: pause at final frame and set SETTLED state
   const handleEnded = useCallback(() => {
     const video = videoRef.current;
     if (video) {
@@ -147,32 +290,20 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
       video.currentTime = video.duration || 7.95;
     }
     setHasEnded(true);
-    setIsRevealed(true);
+    setHeroState("SETTLED");
   }, []);
 
-  // Skip video directly to full chessboard reveal
+  // Skip reveal: jumps video directly to 6.8s and immediately triggers REVEALING_UI
   const handleSkip = useCallback(() => {
     const video = videoRef.current;
     if (video) {
-      video.currentTime = 7.95;
-      video.pause();
-    }
-    setHasEnded(true);
-    setIsRevealed(true);
-  }, []);
-
-  // Replay video sequence
-  const handleReplay = useCallback(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.currentTime = 0;
+      video.currentTime = 6.8;
       video.play().catch(() => {});
     }
-    setHasEnded(false);
-    setIsRevealed(false);
+    setHeroState("REVEALING_UI");
   }, []);
 
-  // Toggle sound
+  // Toggle audio
   const toggleSound = useCallback(() => {
     const video = videoRef.current;
     const nextMuted = !isMuted;
@@ -182,314 +313,465 @@ export function HeroSection({ heroTitle, heroIntro }: HeroSectionProps) {
     }
   }, [isMuted]);
 
-  // Kinetic typography variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
+  // Headline line separation: "CHESS FOR" and "EVERYONE."
+  const lines = (heroTitle || "Chess for\neveryone.").split("\n");
+  const firstLine = lines.length > 1 ? lines.slice(0, -1).join(" ") : lines[0] || "CHESS FOR";
+  const lastLine = lines.length > 1 ? lines[lines.length - 1] : "EVERYONE.";
+
+  // Choreography Variants with Custom Cubic Bezier [0.16, 1, 0.3, 1]
+  // 5.2s: Master trigger (0.00s offset)
+  // 5.4s: Eyebrow pill (0.20s offset)
+  const eyebrowVariants = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 16,
+      scale: shouldReduceMotion ? 1 : 0.96,
+      filter: shouldReduceMotion ? "none" : "blur(8px)",
+    },
     visible: {
       opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: "blur(0px)",
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.15,
+        duration: 0.8,
+        delay: shouldReduceMotion ? 0 : 0.2, // 5.4s
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       },
     },
   };
 
-  const itemVariants = {
+  // 5.55s: Headline masked line rise (0.35s offset)
+  const headlineMaskVariants = {
+    hidden: {
+      y: "115%",
+      opacity: 0,
+      filter: shouldReduceMotion ? "none" : "blur(8px)",
+    },
+    visible: {
+      y: "0%",
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.9,
+        delay: shouldReduceMotion ? 0 : 0.35, // 5.55s
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
+  };
+
+  // 5.75s: Subheadline paragraph (0.55s offset)
+  const subheadlineVariants = {
     hidden: {
       opacity: 0,
-      y: shouldReduceMotion ? 0 : 32,
-      filter: shouldReduceMotion ? "none" : "blur(8px)",
+      y: shouldReduceMotion ? 0 : 20,
+      filter: shouldReduceMotion ? "none" : "blur(6px)",
     },
     visible: {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       transition: {
-        duration: 0.85,
+        duration: 0.8,
+        delay: shouldReduceMotion ? 0 : 0.55, // 5.75s
         ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       },
     },
   };
 
-  const lines = heroTitle.split("\n");
+  // 5.9s: Dual CTA row (0.70s offset)
+  const ctaRowVariants = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 18,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: shouldReduceMotion ? 0 : 0.7, // 5.9s
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
+  };
+
+  // 5.8s: Tournament Bento Dock (0.55s - 0.60s offset)
+  const bentoDockVariants = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 24,
+      filter: shouldReduceMotion ? "none" : "blur(6px)",
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.9,
+        delay: shouldReduceMotion ? 0 : 0.55, // 5.75s - 5.8s
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
+  };
+
+  // 5.9s: Bottom Utility & Interactive Cinema Bar (0.70s offset)
+  const bottomUtilityVariants = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 16,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: shouldReduceMotion ? 0 : 0.7, // 5.9s
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
+  };
 
   return (
     <section
       ref={containerRef}
       className={styles.heroSection}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       aria-label="Golden Aura Trust Hero"
     >
-      {/* Full-Height Cinematic Video Canvas */}
+      {/* 1. Full-Height Cinematic Video Canvas with Dynamic Filter Transition */}
       <div className={styles.heroVideoWrap} aria-hidden="true">
-        <video
-          ref={videoRef}
-          className={styles.heroVideo}
-          src="/video/hero_video.mp4"
-          poster="/images/hero-board-final.jpg"
-          autoPlay
-          muted={isMuted}
-          playsInline
-          preload="auto"
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={handleEnded}
-        />
+        <motion.div
+          className={styles.videoDriftWrap}
+          animate={
+            hasEnded && !shouldReduceMotion
+              ? {
+                  scale: [1.02, 1.04, 1.02],
+                  rotate: [0, 0.2, 0],
+                }
+              : {
+                  scale: isRevealed ? 1.02 : 1,
+                  rotate: 0,
+                }
+          }
+          transition={
+            hasEnded && !shouldReduceMotion
+              ? {
+                  duration: 20,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }
+              : {
+                  duration: 2.2,
+                  ease: [0.16, 1, 0.3, 1],
+                }
+          }
+        >
+          <video
+            ref={videoRef}
+            className={styles.heroVideo}
+            style={{
+              filter: isRevealed
+                ? "brightness(0.75) contrast(1.06)"
+                : "brightness(1) contrast(1) saturate(1)",
+              transform: isRevealed ? "scale(1.02)" : "scale(1)",
+            }}
+            src="/video/hero_video.mp4"
+            poster="/images/hero-board-final.jpg"
+            autoPlay
+            muted={isMuted}
+            playsInline
+            preload="auto"
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={handleEnded}
+          />
 
-        {/* Fallback & freeze-frame backplate to eliminate any transition flicker */}
-        <Image
-          src="/images/hero-board-final.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className={`${styles.heroPosterFallback} ${hasEnded ? styles.posterActive : ""}`}
-        />
+          {/* Crisp freeze-frame backplate to eliminate transition flicker */}
+          <Image
+            src="/images/hero-board-final.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={`${styles.heroPosterFallback} ${hasEnded ? styles.posterActive : ""}`}
+            style={{
+              filter: isRevealed
+                ? "brightness(0.75) contrast(1.06)"
+                : "brightness(1) contrast(1) saturate(1)",
+              transform: isRevealed ? "scale(1.02)" : "scale(1)",
+            }}
+          />
+        </motion.div>
 
-        {/* Cinematic Lighting Overlays Aligned with the Video: Theatrical atmosphere active from frame 0 */}
-        <div className={styles.vignettesWrap} aria-hidden="true">
-          <div className={styles.heroLeftVignette} />
-          <div className={styles.heroRightVignette} />
-          <div className={styles.heroTopVignette} />
-          <div className={styles.heroBottomVignette} />
-          <div className={styles.heroGlowGold} />
+        {/* Base Cinema Perimeter Vignette: Active from 0.0s from the start to frame the 3D lens */}
+        <div className={styles.baseCinemaVignette} aria-hidden="true" />
+
+        {/* Volumetric Golden Dust Motes Particle Overlay */}
+        <DustMotesCanvas active={isRevealed && !shouldReduceMotion} />
+
+        {/* Multi-Layer Atmospheric Scrim (Left Text Shield, Bottom Vignette, Gold Glow) */}
+        <div
+          className={styles.scrimContainer}
+          style={{
+            opacity: isRevealed ? 1 : 0,
+          }}
+        >
+          <div className={styles.scrimLeftTextShield} />
+          <div className={styles.scrimBottomVignette} />
+          <div className={styles.scrimGoldDustGlow} />
+          <div className={styles.scrimTopGrounding} />
         </div>
       </div>
 
-      {/* Floating Skip Controller during video playback */}
+      {/* Floating Skip & Audio Controller during Intro Mode (0.0s – 5.0s) */}
       <AnimatePresence>
         {!isRevealed && !shouldReduceMotion && (
           <motion.div
-            className={styles.skipControllerWrap}
-            initial={{ opacity: 0, y: 15 }}
+            className={styles.introControlsWrap}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            exit={{ opacity: 0, y: 12, scale: 0.95 }}
             transition={{ duration: 0.4 }}
           >
             <button
               type="button"
               onClick={handleSkip}
-              className={styles.skipButton}
-              aria-label="Skip to revealed board"
+              className={styles.skipPillBtn}
+              aria-label="Skip video reveal directly to chessboard"
             >
-              <span className={styles.skipProgressRing}>
-                <svg viewBox="0 0 36 36" className={styles.skipSvg}>
-                  <path
-                    className={styles.skipCircleBg}
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  <path
-                    className={styles.skipCircleProgress}
-                    strokeDasharray={`${videoProgress * 100}, 100`}
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
-                <SkipForward size={14} weight="fill" className={styles.skipIcon} />
-              </span>
-              <span className={styles.skipLabel}>Skip to Board</span>
+              <span>Skip Reveal</span>
+              <SkipForward size={13} weight="fill" />
             </button>
 
             <button
               type="button"
               onClick={toggleSound}
-              className={styles.soundButton}
-              aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
+              className={styles.introSoundBtn}
+              aria-label={isMuted ? "Unmute intro video audio" : "Mute intro video audio"}
             >
               {isMuted ? (
-                <SpeakerSimpleSlash size={16} weight="bold" />
+                <SpeakerSimpleSlash size={14} weight="bold" />
               ) : (
-                <SpeakerSimpleHigh size={16} weight="bold" />
+                <SpeakerSimpleHigh size={14} weight="bold" />
               )}
             </button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main Content: Revealed after Video Ends / Chessboard Emerges */}
-      <div className={styles.heroInner}>
+      {/* Open-Center Cinema Frame Container (Center stays open for overhead chessboard) */}
+      <div className={styles.heroLayoutContainer}>
+        {/* Cleared Middle Zone: Unoccluded center viewport */}
+        <div className={styles.openCenterZone} aria-hidden="true" />
+
+        {/* Bottom-Anchored Split Dock: Bottom-Left Editorial Stage & Bottom-Right Tournament Bento Dock */}
+        <div className={styles.bottomDockWrapper}>
+          {/* Bottom-Left Editorial Stage (z-20) */}
+          <div className={styles.editorialStage}>
+            {/* 3.1 Eyebrow Badge (Reveals at 5.4s) */}
+            <motion.div
+              variants={eyebrowVariants}
+              initial="hidden"
+              animate={isRevealed ? "visible" : "hidden"}
+              className={styles.kickerBadge}
+            >
+              <span className={styles.statusPulse}>
+                <span className={styles.statusDot} />
+                <span className={styles.statusPing} />
+              </span>
+              <span className={styles.kickerText}>
+                NAMMA BENGALURU GRANDMASTERS OPEN
+              </span>
+              <span className={styles.kickerDivider} aria-hidden="true" />
+              <span className={styles.kickerSub}>FIDE RATED</span>
+            </motion.div>
+
+            {/* 3.2 Display Headline (Reveals at 5.55s via masked line-by-line slide-up) */}
+            <h1 className={styles.heroTitle}>
+              <div className={styles.headlineMask}>
+                <motion.span
+                  variants={headlineMaskVariants}
+                  initial="hidden"
+                  animate={isRevealed ? "visible" : "hidden"}
+                  className={styles.titleLineIvory}
+                >
+                  {firstLine.toUpperCase()}
+                </motion.span>
+              </div>
+              <div className={styles.headlineMask}>
+                <motion.span
+                  variants={headlineMaskVariants}
+                  initial="hidden"
+                  animate={isRevealed ? "visible" : "hidden"}
+                  className={styles.titleLineGold}
+                >
+                  {lastLine ? lastLine.toUpperCase() : "EVERYONE."}
+                </motion.span>
+              </div>
+            </h1>
+
+            {/* 3.3 Subheadline Paragraph & Dual CTA Row */}
+            <div className={styles.editorialSubWrap}>
+              <motion.p
+                variants={subheadlineVariants}
+                initial="hidden"
+                animate={isRevealed ? "visible" : "hidden"}
+                className={styles.heroDescription}
+              >
+                {heroIntro ||
+                  "International tournaments. Local communities. Golden Aura Trust brings people together through chess — wherever your journey begins."}
+              </motion.p>
+
+              {/* 3.4 Dual CTA Row (Reveals at 5.9s) */}
+              <motion.div
+                variants={ctaRowVariants}
+                initial="hidden"
+                animate={isRevealed ? "visible" : "hidden"}
+                className={styles.heroActions}
+              >
+                <motion.div
+                  style={shouldReduceMotion ? {} : { x: smoothBtnX, y: smoothBtnY }}
+                  className={styles.magneticWrap}
+                >
+                  <Link
+                    href="/events"
+                    className={styles.primaryButton}
+                    onMouseMove={handleBtnMove}
+                    onMouseLeave={handleBtnLeave}
+                  >
+                    <span>Explore Tournaments</span>
+                    <span className={styles.btnIconCircle}>
+                      <ArrowUpRight size={15} weight="bold" />
+                    </span>
+                    <div className={styles.buttonShine} />
+                  </Link>
+                </motion.div>
+
+                <Link href="/about" className={styles.secondaryButton}>
+                  <span>Meet the Trust</span>
+                  <ArrowUpRight size={15} weight="bold" />
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* 4. Bottom-Right Tournament Bento Dock (Reveals at 5.8s, z-20) */}
+          <motion.div
+            className={styles.telemetryDock}
+            variants={bentoDockVariants}
+            initial="hidden"
+            animate={isRevealed ? "visible" : "hidden"}
+          >
+            {/* Subtle Perimeter Gold Border Beam SVG */}
+            <svg className={styles.borderBeamSvg} aria-hidden="true">
+              <rect
+                x="1"
+                y="1"
+                width="calc(100% - 2px)"
+                height="calc(100% - 2px)"
+                rx="17"
+                pathLength="100"
+                className={`${styles.borderBeamRect} ${isRevealed ? styles.borderBeamActive : ""}`}
+              />
+            </svg>
+
+            {/* Column 1: Next Edition Block */}
+            <div className={styles.telemetryColEvent}>
+              <div className={styles.trophyBadge}>
+                <Trophy size={20} weight="fill" className={styles.trophyIcon} />
+              </div>
+              <div className={styles.eventInfo}>
+                <span className={styles.eventKicker}>NEXT EDITION</span>
+                <h3 className={styles.eventTitle}>Namma Bengaluru Open</h3>
+                <span className={styles.eventLocation}>
+                  <span className={styles.liveDot} /> Bengaluru, Karnataka
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.telemetryDivider} aria-hidden="true" />
+
+            {/* Column 2: Contenders Stat */}
+            <div className={styles.telemetryColStat}>
+              <strong className={styles.statNumber}>
+                <AnimatedCounter
+                  target={600}
+                  suffix="+"
+                  start={isRevealed}
+                  duration={1.2}
+                />
+              </strong>
+              <span className={styles.statLabel}>CONTENDERS</span>
+            </div>
+
+            <div className={styles.telemetryDivider} aria-hidden="true" />
+
+            {/* Column 3: Nations Stat */}
+            <div className={styles.telemetryColStat}>
+              <strong className={styles.statNumber}>
+                <AnimatedCounter
+                  target={17}
+                  start={isRevealed}
+                  duration={1.2}
+                />
+              </strong>
+              <span className={styles.statLabel}>NATIONS</span>
+            </div>
+
+            <div className={styles.telemetryDivider} aria-hidden="true" />
+
+            {/* Column 4: Prize Pool & Action */}
+            <div className={styles.telemetryColPrize}>
+              <div className={styles.prizeTopRow}>
+                <span className={styles.prizeLabel}>TOTAL PRIZE POOL</span>
+                <Link
+                  href="/events/namma-bengaluru-open-2025"
+                  className={styles.archiveMicroBtn}
+                  title="View tournament archive"
+                >
+                  <span>View Archive</span>
+                  <ArrowUpRight size={11} weight="bold" />
+                </Link>
+              </div>
+              <span className={styles.prizeAmount}>
+                <AnimatedCounter
+                  target={3500000}
+                  prefix="₹"
+                  formatIndian
+                  start={isRevealed}
+                  duration={1.2}
+                />
+              </span>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* 5. Bottom Utility & Interactive Cinema Bar (Reveals at 5.9s, z-20) */}
         <motion.div
-          className={styles.heroContent}
-          variants={containerVariants}
+          className={styles.bottomStatusStrip}
+          variants={bottomUtilityVariants}
           initial="hidden"
           animate={isRevealed ? "visible" : "hidden"}
         >
-          {/* Kicker Badge */}
-          <motion.div variants={itemVariants} className={styles.kickerBadge}>
-            <span className={styles.statusPulse}>
-              <span className={styles.statusDot} />
-              <span className={styles.statusPing} />
+          <div className={styles.statusStripLeft}>
+            <span className={styles.taglineSegment}>ONE BOARD. EVERY POSSIBILITY.</span>
+            <span className={styles.taglineDivider} aria-hidden="true">
+              ·
             </span>
-            <span className={styles.kickerText}>
-              NAMMA BENGALURU GRANDMASTERS OPEN
-            </span>
-            <span className={styles.kickerSeparator} aria-hidden="true">
-              /
-            </span>
-            <span className={styles.kickerSub}>FIDE RATED</span>
-          </motion.div>
+            <span className={styles.taglineSub}>EQUALITY ON 64 SQUARES</span>
+          </div>
 
-          {/* Kinetic Headline */}
-          <motion.h1 variants={itemVariants} className={styles.heroTitle}>
-            {lines.map((line, idx) => (
-              <span key={idx} className={styles.titleLine}>
-                {idx === lines.length - 1 ? (
-                  <span className={styles.goldGlowText}>{line}</span>
-                ) : (
-                  line
-                )}
-              </span>
-            ))}
-          </motion.h1>
-
-          {/* Subtext Paragraph */}
-          <motion.p variants={itemVariants} className={styles.heroDescription}>
-            {heroIntro}
-          </motion.p>
-
-          {/* Call to Actions with Magnetic Physics */}
-          <motion.div variants={itemVariants} className={styles.heroActions}>
-            <motion.div
-              style={shouldReduceMotion ? {} : { x: smoothBtnX, y: smoothBtnY }}
-              className={styles.magneticWrap}
+          <div className={styles.statusStripRight}>
+            <a
+              href="#about"
+              className={styles.scrollIndicator}
+              aria-label="Discover the Vision"
             >
-              <Link
-                href="/events"
-                className={styles.primaryButton}
-                onMouseMove={handleBtnMove}
-                onMouseLeave={handleBtnLeave}
-              >
-                <span>Explore Tournaments</span>
-                <span className={styles.btnIconCircle}>
-                  <ArrowUpRight size={16} weight="bold" />
-                </span>
-                <div className={styles.buttonShine} />
-              </Link>
-            </motion.div>
-
-            <Link href="/about" className={styles.secondaryButton}>
-              <span>Meet the Trust</span>
-              <ArrowUpRight size={16} weight="bold" />
-            </Link>
-          </motion.div>
-        </motion.div>
-
-        {/* 3D Floating Interactive Tournament Badge */}
-        <motion.div
-          className={styles.heroVisualCol}
-          style={
-            shouldReduceMotion
-              ? {}
-              : {
-                  rotateX,
-                  rotateY,
-                  x: cardTranslateX,
-                  y: cardTranslateY,
-                  transformPerspective: 1200,
-                }
-          }
-          initial={{ opacity: 0, scale: 0.92, y: 30 }}
-          animate={
-            isRevealed
-              ? { opacity: 1, scale: 1, y: 0 }
-              : { opacity: 0, scale: 0.92, y: 30 }
-          }
-          transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className={styles.floatingCard}>
-            <div className={styles.cardGlowBorder} />
-            <div className={styles.cardHeader}>
-              <div className={styles.trophyIconWrap}>
-                <Trophy size={26} weight="duotone" className={styles.trophyIcon} />
-              </div>
-              <div>
-                <span className={styles.cardKicker}>NEXT EDITION</span>
-                <h3 className={styles.cardTitle}>Namma Bengaluru Open</h3>
-              </div>
-            </div>
-
-            <div className={styles.cardStatsGrid}>
-              <div className={styles.statPill}>
-                <Users size={18} className={styles.statIcon} />
-                <div>
-                  <strong className={styles.statNumber}>600+</strong>
-                  <span className={styles.statLabel}>Contenders</span>
-                </div>
-              </div>
-              <div className={styles.statPill}>
-                <Globe size={18} className={styles.statIcon} />
-                <div>
-                  <strong className={styles.statNumber}>17</strong>
-                  <span className={styles.statLabel}>Nations</span>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.prizeStrip}>
-              <span className={styles.prizeLabel}>TOTAL PRIZE POOL</span>
-              <span className={styles.prizeAmount}>₹35,00,000</span>
-            </div>
-
-            <div className={styles.cardFooter}>
-              <span className={styles.liveIndicator}>
-                <span className={styles.miniDot} /> Bengaluru, Karnataka
-              </span>
-              <Link href="/events/namma-bengaluru-open-2025" className={styles.cardLink}>
-                View Archive <ArrowUpRight size={14} weight="bold" />
-              </Link>
-            </div>
+              <span>Discover the Vision</span>
+              <CaretDown size={14} weight="bold" className={styles.bounceIcon} />
+            </a>
           </div>
         </motion.div>
       </div>
-
-      {/* Hero Bottom Momentum Bar & Video Controls */}
-      <motion.div
-        className={styles.heroBottomBar}
-        initial={{ opacity: 0, y: 20 }}
-        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8, delay: 0.45 }}
-      >
-        <div className={styles.bottomBarLeft}>
-          <span className={styles.taglineSegment}>ONE BOARD. EVERY POSSIBILITY.</span>
-          <span className={styles.taglineDivider} aria-hidden="true">
-            ·
-          </span>
-          <span className={styles.taglineSub}>EQUALITY ON 64 SQUARES</span>
-        </div>
-
-        <div className={styles.bottomBarRight}>
-          <a href="#about" className={styles.scrollIndicator} aria-label="Scroll to discover">
-            <span>Discover the Vision</span>
-            <CaretDown size={14} weight="bold" className={styles.bounceIcon} />
-          </a>
-
-          <div className={styles.videoControlsCluster}>
-            <button
-              type="button"
-              onClick={handleReplay}
-              className={styles.miniControlButton}
-              title="Replay chessboard reveal video"
-              aria-label="Replay chessboard reveal video"
-            >
-              <ArrowClockwise size={15} weight="bold" />
-              <span className={styles.controlText}>Replay Reveal</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={toggleSound}
-              className={styles.miniControlButton}
-              title={isMuted ? "Unmute audio" : "Mute audio"}
-              aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-            >
-              {isMuted ? (
-                <SpeakerSimpleSlash size={15} weight="bold" />
-              ) : (
-                <SpeakerSimpleHigh size={15} weight="bold" />
-              )}
-            </button>
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 }
