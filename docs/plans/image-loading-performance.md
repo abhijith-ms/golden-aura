@@ -1,7 +1,7 @@
 # Image-loading performance fix plan
 
 Prepared: 2 November 2026.
-Status: proposed; application implementation has not started.
+Status: implemented on 3 November 2026 on `codex/image-loading-fixes`; [verification results](../verification/image-loading/README.md).
 Evidence: [PR #6 image-loading review](../reviews/pr-6-image-loading-review.md).
 Reviewed baseline: merged `main` at `8bd207719d88d29fb8d1391dea251ef3b74f7c57`.
 
@@ -119,4 +119,4 @@ This addresses perceived visibility delay; it should not be reported as a reduct
 
 Do not add an image framework, bulk-recompress the archive, eagerly fetch every gallery slide, remove cinematic motion globally, or alter AVIF/WebP configuration without new evidence. The existing draft live-3D work remains separate from this merged video implementation.
 
-Completion means the avoidable requests and gallery readiness defects are fixed and checked, with representative before/after evidence. The 1–1.5 MB mobile-video size is a target; overall loading-time savings remain unknown until measured. This document does not implement, commit or deploy those changes.
+The core delivery and readiness fixes are implemented and checked. The mobile rendition is 1,617,256 bytes (65.9% smaller); visual review favoured this result over pushing compression further to the approximate 1–1.5 MB target. [PR #7](https://github.com/abhijith-ms/golden-aura/pull/7) contains the separate commits. The conditional portrait choreography change remains deferred until the client identifies that section as a problem. Overall loading-time savings and physical-device LCP remain unmeasured.
