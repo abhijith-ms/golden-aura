@@ -252,21 +252,6 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
       <div
         className={styles.galleryCard}
       >
-        {/* 1. Ambient Dynamic Backlight (Living Background) */}
-        <div className={styles.livingBacklightWrapper} aria-hidden="true">
-          <AnimatePresence>
-            <motion.div
-              key={activePhoto.src}
-              initial={{ opacity: 0, scale: 1.15 }}
-              animate={{ opacity: 0.38, scale: 1.1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-              className={styles.livingBacklightImage}
-              style={{ backgroundImage: `url(${activePhoto.src})` }}
-            />
-          </AnimatePresence>
-        </div>
-
         {/* 3. Main Stage Image (Ken Burns + 3D Tilt + Transitions) */}
         <div className={styles.photoStack}>
           <motion.div
@@ -366,9 +351,8 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
                     src={activePhoto.src}
                     alt={activePhoto.alt}
                     fill
-                    sizes="(max-width: 760px) 92vw, (max-width: 1400px) 58vw, 840px"
+                    sizes="(max-width: 640px) calc(92vw - 36px), (max-width: 1024px) calc(88vw - 60px), (max-width: 1400px) calc(57.13vw - 81px), calc(828px - 7.79vw)"
                     className={styles.stageImage}
-                    priority
                     quality={90}
                   />
                 </motion.div>
@@ -507,7 +491,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
                   src={photo.src}
                   alt=""
                   fill
-                  sizes="(max-width: 760px) 20vw, 120px"
+                  sizes="(max-width: 640px) 88px, 110px"
                   className={styles.dockThumbImage}
                   draggable={false}
                 />

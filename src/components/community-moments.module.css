@@ -236,25 +236,6 @@
   isolation: isolate;
 }
 
-/* 1. Ambient Dynamic Backlight (Living Background) */
-.livingBacklightWrapper {
-  position: absolute;
-  inset: -36px;
-  border-radius: 48px;
-  overflow: hidden;
-  filter: blur(90px);
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.38;
-}
-
-.livingBacklightImage {
-  position: absolute;
-  inset: -20px;
-  background-size: cover;
-  background-position: center;
-}
-
 /* 2. Main Stage Image Area */
 .photoStack {
   position: relative;

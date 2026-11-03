@@ -36,6 +36,15 @@ assert(committee.includes("MESSAGE OF SUPPORT") && !committee.includes("Hon. Pre
 assert(!committee.includes('id="leadership"') && !committee.includes("View the 2025 committee archive"));
 assert(committee.includes("MESSAGE FROM THE ORGANIZING SECRETARY"));
 const home = await (await fetch(base + "/")).text();
+const moments = home.split('id="moments"')[1].split('id="participant-feedback"')[0];
+const stageImage = moments.match(/<img\b[^>]*>/)?.[0];
+assert(stageImage?.includes('loading="lazy"'), "The initial gallery photograph stays lazy loaded");
+const stageSrc = stageImage.match(/\bsrc="([^"]+)"/)[1].replaceAll("&amp;", "&");
+const gallerySource = new URL(stageSrc, base).searchParams.get("url");
+assert(gallerySource, "The gallery photograph uses responsive image optimization");
+const imagePreloads = (home.match(/<link\b[^>]*>/g) || []).filter((tag) => tag.includes('as="image"'));
+assert(!imagePreloads.some((tag) => tag.includes(encodeURIComponent(gallerySource))), "Below-fold gallery photographs are not preloaded");
+assert(!/background-image:[^"<>]*url\(/.test(moments), "The gallery does not download an original photograph for its decorative glow");
 assert(home.includes("hero_video.mp4") && home.includes("hero-board-final.jpg"), "Home includes the video hero and its static fallback");
 assert(!home.includes("NEXT EDITION") && !home.includes("35,00,000"), "Archived events are not advertised as forthcoming");
 assert(home.includes("₹55 lakh"), "The hero uses the event record prize fund");
