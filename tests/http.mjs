@@ -45,7 +45,9 @@ assert(gallerySource, "The gallery photograph uses responsive image optimization
 const imagePreloads = (home.match(/<link\b[^>]*>/g) || []).filter((tag) => tag.includes('as="image"'));
 assert(!imagePreloads.some((tag) => tag.includes(encodeURIComponent(gallerySource))), "Below-fold gallery photographs are not preloaded");
 assert(!/background-image:[^"<>]*url\(/.test(moments), "The gallery does not download an original photograph for its decorative glow");
-assert(home.includes("hero_video.mp4") && home.includes("hero-board-final.jpg"), "Home includes the video hero and its static fallback");
+const hero = home.split('id="about"')[0];
+assert(hero.includes("hero-board-final.jpg"), "The hero has a server-rendered static cover");
+assert(!hero.includes("hero-knight-bg.webp") && !hero.includes("/video/hero_video"), "The server does not preload hidden fallback imagery or attach video before preferences are known");
 assert(!home.includes("NEXT EDITION") && !home.includes("35,00,000"), "Archived events are not advertised as forthcoming");
 assert(home.includes("₹55 lakh"), "The hero uses the event record prize fund");
 assert(home.includes('id="participant-feedback"') && home.includes("Video-306.mp4"));

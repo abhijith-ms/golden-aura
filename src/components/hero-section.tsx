@@ -24,6 +24,7 @@ import {
 import styles from "./hero.module.css";
 import type { Event } from "@/lib/types";
 import { eventStatus } from "@/lib/events";
+import { heroVideoSource } from "@/lib/hero-media";
 
 interface HeroSectionProps {
   heroTitle: string;
@@ -200,8 +201,36 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
   const [heroState, setHeroState] = useState<HeroPlaybackState>("PLAYING_INTRO");
   const [isMuted, setIsMuted] = useState(true);
   const [hasEnded, setHasEnded] = useState(false);
+  const [videoSrc, setVideoSrc] = useState<string>();
+  const [videoStarted, setVideoStarted] = useState(false);
 
   const isRevealed = heroState !== "PLAYING_INTRO";
+  const staticMedia = shouldReduceMotion || !videoSrc;
+
+  const settleStatic = useCallback(() => {
+    setVideoSrc(undefined);
+    setHeroState("SETTLED");
+    setHasEnded(true);
+  }, []);
+
+  // Resolve preferences before attaching a source so static visits fetch no video.
+  useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const source = heroVideoSource({
+      reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      saveData: connection?.saveData === true,
+      mobile: window.matchMedia("(max-width: 768px)").matches,
+    });
+    if (!source) {
+      settleStatic();
+      return;
+    }
+    setVideoSrc(source);
+  }, [settleStatic]);
+
+  useEffect(() => {
+    if (shouldReduceMotion) settleStatic();
+  }, [shouldReduceMotion, settleStatic]);
 
   // Dispatch state change events to synchronize the top floating navbar and external observers
   const broadcastHeroState = useCallback(
@@ -276,7 +305,7 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
 
   // Track mouse coordinates over the hero section when settled
   useEffect(() => {
-    if (!hasEnded || shouldReduceMotion) {
+    if (!hasEnded || staticMedia) {
       mouseX.set(0);
       mouseY.set(0);
       return;
@@ -320,33 +349,22 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
       window.removeEventListener("blur", handleMouseLeave);
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [hasEnded, shouldReduceMotion, mouseX, mouseY, sheenX, sheenY]);
-
-  // Handle immediate reveal on reduced motion
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      setHeroState("SETTLED");
-      setHasEnded(true);
-      if (videoRef.current) {
-        videoRef.current.pause();
-        videoRef.current.currentTime = 7.95;
-      }
-    }
-  }, [shouldReduceMotion]);
+  }, [hasEnded, staticMedia, mouseX, mouseY, sheenX, sheenY]);
 
   // Handle video autoplay with graceful fallback
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || shouldReduceMotion) return;
+    if (!video || !videoSrc) return;
 
+    let cancelled = false;
     const playPromise = video.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        setHeroState("SETTLED");
-        setHasEnded(true);
+        if (!cancelled) settleStatic();
       });
     }
-  }, [shouldReduceMotion]);
+    return () => { cancelled = true; };
+  }, [videoSrc, settleStatic]);
 
   // Auto-reveal if the user scrolls down
   useEffect(() => {
@@ -361,12 +379,12 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
 
   // Fallback safeguard: guarantee reveal if video stalls or takes too long to load
   useEffect(() => {
-    if (heroState !== "PLAYING_INTRO" || shouldReduceMotion) return;
+    if (heroState !== "PLAYING_INTRO" || !videoSrc) return;
     const timer = setTimeout(() => {
-      setHeroState("REVEALING_UI");
+      settleStatic();
     }, 7000);
     return () => clearTimeout(timer);
-  }, [heroState, shouldReduceMotion]);
+  }, [heroState, videoSrc, settleStatic]);
 
   // Time-Synced Camera Choreography:
   // 0.0s – 5.2s: PLAYING_INTRO (unobstructed cinematic intro)
@@ -402,10 +420,10 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
     const video = videoRef.current;
     if (video) {
       video.currentTime = 6.8;
-      video.play().catch(() => {});
+      video.play().catch(settleStatic);
     }
     setHeroState("REVEALING_UI");
-  }, []);
+  }, [settleStatic]);
 
   // Toggle audio
   const toggleSound = useCallback(() => {
@@ -557,7 +575,7 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
             scale: { duration: 2.2, ease: [0.16, 1, 0.3, 1] },
           }}
         >
-          <video
+          {videoSrc && <video
             ref={videoRef}
             className={styles.heroVideo}
             style={{
@@ -566,7 +584,7 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
                 : "brightness(1) contrast(1) saturate(1)",
               transform: isRevealed ? "scale(1.02)" : "scale(1)",
             }}
-            src="/video/hero_video.mp4"
+            src={videoSrc}
             poster="/images/hero-intro-poster.webp"
             autoPlay
             muted={isMuted}
@@ -574,22 +592,18 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
             preload="auto"
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleEnded}
-            onError={() => {
-              setHeroState("SETTLED");
-              setHasEnded(true);
-            }}
-          >
-            <img src="/images/hero-knight-bg.webp" alt="Golden Aura Chess" />
-          </video>
+            onPlaying={() => setVideoStarted(true)}
+            onError={settleStatic}
+          />}
 
-          {/* Crisp freeze-frame backplate to eliminate transition flicker */}
+          {/* Keep a static cover while capabilities resolve or playback fails. */}
           <Image
             src="/images/hero-board-final.jpg"
             alt=""
             fill
             priority
             sizes="100vw"
-            className={`${styles.heroPosterFallback} ${hasEnded ? styles.posterActive : ""}`}
+            className={`${styles.heroPosterFallback} ${!videoStarted || hasEnded ? styles.posterActive : ""}`}
             style={{
               filter: isRevealed
                 ? "brightness(0.75) contrast(1.06)"
@@ -600,7 +614,7 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
         </motion.div>
 
         {/* Interactive Specular Light Glint: Reacts to cursor over the luxury marble & gold pieces */}
-        {hasEnded && !shouldReduceMotion && (
+        {hasEnded && !staticMedia && (
           <motion.div
             className={styles.cursorSpecularSheen}
             aria-hidden="true"
@@ -617,7 +631,7 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
         <div className={styles.baseCinemaVignette} aria-hidden="true" />
 
         {/* Volumetric Golden Dust Motes Particle Overlay */}
-        <DustMotesCanvas active={isRevealed && !shouldReduceMotion} />
+        <DustMotesCanvas active={isRevealed && !staticMedia} />
 
         {/* Multi-Layer Atmospheric Scrim (Left Text Shield, Bottom Vignette, Gold Glow) */}
         <div
@@ -635,7 +649,7 @@ export function HeroSection({ heroTitle, heroIntro, archiveEvent }: HeroSectionP
 
       {/* Floating Skip & Audio Controller during Intro Mode (0.0s – 5.0s) */}
       <AnimatePresence>
-        {!isRevealed && !shouldReduceMotion && (
+        {!isRevealed && !staticMedia && (
           <motion.div
             className={styles.introControlsWrap}
             initial={{ opacity: 0, y: 16 }}
