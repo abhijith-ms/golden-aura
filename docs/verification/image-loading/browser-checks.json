@@ -1,0 +1,100 @@
+{
+  "delayed": {
+    "images": [
+      {
+        "alt": "Tournament players concentrating at their boards",
+        "complete": true,
+        "hidden": "false"
+      },
+      {
+        "alt": "",
+        "complete": false,
+        "hidden": "true"
+      }
+    ],
+    "selected": "Show photograph 1: Tournament players concentrating at their boards",
+    "status": "Loading photograph…"
+  },
+  "failed": {
+    "error": "Couldn't load this photograph.Retry photograph",
+    "selected": "Show photograph 1: Tournament players concentrating at their boards",
+    "visible": [
+      {
+        "alt": "Tournament players concentrating at their boards",
+        "complete": true
+      }
+    ]
+  },
+  "recovered": {
+    "error": null,
+    "selected": "Show photograph 3: The Chess and Coffee community",
+    "status": null,
+    "visible": [
+      {
+        "alt": "The Chess and Coffee community",
+        "complete": true,
+        "naturalWidth": 650
+      }
+    ]
+  },
+  "responsive": [
+    {
+      "gallery": 315.46875,
+      "tournaments": [
+        {
+          "sizes": "(max-width: 768px) calc(100vw - 34px), (max-width: 1024px) calc(35.2vw - 1px), (max-width: 1400px) calc(18.48vw - 7px), calc(287px - 2.52vw)",
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2024-players.webp&w=384&q=90",
+          "width": 348
+        },
+        {
+          "sizes": "(max-width: 768px) calc(100vw - 34px), (max-width: 1024px) calc(35.2vw - 1px), (max-width: 1400px) calc(18.48vw - 7px), calc(287px - 2.52vw)",
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2025-hall.webp&w=384&q=90",
+          "width": 348
+        }
+      ],
+      "width": 390
+    },
+    {
+      "gallery": 654.5625,
+      "tournaments": [
+        {
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2024-players.webp&w=384&q=90",
+          "width": 285
+        },
+        {
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2025-hall.webp&w=384&q=90",
+          "width": 285
+        }
+      ],
+      "width": 820
+    },
+    {
+      "gallery": 542.59375,
+      "tournaments": [
+        {
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2024-players.webp&w=384&q=90",
+          "width": 195
+        },
+        {
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2025-hall.webp&w=384&q=90",
+          "width": 195
+        }
+      ],
+      "width": 1100
+    },
+    {
+      "gallery": 716.046875,
+      "tournaments": [
+        {
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2024-players.webp&w=384&q=90",
+          "width": 251
+        },
+        {
+          "src": "https://golden-aura-git-codex-image-loading-fixes-abhijith-mss-projects.vercel.app/_next/image?url=%2Fimages%2Fopen-2025-hall.webp&w=384&q=90",
+          "width": 251
+        }
+      ],
+      "width": 1440
+    }
+  ]
+}

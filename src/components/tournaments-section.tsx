@@ -114,7 +114,7 @@ function TournamentCard({
             src={event.image.src}
             alt={event.image.alt}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
+            sizes="(max-width: 768px) calc(100vw - 34px), (max-width: 1024px) calc(35.2vw - 1px), (max-width: 1400px) calc(18.48vw - 7px), calc(287px - 2.52vw)"
             quality={90}
             className={styles.photoImage}
           />

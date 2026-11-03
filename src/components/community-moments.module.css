@@ -236,31 +236,47 @@
   isolation: isolate;
 }
 
-/* 1. Ambient Dynamic Backlight (Living Background) */
-.livingBacklightWrapper {
-  position: absolute;
-  inset: -36px;
-  border-radius: 48px;
-  overflow: hidden;
-  filter: blur(90px);
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.38;
-}
-
-.livingBacklightImage {
-  position: absolute;
-  inset: -20px;
-  background-size: cover;
-  background-position: center;
-}
-
 /* 2. Main Stage Image Area */
 .photoStack {
   position: relative;
   min-width: 0;
   isolation: isolate;
   perspective: 1000px;
+}
+
+.imageStatus {
+  position: absolute;
+  z-index: 5;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(9, 9, 11, 0.94);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.imageStatus button {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: #f5ba42;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.imageStatus button:focus-visible {
+  outline: 2px solid #f5ba42;
+  outline-offset: 3px;
 }
 
 .photoStage {

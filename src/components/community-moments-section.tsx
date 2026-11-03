@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useReducer, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -18,6 +18,7 @@ import {
   Camera,
 } from "@phosphor-icons/react";
 import type { Photo } from "@/lib/types";
+import { gallerySelection, initialGallerySelection } from "@/lib/gallery-selection";
 import styles from "./community-moments.module.css";
 
 interface CommunityMomentsSectionProps {
@@ -132,11 +133,12 @@ function MagneticLink({
 
 /**
  * 03 / THE PEOPLE MAKE THE GAME — Community Moments
- * Smooth, continuous, and interactive showcase with living backlight,
+ * Smooth, continuous, and interactive showcase with ambient lighting,
  * Ken Burns pan-and-zoom, 3D tilt, and dynamic thumbnail filmstrip.
  */
 export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps) {
-  const [active, setActive] = useState(0);
+  const [selection, dispatch] = useReducer(gallerySelection, initialGallerySelection);
+  const { active, requested } = selection;
 
   const shouldReduceMotion = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
@@ -157,8 +159,9 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
 
   const select = useCallback(
     (index: number) => {
+      if (!total) return;
       const next = (index + total) % total;
-      setActive(next);
+      dispatch({ type: "select", index: next });
     },
     [total]
   );
@@ -252,21 +255,6 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
       <div
         className={styles.galleryCard}
       >
-        {/* 1. Ambient Dynamic Backlight (Living Background) */}
-        <div className={styles.livingBacklightWrapper} aria-hidden="true">
-          <AnimatePresence>
-            <motion.div
-              key={activePhoto.src}
-              initial={{ opacity: 0, scale: 1.15 }}
-              animate={{ opacity: 0.38, scale: 1.1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-              className={styles.livingBacklightImage}
-              style={{ backgroundImage: `url(${activePhoto.src})` }}
-            />
-          </AnimatePresence>
-        </div>
-
         {/* 3. Main Stage Image (Ken Burns + 3D Tilt + Transitions) */}
         <div className={styles.photoStack}>
           <motion.div
@@ -288,10 +276,10 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
             onKeyDown={(e) => {
               if (e.key === "ArrowRight") {
                 e.preventDefault();
-                select(active + 1);
+                select(requested + 1);
               } else if (e.key === "ArrowLeft") {
                 e.preventDefault();
-                select(active - 1);
+                select(requested - 1);
               } else if (e.key === "Home") {
                 e.preventDefault();
                 select(0);
@@ -312,67 +300,78 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
               const dx = e.clientX - start.x;
               const dy = e.clientY - start.y;
               if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-                select(active + (dx < 0 ? 1 : -1));
+                select(requested + (dx < 0 ? 1 : -1));
               }
             }}
             onPointerCancel={() => {
               pointerStart.current = null;
             }}
           >
-            {/* Seamless Overlapping Slide Transitions with Zero Black Gap */}
+            {/* Retain the displayed layer until its replacement has decoded. */}
             <AnimatePresence initial={false}>
-              <motion.div
-                key={activePhoto.src}
-                className={styles.slideTransitionLayer}
-                initial={{
-                  opacity: 0,
-                  scale: 1.04,
-                }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  zIndex: 2,
-                }}
-                exit={{
-                  opacity: 0,
-                  zIndex: 1,
-                  transition: { duration: 0.45, ease: "easeOut" },
-                }}
-                transition={{
-                  duration: 0.5,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
-                {/* Continuous Slow Ken Burns Pan-and-Zoom */}
-                <motion.div
-                  className={styles.kenBurnsMotion}
-                  animate={
-                    shouldReduceMotion
-                      ? {}
-                      : {
-                          scale: [1, 1.06, 1],
-                          x: [0, -6, 0],
-                          y: [0, -4, 0],
-                        }
-                  }
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Image
-                    src={activePhoto.src}
-                    alt={activePhoto.alt}
-                    fill
-                    sizes="(max-width: 760px) 92vw, (max-width: 1400px) 58vw, 840px"
-                    className={styles.stageImage}
-                    priority
-                    quality={90}
-                  />
-                </motion.div>
-              </motion.div>
+              {(selection.loading && requested !== active ? [active, requested] : [active]).map((index) => {
+                const photo = photos[index] || photos[0];
+                const isDisplayed = index === active;
+                const requestId = selection.versions[index] ?? 0;
+                return (
+                  <motion.div
+                    key={index}
+                    className={styles.slideTransitionLayer}
+                    aria-hidden={!isDisplayed}
+                    initial={{
+                      opacity: isDisplayed ? 1 : 0,
+                      scale: 1.04,
+                    }}
+                    animate={{
+                      opacity: isDisplayed ? 1 : 0,
+                      scale: 1,
+                      zIndex: isDisplayed ? 2 : 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      zIndex: 1,
+                      transition: { duration: shouldReduceMotion ? 0 : 0.45, ease: "easeOut" },
+                    }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0 : 0.5,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    {/* Continuous Slow Ken Burns Pan-and-Zoom */}
+                    <motion.div
+                      className={styles.kenBurnsMotion}
+                      animate={
+                        shouldReduceMotion || !isDisplayed
+                          ? {}
+                          : {
+                              scale: [1, 1.06, 1],
+                              x: [0, -6, 0],
+                              y: [0, -4, 0],
+                            }
+                      }
+                      transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut",
+                      }}
+                    >
+                      <Image
+                        key={requestId}
+                        src={photo.src}
+                        alt={isDisplayed ? photo.alt : ""}
+                        fill
+                        sizes="(max-width: 640px) calc(92vw - 36px), (max-width: 1024px) calc(88vw - 60px), (max-width: 1400px) calc(57.13vw - 81px), calc(828px - 7.79vw)"
+                        className={styles.stageImage}
+                        loading={selection.loading ? "eager" : "lazy"}
+                        quality={90}
+                        onLoad={() => dispatch({ type: "loaded", index, requestId })}
+                        onError={() => dispatch({ type: "failed", index, requestId })}
+                      />
+                    </motion.div>
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
 
             {/* Moving Glassmorphic Sheen Reflection */}
@@ -392,6 +391,15 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
               <span>THE GOLDEN AURA ALBUM</span>
             </div>
           </motion.div>
+          {selection.loading && (
+            <p className={styles.imageStatus} role="status">Loading photograph…</p>
+          )}
+          {selection.error && (
+            <div className={styles.imageStatus} role="alert">
+              <span>Couldn't load this photograph.</span>
+              <button type="button" onClick={() => select(requested)}>Retry photograph</button>
+            </div>
+          )}
         </div>
 
         {/* 4. Right-Side Storytelling Column */}
@@ -466,7 +474,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
           <div className={styles.controlsRow}>
             <div className={styles.arrowGroup}>
               <MagneticButton
-                onClick={() => select(active - 1)}
+                onClick={() => select(requested - 1)}
                 ariaLabel="Previous photograph"
                 className={styles.circleButton}
               >
@@ -474,7 +482,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
               </MagneticButton>
 
               <MagneticButton
-                onClick={() => select(active + 1)}
+                onClick={() => select(requested + 1)}
                 ariaLabel="Next photograph"
                 className={styles.circleButton}
               >
@@ -507,7 +515,7 @@ export function CommunityMomentsSection({ photos }: CommunityMomentsSectionProps
                   src={photo.src}
                   alt=""
                   fill
-                  sizes="(max-width: 760px) 20vw, 120px"
+                  sizes="(max-width: 640px) 88px, 110px"
                   className={styles.dockThumbImage}
                   draggable={false}
                 />
