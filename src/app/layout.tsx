@@ -73,7 +73,7 @@ export default async function RootLayout({
         </a>
         <LenisProvider>
           <Header />
-          <main id="main">{children}</main>
+          <main id="main" tabIndex={-1}>{children}</main>
           <ScrollReveals />
           <Footer site={site} />
         </LenisProvider>

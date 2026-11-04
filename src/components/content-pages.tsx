@@ -6,6 +6,8 @@ import { orderEvents, safeLink } from "@/lib/events";
 import { Arrow, ContactBand, EventCard, PageIntro, PartnerLogos, Portrait } from "./shared";
 import { partnerGroups } from "@/lib/partners";
 import { Gallery } from "./gallery";
+import { PhotoDepth } from "./photo-depth";
+import { CommitteeNav } from "./committee-nav";
 import { EnquiryForm } from "./enquiry-form";
 import {
   UsersThree,
@@ -83,15 +85,15 @@ export async function AboutPage() {
         />
       </div>
       <section className={`${styles.section} ${styles.aboutStory}`}>
-        <div className={styles.storyPhoto}>
+        <PhotoDepth className={styles.storyPhoto}>
           <Image
             src="/images/women-at-board.webp"
             alt="A player concentrating at a Chess and Coffee gathering"
             fill
             sizes="(max-width:760px) 100vw, 50vw"
           />
-        </div>
-        <div>
+        </PhotoDepth>
+        <div data-reveal>
           <span className={styles.eyebrow}>THE PURPOSE BEHIND THE PLAY</span>
           <h2>
             Chess across Karnataka and India.
@@ -103,7 +105,7 @@ export async function AboutPage() {
       </section>
       <section className={`${styles.section} ${styles.softSection}`}>
         <h2>Mission of The Golden Aura Trust.</h2>
-        <div className={styles.missionGrid}>
+        <div className={styles.missionGrid} data-motion-group>
           {page.sections?.map((section) => (
             <article key={section.title} className={styles.missionArticle}>
               <div className={styles.missionIcon}>
@@ -116,7 +118,7 @@ export async function AboutPage() {
         </div>
       </section>
       <section className={styles.section}>
-        <div className={styles.introGrid}>
+        <div className={styles.introGrid} data-reveal>
           <div>
             <span className={styles.eyebrow}>BE A PART OF THE MOVEMENT</span>
             <h2>Join the chess community.</h2>
@@ -137,7 +139,7 @@ export async function CommitteePage() {
   const { committee } = content;
   return (
     <>
-      <section className={styles.whoWeAreHero}>
+      <section className={styles.whoWeAreHero} data-motion-intro>
         <h2 className={styles.whoWeAreTitle}>WHO WE ARE</h2>
         <div className={styles.whoWeAreLogoWrap}>
           <Image
@@ -155,7 +157,7 @@ export async function CommitteePage() {
       </section>
 
       <section id="message-of-support" className={styles.leadershipGrid}>
-        <article className={styles.leadershipRow}>
+        <article className={styles.leadershipRow} data-reveal>
           <div className={styles.leaderCard}>
             <div className={styles.leaderCardPhoto}>
               <Image
@@ -186,7 +188,7 @@ export async function CommitteePage() {
           </div>
         </article>
 
-        <article className={`${styles.leadershipRow} ${styles.leadershipRowReverse}`}>
+        <article className={`${styles.leadershipRow} ${styles.leadershipRowReverse}`} data-reveal>
           <div className={styles.leaderMessage}>
             <h2>MESSAGE FROM THE ORGANIZING SECRETARY</h2>
             <p className={styles.leaderSalutation}>Dear Chess Enthusiasts,</p>
@@ -226,11 +228,7 @@ export async function CommitteePage() {
       <PageIntro copy={copy(content, "committee")} />
       {committee.length ? (
         <>
-          <nav className={`${styles.sectionCompact} ${styles.committeeNav}`} aria-label="Committee groups">
-            {committeeGroups.filter((group) => committee.some((member) => member.group === group)).map((group) => (
-              <a key={group} href={`#${group.toLowerCase().replaceAll(" ", "-")}`}>{group}</a>
-            ))}
-          </nav>
+          <CommitteeNav groups={committeeGroups.filter((group) => committee.some((member) => member.group === group))} />
           {committeeGroups.map((group, i) => {
             const members = committee.filter((member) => member.group === group);
             if (!members.length) return null;
@@ -238,7 +236,7 @@ export async function CommitteePage() {
               <section id={group.toLowerCase().replaceAll(" ", "-")} key={group} className={`${styles.section} ${i % 2 ? styles.softSection : ""}`}>
                 <span className={styles.eyebrow}>NAMMA BENGALURU OPEN · 2025</span>
                 <h2>{group}</h2>
-                <div className={styles.peopleGrid}>
+                <div className={styles.peopleGrid} data-motion-group>
                   {members.map((member) => (
                     <article className={styles.personCard} key={member.slug}>
                       <Portrait name={member.name} photo={member.photo} />
@@ -268,7 +266,7 @@ export async function EventsPage() {
     <>
       <PageIntro copy={copy(content, "events")} />
       {upcoming.length > 0 && <section className={styles.sectionCompact}>
-        <div className={styles.sectionLabel}>THE NEXT MOVE</div>
+        <div className={`${styles.sectionLabel} ${styles.archiveLabel}`} data-reveal>THE NEXT MOVE</div>
           <div className={styles.eventGrid}>
             {upcoming.map((e) => (
               <EventCard key={e.slug} event={e} />
@@ -276,7 +274,7 @@ export async function EventsPage() {
           </div>
       </section>}
       <section className={`${styles.section} ${styles.softSection}`}>
-        <div className={styles.sectionLabel}>
+        <div className={`${styles.sectionLabel} ${styles.archiveLabel}`} data-reveal>
           <span>THE EVENT ARCHIVE</span>
           <span>PAST EDITIONS & COMMUNITY GATHERINGS</span>
         </div>
@@ -313,12 +311,13 @@ export async function PartnersPage() {
         return partners.length ? <section className={styles.sectionCompact} key={title}>
           <span className={styles.eyebrow}>THE 2025 INTERNATIONAL OPEN</span>
           <h2>{title}</h2>
+          <span className={styles.motionRule} data-reveal="line" aria-hidden="true" />
           <p>{description}</p>
           <PartnerLogos partners={partners} />
         </section> : null;
       })}
       <section className={`${styles.section} ${styles.softSection}`}>
-        <div className={styles.introGrid}>
+        <div className={styles.introGrid} data-reveal>
           <div>
             <span className={styles.eyebrow}>
               MORE ACCESS. MORE OPPORTUNITY.
@@ -341,7 +340,7 @@ export async function PartnersPage() {
             </p>
           </div>
         </div>
-        <div className={styles.focusGrid}>
+        <div className={styles.focusGrid} data-motion-group>
           {[
             {
               title: "Tournament partnerships",
@@ -373,7 +372,7 @@ export async function PartnersPage() {
       </section>
       <section className={`${styles.section} ${styles.softSection} ${styles.partnershipSection}`}>
         <div className={styles.partnershipGrid}>
-          <div className={styles.partnershipInfoCol}>
+          <div className={styles.partnershipInfoCol} data-reveal>
             <div className={styles.statusBadge}>
               <span className={styles.pulseDot} aria-hidden="true" />
               <span>START A CONVERSATION · PARTNERSHIP DESK</span>
@@ -452,7 +451,7 @@ export async function ContactPage() {
             <span className={styles.pulseDot} aria-hidden="true" />
             <span>LET’S TALK CHESS</span>
           </div>
-          <div className={styles.contactDetailsGrid}>
+          <div className={styles.contactDetailsGrid} data-motion-group>
             <div className={styles.contactCard}>
               <div className={styles.contactCardIcon}>
                 <EnvelopeSimple size={20} weight="duotone" />

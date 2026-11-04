@@ -21,12 +21,13 @@ export function Lines({ text }: { text: string }) {
 }
 export function PageIntro({ copy }: { copy: PageCopy }) {
   return (
-    <section className={styles.pageIntro}>
+    <section className={styles.pageIntro} data-motion-intro>
       {copy.eyebrow ? <div className={styles.eyebrow}>{copy.eyebrow}</div> : null}
       <h1>
         <Lines text={copy.title} />
       </h1>
       <p>{copy.intro}</p>
+      <span className={styles.motionRule} data-reveal="line" aria-hidden="true" />
     </section>
   );
 }
@@ -49,7 +50,7 @@ export function Portrait({ name, photo }: { name: string; photo?: Photo }) {
 }
 export function PartnerLogos({ partners }: { partners: Partner[] }) {
   return (
-    <ul className={styles.partnerLogos} tabIndex={0} aria-label="Partner and supporter logos">
+    <ul data-motion-group className={styles.partnerLogos} tabIndex={0} aria-label="Partner and supporter logos">
       {partners.map((partner) => (
         <li key={partner.name} className={!partner.image ? styles.partnerName : undefined}>
           {partner.image && <div><Image src={partner.image} alt={`${partner.name} logo`} fill sizes="(max-width: 760px) 120px, 180px" /></div>}
@@ -130,7 +131,7 @@ export function EventCard({
 }) {
   const Heading = featured ? "h3" : "h2";
   return (
-    <article className={styles.eventCard}>
+    <article className={styles.eventCard} data-reveal>
       <Link
         href={`/events/${event.slug}`}
         className={styles.eventImage}
@@ -184,7 +185,7 @@ export function EventCard({
 export function ContactBand() {
   return (
     <div className={styles.contactBandWrap}>
-      <section className={styles.contactBand}>
+      <section className={styles.contactBand} data-reveal>
         <div>
           <span className={styles.eyebrow}>
             THERE’S A PLACE FOR YOU AT THE BOARD
@@ -207,9 +208,9 @@ export function Footer({ site }: { site: SiteSettings }) {
     <footer className={styles.footer}>
       <div className={styles.footerTop}>
         <div>
-          <a href="/#top" className={styles.brand}>
+          <Link href="/#top" className={styles.brand}>
             GOLDEN AURA<small>CHESS IS FOR EVERYONE.</small>
-          </a>
+          </Link>
           <p>{site.legalName}</p>
         </div>
         <p className={styles.address}>{site.address}</p>

@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import type { EventAttendee, Photo } from "@/lib/types";
 import styles from "./site.module.css";
+import { startReveals } from "@/lib/reveal-motion";
+import { useEffect } from "react";
 import { CountryName } from "./country-name";
 
 const titles: Record<string, string> = {
@@ -51,16 +53,21 @@ export function PlayerGallery({
   const containerRef = useRef<HTMLDivElement>(null);
   const canExpand = !compact && players.length > 5;
 
+  useEffect(() => {
+    if (containerRef.current) return startReveals(containerRef.current);
+  }, [expanded]);
+
   const handleToggle = () => {
     if (expanded && containerRef.current) {
-      containerRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      containerRef.current.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "nearest" });
     }
     setExpanded((prev) => !prev);
   };
 
   return (
-    <div ref={containerRef} className={styles.playerGalleryWrapper}>
+    <div ref={containerRef} className={styles.playerGalleryWrapper} data-motion-local>
       <div
+        data-motion-group
         id="player-gallery-grid"
         tabIndex={compact ? 0 : undefined}
         aria-label={compact ? "First-edition players" : undefined}

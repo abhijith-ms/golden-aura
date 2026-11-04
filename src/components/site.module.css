@@ -2155,7 +2155,6 @@
 @media (max-width: 1100px) {
   .peopleGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 20px; }
   .peopleGridCollapsed > :nth-child(n + 4) { display: none; }
-  .peopleGrid:not(.peopleGridCollapsed) > :nth-child(n + 4) { animation: arrive 350ms ease-out both; }
   .desktopNav { gap: 18px; }
   .introGrid, .contactGrid, .eventDetailGrid, .aboutStory { gap: 32px; }
   .focusGrid article { padding: 22px; }
@@ -2184,7 +2183,6 @@
 @media (max-width: 760px) {
   .peopleGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
   .peopleGridCollapsed > :nth-child(n + 3) { display: none; }
-  .peopleGrid:not(.peopleGridCollapsed) > :nth-child(n + 3) { animation: arrive 350ms ease-out both; }
   .personCard h3 { font-size: 18px; }
   .personCard p { font-size: 13px; }
   .committeeNav { gap: 8px; }
@@ -2771,4 +2769,99 @@
 @media (max-width: 400px) {
   .header { gap: 8px; padding-inline: 12px; }
   .menuButton { padding-inline: 10px; }
+}
+
+/* Inner pages share the homepage's gold edge and photographic depth. */
+.motionRule {
+  display: block;
+  width: 64px;
+  height: 2px;
+  margin-top: 24px;
+  background: linear-gradient(90deg, var(--accent-gold), rgba(245,186,66,.15));
+  transform-origin: left;
+}
+.depthFrame { isolation: isolate; }
+.depthImage { position: absolute; inset: -14px 0; }
+.depthImage img { object-fit: cover; }
+.photoCorner {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 52px;
+  height: 52px;
+  border-top: 1px solid rgba(245,186,66,.8);
+  border-left: 1px solid rgba(245,186,66,.8);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.75);
+  transform-origin: top left;
+  transition: opacity var(--motion-slow) var(--motion-ease), transform var(--motion-slow) var(--motion-ease);
+}
+.depthFrame[data-ready="true"] .photoCorner { opacity: 1; transform: scale(1); }
+.depthFrame::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 28px;
+  height: 28px;
+  border-right: 1px solid rgba(245,186,66,.4);
+  border-bottom: 1px solid rgba(245,186,66,.4);
+  pointer-events: none;
+}
+.archiveLabel { padding-bottom: 18px; border-bottom: 1px solid var(--border-glow-gold); }
+.detailFactsMotion > div { border-top: 1px solid var(--border-glow-gold); padding-top: 14px; }
+.committeeNav a { transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast); }
+.committeeNav a[aria-current="location"] { background: rgba(245,186,66,.12); border-color: var(--accent-gold); color: var(--accent-gold); }
+.eventCard:focus-within { transform: translateY(-3px); border-color: var(--accent-gold); }
+.eventCard:focus-within .eventImage img { transform: scale(1.025); }
+.eventCard .textLink svg, .photoButton > span { transition: transform var(--motion-fast) var(--motion-ease); }
+.eventCard:is(:hover, :focus-within) .textLink svg { transform: translate(2px,-2px); }
+.photoButton:focus-visible img { transform: scale(1.025); }
+.photoButton:is(:hover, :focus-visible) > span { transform: translate(2px,-2px); }
+.filters button { transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast); }
+.leaderQuote { position: relative; }
+.leaderQuote::before { content: ""; position: absolute; left: -14px; top: 0; height: 48px; width: 1px; background: linear-gradient(var(--accent-gold), transparent); }
+.statusBadge .pulseDot, .partnershipSection .goldTextShimmer { animation: none; }
+.whoWeAreLogo:hover { transform: none; }
+.headerWrapper:not(.headerFixed) { min-height: 88px; }
+.headerWrapper:not(.headerFixed) .headerScrolled { margin-top: 24px; padding: 12px 24px; }
+.headerWrapper:not(.headerFixed) .headerScrolled .brandLogo { height: 38px; }
+@media (pointer: coarse) {
+  .photoCorner { width: 32px; height: 32px; }
+  .eventCard:hover { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photoCorner { opacity: 1; transform: none; transition: none; }
+  .eventCard:is(:hover, :focus-within), .eventCard:is(:hover, :focus-within) .eventImage img,
+  .photoButton:is(:hover, :focus-visible) img, .photoButton:is(:hover, :focus-visible) > span,
+  .eventCard:is(:hover, :focus-within) .textLink svg { transform: none; }
+}
+.lightbox[open] { animation: viewerEnter var(--motion-fast) var(--motion-ease) both; }
+.lightbox[open]::backdrop { animation: viewerBackdrop var(--motion-fast) ease both; }
+.lightboxImage { background: var(--bg-obsidian); border-radius: 8px; overflow: hidden; }
+.lightboxImage .viewerPreview { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: contain; }
+.lightboxImage .viewerFull { opacity: 0; transition: opacity var(--motion-normal) var(--motion-ease); }
+.lightboxImage[data-ready="true"] .viewerFull { opacity: 1; }
+.viewerStatus { position: absolute; z-index: 1; bottom: 12px; left: 12px; right: 12px; padding: 10px 14px; border: 1px solid var(--border-subtle); background: rgba(9,9,11,.9); color: var(--text-primary); border-radius: 8px; font-size: 13px; }
+.viewerStatus button { min-height: 44px; color: var(--accent-gold); background: none; border: 0; text-decoration: underline; cursor: pointer; }
+@keyframes viewerEnter { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: scale(1); } }
+@keyframes viewerBackdrop { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lightbox[open], .lightbox[open]::backdrop { animation: none; } }
+/* Chart values stay readable while the graphs draw within their own frames. */
+.chartCardHidden { opacity: 1; transform: none; }
+.analyticsTabBtn { position: relative; transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast); }
+.analyticsTabBtn::after { content: ""; position: absolute; height: 2px; left: 12px; right: 12px; bottom: 3px; background: var(--accent-gold); transform: scaleX(0); transform-origin: left; transition: transform var(--motion-fast) var(--motion-ease); }
+.analyticsTabBtn[aria-selected="true"]::after { transform: scaleX(1); }
+.missionArticle { border-top: 1px solid rgba(245,186,66,.18); padding-top: 20px; }
+.missionArticle[data-motion-entered] .missionIcon,
+.contactCard[data-motion-entered] .contactCardIcon { animation: iconSettle var(--motion-slow) var(--motion-ease) both; }
+.leadershipRow[data-motion-entered] .leaderQuote::before { transform-origin: top; animation: quotationRule var(--motion-slow) var(--motion-ease) both; }
+.eventCard[data-motion-entered] .imageYear { animation: editionArrive var(--motion-normal) var(--motion-ease) both; }
+@keyframes iconSettle { from { transform: translateY(4px) rotate(-4deg); } to { transform: translateY(0) rotate(0); } }
+@keyframes quotationRule { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes editionArrive { from { opacity: .5; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .missionArticle[data-motion-entered] .missionIcon, .contactCard[data-motion-entered] .contactCardIcon,
+  .leadershipRow[data-motion-entered] .leaderQuote::before, .eventCard[data-motion-entered] .imageYear { animation: none; }
 }

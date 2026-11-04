@@ -1,0 +1,18 @@
+{
+  "released": true,
+  "failed": true,
+  "viewerRequests": [
+    {
+      "path": "/_next/image?url=%2Fimages%2Fwomen-at-board.webp&w=1920&q=95",
+      "status": 200
+    },
+    {
+      "path": "/_next/image?url=%2Fimages%2Fcoffee-community.webp&w=1920&q=95",
+      "status": 503
+    },
+    {
+      "path": "/_next/image?url=%2Fimages%2Fcoffee-community.webp&w=1920&q=95",
+      "status": 200
+    }
+  ]
+}
