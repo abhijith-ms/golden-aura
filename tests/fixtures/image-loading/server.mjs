@@ -7,6 +7,7 @@ const upstream = new URL(process.argv[2] || "http://127.0.0.1:3031");
 const port = Number(process.argv[3] || 3032);
 assert(upstream.protocol === "http:" && ["127.0.0.1", "localhost"].includes(upstream.hostname));
 assert(Number.isInteger(port) && port > 0 && port < 65536);
+const viewer = process.argv[4] === "viewer";
 const requests = [];
 const held = [];
 let released = false;
@@ -35,7 +36,7 @@ const server = http.createServer((req, res) => {
   }
   const record = { path: req.url, status: null };
   requests.push(record);
-  const stageImage = url.pathname === "/_next/image" && url.searchParams.get("q") === "90";
+  const stageImage = url.pathname === "/_next/image" && url.searchParams.get("q") === (viewer ? "95" : "90");
   if (stageImage && url.searchParams.get("url") === "/images/coffee-community.webp" && !failed) {
     failed = true;
     record.status = 503;

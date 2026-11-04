@@ -2837,6 +2837,17 @@
   .photoButton:is(:hover, :focus-visible) img, .photoButton:is(:hover, :focus-visible) > span,
   .eventCard:is(:hover, :focus-within) .textLink svg { transform: none; }
 }
+.lightbox[open] { animation: viewerEnter var(--motion-fast) var(--motion-ease) both; }
+.lightbox[open]::backdrop { animation: viewerBackdrop var(--motion-fast) ease both; }
+.lightboxImage { background: var(--bg-obsidian); border-radius: 8px; overflow: hidden; }
+.lightboxImage .viewerPreview { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: contain; }
+.lightboxImage .viewerFull { opacity: 0; transition: opacity var(--motion-normal) var(--motion-ease); }
+.lightboxImage[data-ready="true"] .viewerFull { opacity: 1; }
+.viewerStatus { position: absolute; z-index: 1; bottom: 12px; left: 12px; right: 12px; padding: 10px 14px; border: 1px solid var(--border-subtle); background: rgba(9,9,11,.9); color: var(--text-primary); border-radius: 8px; font-size: 13px; }
+.viewerStatus button { min-height: 44px; color: var(--accent-gold); background: none; border: 0; text-decoration: underline; cursor: pointer; }
+@keyframes viewerEnter { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: scale(1); } }
+@keyframes viewerBackdrop { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lightbox[open], .lightbox[open]::backdrop { animation: none; } }
 /* Chart values stay readable while the graphs draw within their own frames. */
 .chartCardHidden { opacity: 1; transform: none; }
 .analyticsTabBtn { position: relative; transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast); }
