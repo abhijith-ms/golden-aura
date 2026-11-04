@@ -27,6 +27,7 @@ export function Header() {
   const shouldReduceMotion = useReducedMotion();
   const menu = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const restoreTrigger = useRef(true);
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -154,7 +155,7 @@ export function Header() {
             aria-haspopup="dialog"
             aria-controls="mobile-navigation"
             aria-expanded={open}
-            onClick={() => setOpen(true)}
+            onClick={() => { restoreTrigger.current = true; setOpen(true); }}
           >
             <span>Menu</span>
             <List size={18} weight="bold" />
@@ -169,7 +170,8 @@ export function Header() {
           onCancel={() => setOpen(false)}
           onClose={() => {
             setOpen(false);
-            trigger.current?.focus({ preventScroll: true });
+            if (restoreTrigger.current) trigger.current?.focus({ preventScroll: true });
+            else document.getElementById("main")?.focus({ preventScroll: true });
           }}
           onClick={(e) => {
             if (e.target === e.currentTarget) {
@@ -214,7 +216,7 @@ export function Header() {
           <nav
             aria-label="Mobile navigation"
             onClick={(e) => {
-              if ((e.target as HTMLElement).closest("a")) setOpen(false);
+              if ((e.target as HTMLElement).closest("a")) { restoreTrigger.current = false; setOpen(false); }
             }}
           >
             <Link

@@ -55,7 +55,7 @@ export function EnquiryForm({
   }
 
   return (
-    <div className={styles.formCard}>
+    <div className={styles.formCard} data-reveal>
       <div className={styles.formCardGlow} aria-hidden="true" />
       <div className={styles.formHeader}>
         <div className={styles.formBadge}>
@@ -185,6 +185,8 @@ export function EnquiryForm({
 
         {message && (
           <p
+            key={status}
+            data-status={status}
             ref={feedback}
             tabIndex={-1}
             className={status === "error" ? styles.formError : styles.formFeedback}
@@ -193,9 +195,9 @@ export function EnquiryForm({
           >
             {status === "error" ? (
               <WarningCircle size={18} weight="bold" />
-            ) : (
+            ) : status === "success" ? (
               <CheckCircle size={18} weight="bold" />
-            )}
+            ) : null}
             <span>{message}</span>
           </p>
         )}

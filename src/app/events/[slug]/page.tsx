@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getContent } from "@/lib/content";
 import { eventAction, safeLink } from "@/lib/events";
 import { Arrow, ContactBand, PageIntro, PlayerGallery } from "@/components/shared";
+import { PhotoDepth } from "@/components/photo-depth";
 import { TournamentInfographic } from "@/components/tournament-infographic";
 import styles from "@/components/site.module.css";
 
@@ -41,7 +42,7 @@ export default async function EventDetail({
           intro: event.description,
         }}
       />
-      <div className={styles.eventDetailHero}>
+      <PhotoDepth className={styles.eventDetailHero}>
         <Image
           src={event.image.src}
           alt={event.image.alt}
@@ -50,12 +51,12 @@ export default async function EventDetail({
           sizes="(max-width: 1100px) 100vw, 1440px"
           quality={90}
         />
-      </div>
+      </PhotoDepth>
       <section className={`${styles.section} ${styles.eventDetailGrid}`}>
         <div className={styles.eventOverviewCol}>
           <div>
             <span className={styles.eyebrow}>AT A GLANCE</span>
-            <dl className={styles.eventFacts}>
+            <dl className={`${styles.eventFacts} ${styles.detailFactsMotion}`} data-motion-group>
               <div>
                 <dt>DATES</dt>
                 <dd>{event.dateLabel}</dd>
@@ -105,7 +106,7 @@ export default async function EventDetail({
             )}
           </div>
         </div>
-        <div className={styles.detailPanel}>
+        <div className={styles.detailPanel} data-reveal>
           <div>
             <h2>
               {event.status === "completed"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 import styles from "./site.module.css";
 
 interface TournamentInfographicProps {
@@ -1098,6 +1099,8 @@ function InteractiveChartCard({
   activeTab,
 }: InteractiveChartCardProps) {
   const [inView, setInView] = useState(false);
+  const reduce = useReducedMotion();
+  const show = inView || !!reduce;
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1128,20 +1131,20 @@ function InteractiveChartCard({
 
   let visualContent = null;
   if (chart.chartType === "donut") {
-    visualContent = <DonutChartVisual chart={chart} inView={inView} />;
+    visualContent = <DonutChartVisual chart={chart} inView={show} />;
   } else if (chart.chartType === "gauge") {
-    visualContent = <GaugeChartVisual chart={chart} inView={inView} />;
+    visualContent = <GaugeChartVisual chart={chart} inView={show} />;
   } else if (chart.chartType === "area") {
-    visualContent = <AreaChartVisual chart={chart} inView={inView} />;
+    visualContent = <AreaChartVisual chart={chart} inView={show} />;
   } else {
-    visualContent = <ColumnChartVisual chart={chart} inView={inView} />;
+    visualContent = <ColumnChartVisual chart={chart} inView={show} />;
   }
 
   return (
     <div
       ref={cardRef}
       className={`${styles.chartCard} ${
-        inView ? styles.chartCardVisible : styles.chartCardHidden
+        show ? styles.chartCardVisible : styles.chartCardHidden
       }`}
       style={{
         transitionDelay: `${(chartIdx % 2) * 80}ms`,
@@ -1165,6 +1168,7 @@ function InteractiveChartCard({
 function SectorBreakdownList({ sectors }: { sectors: EconomicSector[] }) {
   const [inView, setInView] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1205,7 +1209,7 @@ function SectorBreakdownList({ sectors }: { sectors: EconomicSector[] }) {
                 index % 2 === 1 ? styles.breakdownProgressBarFillGold : ""
               }`}
               style={{
-                width: inView ? `${sector.sharePercent}%` : "0%",
+                width: inView || reduce ? `${sector.sharePercent}%` : "0%",
                 transitionDelay: `${index * 140}ms`,
               }}
             />

@@ -361,3 +361,15 @@
     gap: 0;
   }
 }
+
+.formCard::after {
+  content: ""; position: absolute; top: 0; left: 24px; right: 24px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,186,66,.55), transparent);
+  pointer-events: none;
+}
+.formInput, .formSelect, .formTextarea { transition: border-color var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast); }
+.formFeedback, .formError { animation: feedbackEnter var(--motion-fast) var(--motion-ease) both; }
+.formFeedback[data-status="success"] svg { animation: feedbackConfirm var(--motion-normal) var(--motion-ease) both; }
+@keyframes feedbackEnter { from { opacity: .4; } to { opacity: 1; } }
+@keyframes feedbackConfirm { from { transform: scale(.85); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .formFeedback, .formError, .formFeedback svg { animation: none !important; } }
